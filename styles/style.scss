@@ -1,0 +1,27 @@
+@import 'fonts';
+@import 'veriables';
+@import 'common.scss';
+@import 'header.scss';
+@import 'footer.scss';
+@import 'ads_page.scss';
+@import 'thankyou.scss';
+@import 'main_header.scss';
+@import 'home_page.scss';
+@import 'contactus.scss';
+@import 'services.scss';
+@import 'portfolio.scss';
+@import 'industry.scss';
+@import 'blog.scss';
+@import 'career.scss';
+@import 'press.scss';
+@import 'about.scss';
+@import 'getting_started.scss';
+@import 'banner.scss';
+@import 'team.scss';
+@import 'locations.scss';
+@import 'product.scss';
+
+// Fix for React-Slick a11y hiding focusable descendents
+.slick-slide:not(.slick-active) a {
+    visibility: hidden !important;
+}

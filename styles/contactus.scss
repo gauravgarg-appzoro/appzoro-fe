@@ -1,0 +1,674 @@
+.contact-section {
+    background: #FFF;
+    padding: 60px 0;
+  }
+  .contact-info {
+    .contact-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .contact-info-title {
+      h1 {
+        font-size: 42px;
+        font-weight: 700;
+    
+        span {
+          color: $primary-color;
+        }
+      }
+    
+      p {
+        font-size: 24px;
+        font-weight: 400;
+        margin-top: 20px;
+      }
+    
+      margin-bottom: 25px;
+    }
+    
+    .contact-info_social_email {
+      border-bottom: 1px solid #EEE;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 15px;
+  
+      .contact-email a {
+        display: inline-block;
+        background: #080808;
+        color: #FFF;
+        padding: 5px 15px;
+        border-radius: 4px;
+      }
+  
+      .contact-social ul {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+  
+        li {
+          a {
+            display: inline-block;
+            border: 1px solid #EEE;
+            padding: 5px 12px;
+            border-radius: 4px;
+            color: #333;
+            font-size: 18px;
+            transition: 0.3s;
+  
+            &:hover {
+              background: $primary-color;
+              color: #FFF;
+            }
+          }
+  
+          margin-left: 9px;
+        }
+      }
+    }
+  }
+  
+  .contact-enquiry .sales-address {
+    display: flex;
+    justify-content: space-between;
+  
+    .add-view {
+      img {
+        width: 60px;
+        height: auto;
+      }
+  
+      flex-basis: 48%;
+      padding: 25px;
+      text-align: center;
+      border: 1px solid #eee;
+      border-radius: 9px;
+      background: #fdfdfd;
+  
+      p {
+        font-size: 18px;
+        margin-top: 8px;
+        margin-bottom: 0;
+        font-weight: 300;
+      }
+  
+      h4 {
+        margin-top: 20px;
+        font-size: 18px;
+      }
+    }
+  }
+  .contact-page-form {
+    padding: 20px;
+    padding: 30px;
+    box-shadow: 0 0 9px 5px rgba(0, 0, 0, 0.05);
+    border-radius: 25px;
+    
+    .book-content {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      line-height: 42px;
+      span {
+        color: $primary-color
+      }
+    }
+  }
+  .contact-page-form .form_view .form-control {
+    font-size: 14px;
+    font-weight: 400;
+  }
+  .awards_view {
+    border-bottom: 1px solid #EEE;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  
+    .contact_awards_view {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 30px;
+  
+      .award-view {
+        width: 20%;
+        display: block;
+        text-align: center;
+        margin-bottom: 30px;
+  
+        img {
+          width: 90px;
+          height: auto;
+          margin: 0 auto;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 767px) {
+    .contact-info .contact-info_social_email {
+        display: block;
+      
+        .contact-email {
+          margin-bottom: 15px;
+        }
+      
+        .contact-social ul li {
+          margin-left: 0;
+          margin-right: 10px;
+        }
+      }
+      
+      .contact-enquiry .sales-address .add-view {
+        padding: 10px;
+        width: 100%;
+        flex-basis: 100%;
+        margin-bottom: 30px;
+      
+        p {
+          font-size: 14px;
+        }
+      
+        h4 {
+          font-size: 16px;
+        }
+      }
+      
+      .awards_view .contact_awards_view {
+        .award-view {
+          flex-basis: 33%;
+      
+          img {
+            width: 80px;
+          }
+        }
+      
+        justify-content: center;
+      }
+      
+  }
+
+/* ——— Contact modal: modern UI aligned with brand (#DB241B gradient, cards, no inner scroll) ——— */
+.modal-backdrop.contact-us-modal-backdrop {
+  background: rgba(27, 33, 50, 0.72);
+  backdrop-filter: blur(6px);
+}
+
+.contact-us-modal-dialog {
+  max-width: min(920px, calc(100vw - 24px));
+  max-height: calc(100vh - 16px);
+  margin: 8px auto;
+}
+
+.contact-us-modal-content {
+  border-radius: 24px;
+  max-height: min(92vh, 880px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 4px 6px rgba(27, 33, 50, 0.04),
+    0 24px 48px rgba(27, 33, 50, 0.14);
+  background: linear-gradient(165deg, #f4f5f8 0%, #ffffff 38%, #fafbfc 100%);
+}
+
+.contact-us-modal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.contact-us-modal-header {
+  flex-shrink: 0;
+  padding: 10px 14px 0 18px;
+  background: transparent;
+}
+
+.contact-us-modal-header--with-title {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding-top: 14px;
+  padding-right: 16px;
+  padding-left: 20px;
+}
+
+.contact-us-modal-screen-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: $black-color;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+
+  @media screen and (max-width: 575px) {
+    font-size: 1.15rem;
+  }
+}
+
+.contact-modal-close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(27, 33, 50, 0.06);
+  color: #333;
+  line-height: 1;
+  transition: background 0.2s, transform 0.2s, color 0.2s;
+
+  &:hover {
+    background: rgba(219, 36, 27, 0.12);
+    color: $primary-color;
+    transform: scale(1.05);
+  }
+
+  svg {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+}
+
+.contact-section--modal.contact-us-body--modal {
+  padding: 6px 0 12px;
+  background: transparent;
+}
+
+.contact-inner--modal {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.contact-us-modal__eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: $primary-color;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.contact-info--modal-aside {
+  position: relative;
+  padding: 8px 8px 8px 16px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  min-width: 0;
+  width: 100%;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    bottom: 4px;
+    width: 4px;
+    border-radius: 4px;
+    background: linear-gradient(180deg, $primary-color 0%, #4c2523 100%);
+  }
+}
+
+.contact-us-body--modal {
+  .contact-info--modal-aside .contact-info-title {
+    margin-bottom: 10px;
+
+    h1:not(.contact-modal__heading) {
+      font-size: 24px;
+      line-height: 1.25;
+      margin-bottom: 0;
+      color: $black-color;
+      font-weight: 700;
+
+      span {
+        color: $primary-color;
+      }
+    }
+
+    .contact-modal__heading {
+      font-size: 24px;
+      line-height: 1.3;
+      margin-bottom: 0;
+      color: $black-color;
+      font-weight: 700;
+    }
+
+    .contact-modal__heading-brand {
+      color: $primary-color;
+    }
+
+    .contact-modal__heading-rest {
+      color: $black-color;
+    }
+
+    p,
+    p.fs-18 {
+      font-size: 13px !important;
+      line-height: 1.5;
+      margin-top: 8px !important;
+      margin-bottom: 0 !important;
+      color: #5a5a5a;
+    }
+
+    p.contact-modal__intro {
+      font-size: 15px !important;
+      line-height: 1.55;
+    }
+  }
+
+  .awards_view--modal.awards_view--modal-below-intro {
+    margin-top: 6px;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 10px;
+    border-top: 0;
+    border-bottom: 0;
+
+    .contact_awards_view {
+      margin-top: 8px;
+      margin-bottom: 0;
+      gap: 8px;
+      justify-content: flex-start;
+
+      .award-view {
+        width: auto;
+        margin-bottom: 0;
+        padding: 8px 10px;
+        background: #fff;
+        border-radius: 12px;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        box-shadow: 0 2px 8px rgba(27, 33, 50, 0.05);
+        transition: box-shadow 0.2s, transform 0.2s;
+
+        &:hover {
+          box-shadow: 0 4px 14px rgba(219, 36, 27, 0.1);
+          transform: translateY(-1px);
+        }
+
+        img {
+          width: 44px !important;
+          height: auto !important;
+          max-height: 40px;
+        }
+      }
+    }
+  }
+
+  .contact-enquiry--modal {
+    .contact-title {
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #6b6b6b;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+  }
+
+  .contact-enquiry--modal-last {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  /* Override global .contact-enquiry .sales-address (two-column 48% cards) so modal sales block is full width */
+  .contact-enquiry--modal .sales-address {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100%;
+    justify-content: flex-start !important;
+    align-items: stretch;
+
+    .add-view.add-view--modal-inline {
+      width: 100% !important;
+      max-width: 100% !important;
+      flex-basis: auto !important;
+      flex-shrink: 1;
+      box-sizing: border-box;
+      text-align: left !important;
+    }
+  }
+
+  .contact-modal-field-label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #333;
+    display: block;
+  }
+
+  .add-view--modal:not(.add-view--modal-inline) {
+    padding: 12px 14px !important;
+    border-radius: 16px !important;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, #fafafa 100%) !important;
+    border: 1px solid rgba(219, 36, 27, 0.15) !important;
+    box-shadow: 0 6px 20px rgba(219, 36, 27, 0.07);
+
+    img {
+      width: 44px !important;
+      max-height: 30px !important;
+    }
+
+    h4 {
+      margin-top: 8px !important;
+      margin-bottom: 0 !important;
+      font-size: 17px !important;
+      font-weight: 700 !important;
+      color: $primary-color !important;
+    }
+
+    p {
+      font-size: 11px !important;
+      line-height: 1.45 !important;
+      margin-top: 6px !important;
+      color: #555 !important;
+    }
+  }
+
+  .add-view--modal-inline {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 14px !important;
+    border-radius: 16px !important;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, #fafafa 100%) !important;
+    border: 1px solid rgba(219, 36, 27, 0.15) !important;
+    box-shadow: 0 6px 20px rgba(219, 36, 27, 0.07);
+  }
+
+  .contact-modal-sales-flag {
+    flex-shrink: 0;
+    line-height: 0;
+  }
+
+  .contact-modal-flag-img {
+    width: 48px !important;
+    height: auto !important;
+    max-height: 32px !important;
+    border-radius: 4px;
+    box-shadow: 0 1px 4px rgba(27, 33, 50, 0.12);
+    object-fit: cover;
+  }
+
+  .contact-modal-sales-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .contact-modal-sales-phone {
+    display: inline-block;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: $primary-color !important;
+    text-decoration: none;
+    margin-bottom: 4px;
+    line-height: 1.3;
+
+    &:hover {
+      color: darken($primary-color, 6%) !important;
+      text-decoration: underline;
+    }
+  }
+
+  .contact-modal-sales-address {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.45;
+    color: #555;
+    font-weight: 400;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  .contact-page-form--modal {
+    padding: 14px 16px 16px;
+    border-radius: 20px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow:
+      0 8px 32px rgba(27, 33, 50, 0.08),
+      0 1px 0 rgba(255, 255, 255, 0.9) inset;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, $primary-color 0%, #4c2523 100%);
+    }
+
+    .book-content {
+      font-size: 20px;
+      line-height: 1.2;
+      margin-bottom: 10px;
+      color: $black-color;
+
+      span {
+        color: $primary-color;
+      }
+    }
+  }
+
+  .contact-modal-services-select {
+    border-radius: 10px;
+    border: 1px solid #e4e5e9;
+    padding: 8px 12px;
+    font-size: 14px;
+
+    &:focus {
+      border-color: rgba($primary-color, 0.55);
+      box-shadow: 0 0 0 3px rgba(219, 36, 27, 0.12);
+    }
+  }
+
+  .contact-modal-captcha .form-control {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .contact-page-form--modal .form_view .form-control {
+    border-radius: 10px;
+    border: 1px solid #e4e5e9;
+    padding: 10px 14px;
+    font-size: 14px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:focus {
+      border-color: rgba($primary-color, 0.55);
+      box-shadow: 0 0 0 3px rgba(219, 36, 27, 0.12);
+    }
+
+    &::placeholder {
+      color: #9a9a9a;
+    }
+  }
+
+  .form_view .mb-3 {
+    margin-bottom: 0.45rem !important;
+  }
+
+  textarea.form-control {
+    min-height: 48px;
+  }
+
+  .custom_checkboxes {
+    gap: 6px 12px;
+
+    label {
+      border-radius: 8px;
+      padding: 6px 8px;
+      transition: background 0.2s;
+
+      &:hover {
+        background: rgba(219, 36, 27, 0.04);
+      }
+    }
+  }
+
+  .btn_theme {
+    width: 100%;
+    margin-top: 8px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 999px;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(219, 36, 27, 0.25);
+
+    &:hover {
+      box-shadow: 0 6px 20px rgba(219, 36, 27, 0.35);
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .contact-us-body--modal {
+    .contact-info--modal-aside .contact-info-title {
+      h1:not(.contact-modal__heading) {
+        font-size: 21px;
+      }
+
+      .contact-modal__heading {
+        font-size: 21px;
+      }
+    }
+
+    .awards_view--modal .contact_awards_view .award-view img {
+      width: 38px !important;
+    }
+
+    .contact-page-form--modal {
+      padding: 12px 12px 14px;
+    }
+  }
+
+  /* Centered card on mobile — not edge-to-edge; backdrop stays visible */
+  .contact-us-modal-dialog {
+    width: calc(100vw - 32px);
+    max-width: calc(100vw - 32px);
+    margin: 16px auto !important;
+    max-height: calc(100vh - 32px);
+  }
+
+  .contact-us-modal-content {
+    border-radius: 20px;
+    max-height: min(90vh, calc(100vh - 40px));
+  }
+
+  .contact-us-modal-body {
+    padding-bottom: max(12px, env(safe-area-inset-bottom, 12px));
+  }
+}

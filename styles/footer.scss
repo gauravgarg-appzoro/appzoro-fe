@@ -1,0 +1,164 @@
+footer {
+    background-color: $footer-bg;
+    color: $white-color;
+    .footer-view {
+        padding: 40px 0;
+
+        .az_ftr-info {
+            max-width: 312px;
+            @media screen and (max-width: 767px){ 
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+            p {
+                font-size: 0.875rem;
+                font-weight: 300;
+            }
+
+            .ftr-social {
+                ul {
+                    list-style: none "";
+                    padding: 0;
+                    margin: 0;
+                    display: flex;
+
+                    li {
+                        a {
+                            width: 30px;
+                            height: 30px;
+                            background: $white-color;
+                            margin-right: 10px;
+                            border-radius: 50%;
+                            display: inline-block;
+                            text-align: center;
+                            line-height: 26px;
+                            &:hover {
+                                transform: rotate(360deg);
+                            }
+                        }
+                        &.ftr-social_fb a {
+                            color: #316FF6;
+                        }
+                        &.ftr-social_twitter a {
+                            color: #1DA1F2;
+                        }
+                        &.ftr-social_linkedin a {
+                            color: #0a66c2;
+                        }
+                        &.ftr-social_insta a {
+                            color: #333;
+                        }
+                        &.ftr-social_ytd a {
+                            color: #f00;
+                        }
+                    }
+                }
+
+                margin-top: 30px;
+            }
+        }
+
+        h3 {
+            font-size: 1rem;
+            font-style: normal;
+            margin-bottom: 20px;
+        }
+
+        .az_ftr-links {
+            ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+
+                li {
+                    margin-bottom: 10px;
+
+                    a {
+                        color: $white-color;
+                        font-size: 0.875rem;
+                        font-weight: 300;
+
+                        &:hover {
+                            color: $primary-color;
+                        }
+                    }
+                }
+            }
+        }
+        .az_ftr-connect {
+            h6 {
+                font-size: 1rem;
+                font-weight: normal;
+            }
+            .add-block {
+                display: flex;
+                margin-bottom: 15px;
+                span {
+                    margin-right: 10px;
+                    font-size: 18px;
+                }
+                p {
+                    font-size: 0.875rem;
+                    font-weight: 300;
+                    margin-bottom: 0;
+                    a{
+                        color: $white-color;
+                        &:hover {
+                            color: $primary-color;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .copyright-block {
+        text-align: center;
+        font-size: 0.875rem;
+        font-weight: 300;
+        padding: 12px 0;
+        border-top: 2px solid $white-color;
+    }
+}
+.sticky-social {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: $white-color;
+    border: 2px solid $primary-color;
+    border-radius: 4px;
+    width: 35px;
+    padding: 3px 0;
+    text-align: center;
+    left: 5px;
+    z-index: 99;
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        li {
+            a {
+                display: inline-block;
+                text-align: center;
+                padding: 3px 0;
+                &:hover {
+                    transform: rotate(360deg);
+                }
+            }
+            &.ftr-social_fb a {
+                color: #316FF6;
+            }
+            &.ftr-social_twitter a {
+                color: #1DA1F2;
+            }
+            &.ftr-social_linkedin a {
+                color: #0a66c2;
+            }
+            &.ftr-social_insta a {
+                color: #333;
+            }
+            &.ftr-social_ytd a {
+                color: #f00;
+            }
+        }
+    }
+}

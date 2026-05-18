@@ -1,0 +1,258 @@
+.text-red {
+  color: $primary-color;
+}
+
+section {
+  &.industry-main {
+    padding: 50px 0 0;
+
+    p {
+      font-size: 18px;
+      font-weight: 400;
+    }
+  }
+
+  &.ind-cat {
+    padding: 50px 0;
+  }
+}
+
+.industry-cat-img img {
+  width: 100%;
+  height: auto;
+}
+
+.industry-content {
+  background: #23272A;
+  color: #fff;
+  padding: 50px 40px;
+  border-radius: 40px;
+
+  h3 {
+    margin-bottom: 15px;
+    color: $primary-color;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    font-weight: 400;
+  }
+}
+
+.ind-cat .ind-cat-view {
+  &:nth-child(even) .col-md-5 {
+    order: 1;
+  }
+
+  padding: 30px 0;
+}
+
+section {
+  &.ind-cta {
+    .ind-cta-view {
+      background: #23272A;
+      color: #FFF;
+      text-align: center;
+      padding: 62px 50px;
+      border-radius: 15px;
+    }
+
+    padding: 30px 0;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+
+    .ind-cta-view {
+      h3 {
+        font-size: 36px;
+        margin-bottom: 20px;
+      }
+
+      p {
+        font-size: 20px;
+        margin-bottom: 30px;
+        font-weight: 400;
+      }
+    }
+  }
+
+  &.ind-detail-content {
+    p {
+      font-size: 18px;
+      line-height: 25px;
+      font-weight: 400;
+    }
+
+    padding-bottom: 30px;
+  }
+
+  &.why-az-industry {
+    padding-bottom: 30px;
+  }
+}
+
+
+section.why-az-industry {
+  .why-ind-az-content {
+    h3 {
+      font-size: 38px;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 18px;
+      font-weight: 400;
+    }
+  }
+
+  .why-ind-az-content-box {
+    .ind-box-counter {
+      background: #5C5F62;
+      transition: 0.5s;
+      position: relative;
+      padding: 30px 20px;
+      border-radius: 30px;
+      color: #FFF;
+      margin: 30px 0;
+      min-height: 220px;
+
+      &:hover {
+        background: $primary-color;
+
+        h5 {
+          color: #D4D1D1;
+        }
+      }
+    }
+  }
+
+  .why-ind-az-content-box .ind-box-counter {
+    h5 {
+      margin-top: -65px;
+      color: $primary-color;
+      font-size: 50px;
+      font-weight: 800;
+      transition: 0.5s;
+    }
+
+    h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 400;
+      min-height: 130px;
+    }
+  }
+
+  .why-ind-az-content-box-type2 .ind-box-type2 {
+    background: #F9F9F9;
+    padding: 30px 25px;
+    border-radius: 15px;
+    color: #333;
+    margin-bottom: 30px;
+    border: 1px solid #EEE;
+    transition: 0.5s;
+
+    >svg {
+      font-size: 65px;
+    }
+
+    h3 {
+      font-size: 22px;
+      margin: 20px 0 30px 0;
+      min-height: 60px;
+    }
+
+    h2 {
+      font-size: 36px;
+      margin: 20px 0 65px 0;
+    }
+
+    &:hover {
+      background: #cdcdcd;
+    }
+  }
+}
+.ind-cta-img {
+  width: 100%;
+  height: 330px;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.ind-cta-img img {
+  object-fit: cover;
+}
+@media (max-width: 767px) {
+  .ind-cat .ind-cat-view:nth-child(even) .col-md-5 {
+    order: 0;
+  }
+
+  .ind-cat .ind-cat-view .industry-cat-img {
+    margin-bottom: 30px;
+  }
+
+  .industry-content {
+    padding: 25px 15px;
+    border-radius: 4px;
+  }
+
+  .industry-content p {
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  section.industry-main p {
+    font-size: 16px;
+  }
+
+  section.ind-cta .ind-cta-view {
+    padding: 30px 20px;
+    margin-bottom: 30px;
+  }
+
+  section.ind-cta .ind-cta-view h3 {
+    font-size: 28px;
+  }
+
+  section.ind-cta .ind-cta-view p {
+    font-size: 18px;
+  }
+
+  section.why-az-industry .why-ind-az-content-box-type2 .ind-box-type2 {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    flex-wrap: wrap;
+  }
+
+  section.why-az-industry .why-ind-az-content-box-type2 .ind-box-type2 h3 {
+    font-size: 18px;
+    margin: 0;
+    flex-basis: 90%;
+    padding-left: 15px;
+  }
+
+  section.why-az-industry .why-ind-az-content-box-type2 .ind-box-type2 a {
+    flex-basis: 100%;
+    margin-top: 20px;
+  }
+
+  section.why-az-industry .why-ind-az-content-box-type2 .ind-box-type2>svg {
+    font-size: 30px;
+  }
+
+  section.why-az-industry .why-ind-az-content-box-type2 .ind-box-type2>img {
+    width: 30px;
+    height: auto;
+  }
+}

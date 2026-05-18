@@ -1,0 +1,9 @@
+header {
+    padding: 14px 0;
+    background-color: $white-color;
+    .az_header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}

@@ -1,0 +1,2254 @@
+// AI Development Page Specific Styles
+
+// Hero Section Rating Badges
+.ai-hero-section {
+  position: relative;
+
+  // Darker overlay for better text readability
+  &:after {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+    opacity: 1 !important;
+  }
+
+  // Override default heading spacing for AI page
+  .page-section-title.service-title {
+    text-align: center !important;
+
+    h1 {
+      margin-bottom: 15px !important;
+      padding-bottom: 0 !important;
+    }
+
+    p {
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+  }
+
+  .hero-rating-badges-wrapper {
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 10;
+
+    @media (max-width: 991px) {
+      position: relative;
+      top: auto;
+      right: auto;
+      transform: none;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 30px auto 0;
+      width: 100%;
+      max-width: 360px;
+      justify-content: center;
+    }
+
+    .rating-badge {
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 8px;
+      border: 1px solid rgba(42, 42, 42, 0.8);
+      padding: 10px 15px;
+      backdrop-filter: blur(10px);
+      min-width: 120px;
+      text-align: center;
+
+      .badge-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 8px;
+
+        img {
+          max-width: 70px;
+          height: auto;
+        }
+      }
+
+      .badge-rating {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        white-space: nowrap;
+
+        .star {
+          color: #F0B445;
+          font-size: 14px;
+        }
+
+        .rating-value {
+          color: #F0B445;
+          font-size: 14px;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}
+
+// AI Gradient Button
+.ai-gradient-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 30px;
+  background: linear-gradient(90deg, #DB241B 0%, #4C2523 100%);
+  border-radius: 6px;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+
+  span {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(219, 36, 27, 0.4);
+    color: white;
+    text-decoration: none;
+
+    span {
+      transform: translateX(3px);
+    }
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(219, 36, 27, 0.3);
+    color: white;
+  }
+}
+
+
+.ai-expertise-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  height: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #e0e0e0;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  }
+
+  .ai-expertise-image {
+    width: 100%;
+    height: 226px;
+    overflow: hidden;
+    border-radius: 20px 20px 0 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  .ai-expertise-content {
+    padding: 25px 20px;
+
+    h3 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #1a1a1a;
+    }
+
+    p {
+      font-size: 15px;
+      color: #666;
+      line-height: 1.6;
+      margin: 0;
+    }
+  }
+}
+
+// Override buttons in Blog and Talk Expert sections to match AI theme
+.read-articles,
+.talk_expert_main {
+  .btn-style-arrow {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    padding: 12px 30px !important;
+    background: linear-gradient(90deg, #DB241B 0%, #4C2523 100%) !important;
+    border-radius: 6px !important;
+    color: white !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    border: none !important;
+    cursor: pointer !important;
+    width: auto !important;
+
+    span {
+      display: flex !important;
+      align-items: center !important;
+      font-size: 18px !important;
+      transition: transform 0.3s ease !important;
+      color: white !important;
+    }
+
+    svg {
+      color: white !important;
+      fill: white !important;
+    }
+
+    &:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 5px 15px rgba(219, 36, 27, 0.4) !important;
+      background: linear-gradient(90deg, #DB241B 0%, #4C2523 100%) !important;
+      color: white !important;
+
+      span {
+        transform: translateX(3px) !important;
+      }
+    }
+  }
+}
+
+.ai-why-card {
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  h3 {
+    font-weight: 600;
+  }
+}
+
+// AI Why Choose Card - New Design
+.ai-why-card-new {
+  background: transparent;
+  border-radius: 20px;
+  padding: 30px;
+  min-height: 280px;
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: visible;
+
+  // Gradient border effect - top half more visible, bottom half less visible
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px;
+    padding: 2px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.05) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    background: white;
+    border-color: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+    &::after {
+      background: transparent;
+      box-shadow: none;
+    }
+
+    h3 {
+      color: #1a1a1a;
+    }
+
+    p {
+      color: #333;
+    }
+  }
+
+  h3 {
+    color: white;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    transition: color 0.3s ease;
+  }
+
+  p {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 0;
+    transition: color 0.3s ease;
+  }
+
+  .card-icon {
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.8;
+      transition: opacity 0.3s ease;
+    }
+
+    &:hover img {
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 767px) {
+    min-height: auto;
+    padding: 25px;
+
+    h3,
+    p {
+      padding-right: 0;
+    }
+
+    .card-icon {
+      position: static;
+      margin-top: 20px;
+      width: 60px;
+      height: 60px;
+    }
+  }
+}
+
+// AI Single Image
+.ai-single-image {
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  @media (max-width: 767px) {
+    margin-top: 30px;
+  }
+}
+
+.ai-cta-section {
+  .btn-style-arrow {
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(219, 36, 27, 0.4);
+    }
+  }
+}
+
+// AI Models Flip Cards
+.ai-models-section {
+  .ai-model-flip-card {
+    perspective: 1000px;
+    height: 315px;
+    cursor: pointer;
+
+    .ai-model-flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+
+    &:hover .ai-model-flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .ai-model-flip-card-front,
+    .ai-model-flip-card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .ai-model-flip-card-front {
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .ai-model-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 20px;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        color: white;
+
+        .ai-model-icon {
+          width: 50px;
+          height: 50px;
+          background: white;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 15px;
+          padding: 10px;
+
+          svg {
+            width: 30px;
+            height: 30px;
+            flex-shrink: 0;
+          }
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+
+        h3 {
+          font-size: 18px;
+          font-weight: 600;
+          margin: 0;
+          line-height: 1.3;
+        }
+      }
+    }
+
+    .ai-model-flip-card-back {
+      background: linear-gradient(360deg, #4C2523 0%, #DB241B 100%);
+      transform: rotateY(180deg);
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      color: white;
+
+      h3 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        line-height: 1.3;
+      }
+
+      p {
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 0;
+      }
+    }
+  }
+}
+
+
+// Proven AI Expertise Slide Cards
+.ai-expertise-proven-section {
+  .ai-expertise-slide-card {
+    position: relative;
+    height: 345px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .ai-expertise-slide-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+      color: white;
+      z-index: 2;
+
+      .ai-expertise-slide-icon {
+        width: 50px;
+        height: 50px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 15px;
+        padding: 10px;
+
+        svg {
+          width: 30px;
+          height: 30px;
+          flex-shrink: 0;
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+      }
+
+      h3 {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0;
+        line-height: 1.3;
+      }
+    }
+
+    .ai-expertise-slide-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      color: white;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transform: translateY(100%);
+      transition: transform 0.5s ease;
+      z-index: 3;
+      border-radius: 20px;
+
+      h3 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        line-height: 1.3;
+      }
+
+      p {
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 0;
+      }
+    }
+
+    &:hover .ai-expertise-slide-overlay {
+      transform: translateY(0);
+    }
+  }
+}
+
+// Awards Section
+.ai-awards-section {
+  .ai-award-box {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 30px 20px;
+    text-align: center;
+    position: relative;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-5px);
+    }
+
+    .ai-award-laurel {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .ai-award-icon {
+      position: relative;
+      z-index: 2;
+      margin-bottom: 8px;
+
+      img {
+        width: 120px;
+        height: 120px;
+        object-fit: contain;
+      }
+    }
+
+    h4 {
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      position: relative;
+      z-index: 2;
+    }
+
+    p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 0;
+      position: relative;
+      z-index: 2;
+    }
+  }
+}
+
+.ai-tech-stack-section {
+  .tech-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+// Responsive styles
+@media (max-width: 767px) {
+  .ai-expertise-section {
+    padding: 30px 0 !important;
+
+    .section-title-dark h2 {
+      font-size: 32px;
+    }
+
+    .ai-expertise-card {
+      margin-bottom: 20px;
+    }
+  }
+
+  .ai-why-choose-section {
+    padding: 30px 0 !important;
+
+    h2 {
+      font-size: 28px !important;
+    }
+
+    p {
+      font-size: 16px !important;
+    }
+
+    .ai-why-card {
+      height: auto !important;
+      margin-bottom: 20px;
+    }
+  }
+
+  .ai-cta-section {
+    padding: 0 !important;
+    height: auto !important;
+    min-height: 350px !important;
+    background-image: url("/assets/images/ai%20development%20company/cta-background.png") !important;
+    background-size: cover !important;
+    background-position: center !important;
+    border-radius: 20px;
+    display: flex !important;
+    align-items: center !important;
+
+    img {
+      display: none !important;
+    }
+
+    >div {
+      position: relative !important;
+      padding: 40px 20px !important;
+      width: 100% !important;
+
+      >div {
+        padding: 0 !important;
+      }
+    }
+
+    h2 {
+      font-size: 24px !important;
+      margin-bottom: 20px !important;
+      line-height: 1.6 !important;
+      padding-bottom: 25px !important;
+      display: block !important;
+      height: auto !important;
+      overflow: visible !important;
+    }
+
+    p {
+      font-size: 16px !important;
+      margin-bottom: 25px !important;
+      line-height: 1.6 !important;
+    }
+  }
+
+  .ai-cta-market-section {
+    padding: 0 !important;
+    height: auto !important;
+    min-height: 350px !important;
+    background-image: url("/assets/images/ai%20development%20company/cta-shape-2.png") !important;
+    background-size: cover !important;
+    background-position: center !important;
+    border-radius: 20px;
+    display: flex !important;
+    align-items: center !important;
+
+    img {
+      display: none !important;
+    }
+
+    >div {
+      position: relative !important;
+      padding: 40px 20px !important;
+      width: 100% !important;
+
+      >div {
+        padding: 0 !important;
+      }
+    }
+
+    h2 {
+      font-size: 24px !important;
+      margin-bottom: 20px !important;
+      line-height: 1.6 !important;
+      padding-bottom: 15px !important;
+      display: block !important;
+      height: auto !important;
+      overflow: visible !important;
+    }
+
+    p {
+      font-size: 16px !important;
+      margin-bottom: 25px !important;
+      line-height: 1.6 !important;
+    }
+  }
+
+  .ai-lost-potential-cta {
+    padding: 0 !important;
+    height: auto !important;
+    min-height: 300px !important;
+    border-radius: 20px;
+    display: flex !important;
+    align-items: center !important;
+    background-image: url("/assets/images/ai%20development%20company/cta-shape-3.png") !important;
+    background-size: cover !important;
+    background-position: center !important;
+
+    img {
+      display: none !important;
+    }
+
+    >div {
+      position: relative !important;
+      padding: 40px 20px !important;
+      width: 100% !important;
+
+      >div {
+        padding: 0 !important;
+        max-width: 100% !important;
+      }
+    }
+
+    h2 {
+      font-size: 24px !important;
+      margin-bottom: 25px !important;
+      line-height: 1.5 !important;
+      text-align: center !important;
+      display: block !important;
+      max-height: none !important;
+      height: auto !important;
+      overflow: visible !important;
+      -webkit-line-clamp: unset !important;
+    }
+
+    .ai-gradient-btn {
+      display: block !important;
+      margin: 0 auto !important;
+      text-align: center !important;
+    }
+  }
+
+  .ai-portfolio-card-box {
+    display: block !important;
+    height: auto !important;
+    min-height: auto !important;
+    padding: 30px 20px !important;
+
+    .row {
+      display: flex !important;
+      flex-direction: column !important;
+    }
+
+    .ai-portfolio-content {
+      margin-bottom: 30px !important;
+
+      h3 {
+        font-size: 24px !important;
+        margin-bottom: 15px !important;
+      }
+
+      p {
+        font-size: 14px !important;
+        line-height: 1.6 !important;
+        height: auto !important;
+        white-space: normal !important;
+        overflow: visible !important;
+        margin-bottom: 20px !important;
+      }
+    }
+
+    .ai-portfolio-image {
+      margin-top: 0 !important;
+
+      img {
+        max-width: 100% !important;
+        height: auto !important;
+        width: auto !important;
+        margin: 0 auto !important;
+      }
+    }
+  }
+
+  // Ranked #1 Section - Fix layout and text wrapping
+  .ai-ranked-testimonial-section {
+    .text-center {
+      display: block !important; // Force vertical stacking
+      white-space: normal !important; // Allow text wrapping
+      text-align: center !important;
+    }
+
+    h2 {
+      font-size: 26px !important;
+      margin-bottom: 20px !important;
+    }
+
+    p {
+      white-space: normal !important;
+      font-size: 16px !important;
+      line-height: 1.6 !important;
+      margin-bottom: 30px !important;
+      max-width: 100% !important;
+      display: block !important;
+    }
+
+    // Adjust logic for the stats boxes if needed
+    // Adjust logic for the stats boxes if needed
+    .row {
+      flex-wrap: wrap !important;
+      padding-left: 15px;
+      padding-right: 15px;
+
+      >div[class*="col-"] {
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+        padding: 0 10px !important;
+      }
+    }
+  }
+
+  .ai-tech-stack-section {
+    padding: 30px 15px !important;
+
+    h2 {
+      font-size: 28px !important;
+    }
+
+    .tech-stack-tabs {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+// AI Development Process Section
+.ai-process-section {
+  .ai-process-left {
+    position: sticky;
+    top: 100px;
+    align-self: flex-start;
+  }
+
+  .ai-process-timeline {
+    position: relative;
+    padding-left: 0;
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 10px;
+
+    // Hide scrollbar but keep functionality
+    scrollbar-width: none; // Firefox
+    -ms-overflow-style: none; // IE and Edge
+
+    &::-webkit-scrollbar {
+      display: none; // Chrome, Safari, Opera
+    }
+
+    .ai-process-step {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 30px;
+      padding-bottom: 30px;
+
+      &:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+
+        &:before {
+          display: none;
+        }
+      }
+
+      // Vertical connecting line
+      &:before {
+        content: '';
+        position: absolute;
+        left: 20px;
+        top: 45px;
+        width: 2px;
+        height: calc(100% + 0px);
+        background: #ddd;
+        z-index: 0;
+      }
+
+      .step-number {
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        background: #DC2626;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 700;
+        margin-right: 20px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .step-content {
+        flex: 1;
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        box-shadow: none;
+
+        h3 {
+          font-size: 20px;
+          font-weight: 600;
+          color: #1a1a1a;
+          margin-bottom: 10px;
+          line-height: 1.3;
+        }
+
+        p {
+          font-size: 15px;
+          color: #666;
+          line-height: 1.6;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 991px) {
+    .ai-process-left {
+      margin-bottom: 40px;
+
+      h2 {
+        font-size: 32px !important;
+      }
+    }
+  }
+
+  @media (max-width: 767px) {
+    padding: 30px 0 !important;
+
+    .ai-process-left h2 {
+      font-size: 28px !important;
+    }
+
+    .ai-process-timeline .ai-process-step {
+      .step-number {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+        margin-right: 15px;
+      }
+
+      &:before {
+        left: 17px;
+      }
+
+      .step-content {
+        h3 {
+          font-size: 18px;
+        }
+
+        p {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+
+// AI Industry Section
+.ai-industry-section {
+  .ai-industry-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .marquee-row,
+    .marquee-content {
+      display: contents;
+    }
+
+    .mobile-only {
+      display: none;
+    }
+
+    .industry-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #E8E8E8;
+      border-radius: 50px;
+      padding: 12px 24px 12px 12px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .industry-icon {
+        width: 48px;
+        height: 48px;
+        background-image: url('/assets/images/ai development company/About-Our-Enterprise-AI.png');
+        background-size: cover;
+        background-position: center;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        position: relative;
+
+        // Dark overlay for better icon visibility
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.7);
+          border-radius: 50%;
+          z-index: 1;
+        }
+
+        svg {
+          width: 24px;
+          height: 24px;
+          position: relative;
+          z-index: 2;
+        }
+
+        img {
+          display: none;
+        }
+      }
+
+      span {
+        font-size: 16px;
+        font-weight: 500;
+        color: #1a1a1a;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  @media (max-width: 767px) {
+    padding: 30px 0 !important;
+
+    h2 {
+      font-size: 28px !important;
+      margin-bottom: 30px !important;
+    }
+
+    .ai-industry-badges {
+      gap: 10px;
+
+      .industry-badge {
+        padding: 10px 20px 10px 10px;
+
+        .industry-icon {
+          width: 40px;
+          height: 40px;
+
+          svg {
+            width: 20px;
+            height: 20px;
+          }
+        }
+
+        span {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+
+// AI Ranked Section - Stat Boxes
+.ai-stat-box {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 40px 30px;
+  max-height: 200px !important;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  // Gradient border effect (half visible from top)
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 16px;
+    padding: 1px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.01) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  h3 {
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+// AI Testimonial Section
+.ai-testimonial-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+}
+
+// AI Testimonial Section Navigation Arrows
+// Client Reviews / Testimonials Section
+.clients-reviews {
+  position: relative;
+  padding: 0 60px; // Make space for arrows
+  margin-top: 40px;
+
+  .swiper-slide {
+    height: auto;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px; // Space for shadow
+  }
+
+  .ai-prev_review,
+  .ai-next_review {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    color: #fff;
+    font-size: 24px;
+
+    &:hover {
+      background: #DB241B;
+      border-color: #DB241B;
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 0 15px rgba(219, 36, 27, 0.5);
+    }
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    &.swiper-button-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+
+  .ai-prev_review {
+    left: 0;
+  }
+
+  .ai-next_review {
+    right: 0;
+  }
+
+  @media (max-width: 767px) {
+    padding: 0 0 70px 0;
+    margin-top: 30px;
+
+    .ai-prev_review,
+    .ai-next_review {
+      top: auto;
+      bottom: 0;
+      transform: none;
+    }
+
+    .ai-prev_review {
+      left: calc(50% - 55px);
+    }
+
+    .ai-next_review {
+      right: calc(50% - 55px);
+    }
+  }
+}
+
+.client-review-box {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  padding: 35px 30px;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  transition: transform 0.3s ease, background 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .client-img {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 25px;
+    border: 3px solid rgba(219, 36, 27, 0.3);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .quote-icon {
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    color: #DB241B;
+    font-size: 32px;
+    opacity: 0.8;
+  }
+
+  p {
+    color: #1a1a1a;
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 25px;
+    margin-top: 15px;
+    padding-top: 10px;
+    font-style: normal;
+    font-weight: 300;
+    min-height: 80px;
+  }
+
+  .client-name-heading {
+    color: #DB241B; // Red color for client name
+    font-size: 19px;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+
+  .client-pos-heading {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+    font-weight: 400;
+  }
+}
+
+// AI Tech Stack Section
+.ai-tech-stack-section {
+  .tech-stack-container {
+    margin-top: 30px;
+  }
+
+  .tech-stack-sidebar {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .tech-category-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 18px;
+    font-weight: 500;
+    padding: 20px 25px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0;
+    position: relative;
+
+    &:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 25px;
+      right: 25px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    span {
+      flex: 1;
+    }
+
+    svg {
+      font-size: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    &.active {
+      background: #fff;
+      color: #E31E24;
+      font-weight: 600;
+      border-radius: 12px;
+
+      svg {
+        opacity: 1;
+      }
+
+      &::after {
+        display: none;
+      }
+    }
+
+    &:hover:not(.active) {
+      color: rgba(255, 255, 255, 0.9);
+    }
+  }
+
+  .tech-stack-content {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 40px;
+    min-height: 400px;
+  }
+
+  .tech-logo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 20px;
+  }
+
+  .tech-logo-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .tech-logo-box {
+    background: #fff;
+    border-radius: 12px;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    img {
+      max-width: 80px;
+      max-height: 80px;
+      object-fit: contain;
+    }
+  }
+
+  .tech-name {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  @media (max-width: 991px) {
+    .tech-stack-sidebar {
+      margin-bottom: 30px;
+    }
+
+    .tech-category-btn {
+      padding: 15px 20px;
+      font-size: 16px;
+    }
+
+    .tech-stack-content {
+      padding: 30px 10px;
+    }
+
+    .tech-logo-grid {
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 15px;
+    }
+
+    .tech-logo-box {
+      width: 100px;
+      height: 100px;
+
+      img {
+        max-width: 70px;
+        max-height: 70px;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    .tech-logo-grid {
+      grid-template-columns: repeat(3, 1fr) !important;
+    }
+  }
+}
+
+// AI Benefits Accordion Section
+.ai-benefits-section {
+  .ai-benefits-accordion {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    .accordion-item {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      &::before,
+      &::after {
+        display: none !important;
+        content: none !important;
+      }
+
+      button {
+        list-style: none;
+
+        &::before,
+        &::after {
+          display: none !important;
+          content: none !important;
+        }
+
+        h3 {
+          list-style: none;
+
+          &::before,
+          &::after {
+            display: none !important;
+            content: none !important;
+          }
+        }
+      }
+
+      div {
+        list-style: none;
+
+        &::before,
+        &::after {
+          display: none !important;
+          content: none !important;
+        }
+
+        p {
+          list-style: none;
+
+          &::before,
+          &::after {
+            display: none !important;
+            content: none !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ============================================
+// COMPREHENSIVE MOBILE RESPONSIVE STYLES
+// ============================================
+@media (max-width: 767px) {
+
+  // Fix button layout - keep text and icon on same line
+  .ai-gradient-btn,
+  .btn-style-arrow {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    white-space: nowrap !important;
+    font-size: 14px !important;
+    padding: 10px 20px !important;
+
+    span {
+      display: inline-flex !important;
+      align-items: center !important;
+    }
+  }
+
+  // Reduce section padding for tighter spacing
+  section {
+    padding: 30px 0 !important;
+  }
+
+  // Hero Section - MOBILE ONLY
+  .page-title.service-page-banner.ai-hero-section {
+    padding: 60px 0 !important;
+    min-height: auto !important;
+
+    .container {
+      text-align: center !important;
+    }
+
+    .row {
+      text-align: center !important;
+      justify-content: center !important;
+    }
+
+    .col-lg-8,
+    .col-md-12,
+    [class*="col-"] {
+      text-align: center !important;
+    }
+
+    .page-section-title.service-title {
+      text-align: center !important;
+      display: block !important;
+      width: 100% !important;
+
+      h1 {
+        font-size: 26px !important;
+        line-height: 1.3 !important;
+        margin-bottom: 15px !important;
+        text-align: center !important;
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        // Remove truncation - show full text
+        max-height: none !important;
+        overflow: visible !important;
+        display: block !important;
+        -webkit-line-clamp: unset !important;
+        -webkit-box-orient: unset !important;
+      }
+
+      p {
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+        text-align: center !important;
+        margin-bottom: 20px !important;
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+    }
+
+    .service-action-btns {
+      justify-content: center !important;
+      margin-top: 20px !important;
+      margin-bottom: 30px !important;
+      display: flex !important;
+      width: 100% !important;
+      text-align: center !important;
+
+      .ai-gradient-btn {
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+    }
+
+    // ===============================
+    // FIX BADGE VISIBILITY ON MOBILE - 2x2 GRID
+    // ===============================
+
+    // Hero section spacing fix
+    .page-title.service-page-banner.ai-hero-section {
+      padding-bottom: 120px !important;
+    }
+
+    // Badge wrapper - 2x2 GRID (vertical, 2 per row)
+
+  }
+
+  // Trusted By Section - Mobile Only
+  .app-partners {
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+
+    .partner-title {
+      text-align: center !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      margin: 0 auto 20px auto !important;
+      width: auto !important;
+
+      h3 {
+        text-align: center !important;
+        margin: 0 auto !important;
+      }
+    }
+
+    // Increase JI-logo (5th logo) size
+    .partner-logo:nth-child(5) img,
+    .partner-box:nth-child(5) img {
+      max-width: 140px !important;
+      width: 140px !important;
+      height: auto !important;
+      min-width: 140px !important;
+    }
+  }
+
+  // About Section
+  .why-az-service {
+    padding: 30px 0 !important;
+
+    h2 {
+      font-size: 26px !important;
+      line-height: 1.2 !important;
+      margin-bottom: 15px !important;
+      max-height: 62px !important;
+      overflow: hidden !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+    }
+
+    p {
+      font-size: 14px !important;
+      line-height: 1.6 !important;
+    }
+
+    .ai-gradient-btn {
+      margin: 20px auto 0 !important;
+    }
+  }
+
+  // Expertise Section
+  .ai-expertise-section {
+    padding: 30px 0 !important;
+
+    .section-title-dark {
+      margin-bottom: 15px !important;
+
+      h2 {
+        font-size: 26px !important;
+        line-height: 1.2 !important;
+        max-height: 62px !important;
+        overflow: hidden !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        margin-bottom: 10px !important;
+      }
+    }
+
+    .ai-expertise-card {
+      .ai-expertise-content {
+        h3 {
+          font-size: 18px !important;
+        }
+
+        p {
+          font-size: 13px !important;
+        }
+      }
+    }
+  }
+
+  // AI Models Section
+  .ai-models-section {
+    padding: 30px 0 !important;
+
+    .section-title-dark {
+      margin-bottom: 15px !important;
+
+      h2 {
+        font-size: 26px !important;
+        line-height: 1.2 !important;
+        max-height: 62px !important;
+        overflow: hidden !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        margin-bottom: 10px !important;
+      }
+    }
+
+    .ai-model-flip-card {
+      height: 280px !important;
+
+      .ai-model-content h3 {
+        font-size: 16px !important;
+      }
+
+      .ai-model-flip-card-back {
+        h3 {
+          font-size: 16px !important;
+        }
+
+        p {
+          font-size: 13px !important;
+        }
+      }
+    }
+  }
+
+  // Proven AI Expertise Section
+  .ai-expertise-proven-section {
+    padding: 30px 0 !important;
+
+    .section-title-dark {
+      margin-bottom: 15px !important;
+
+      h2 {
+        font-size: 26px !important;
+        line-height: 1.2 !important;
+        max-height: 62px !important;
+        overflow: hidden !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        margin-bottom: 10px !important;
+      }
+    }
+
+    .ai-expertise-slide-card {
+      height: 280px !important;
+
+      .ai-expertise-slide-content h3 {
+        font-size: 16px !important;
+      }
+
+      .ai-expertise-slide-overlay {
+        h3 {
+          font-size: 16px !important;
+        }
+
+        p {
+          font-size: 13px !important;
+        }
+      }
+    }
+  }
+
+  // Awards Section
+  .ai-awards-section {
+    padding: 30px 0 !important;
+
+    h2 {
+      font-size: 26px !important;
+      line-height: 1.2 !important;
+      max-height: 62px !important;
+      overflow: hidden !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+    }
+
+    .ai-award-box {
+      min-height: 200px !important;
+
+      h4 {
+        font-size: 16px !important;
+      }
+
+      p {
+        font-size: 12px !important;
+      }
+    }
+  }
+
+  // AI Process Section
+  .ai-process-section {
+    padding: 30px 0 !important;
+
+    .ai-process-left {
+      h2 {
+        font-size: 26px !important;
+        line-height: 1.2 !important;
+        max-height: 62px !important;
+        overflow: hidden !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+      }
+
+      p {
+        font-size: 14px !important;
+      }
+    }
+  }
+
+  // Why Choose Section
+  .ai-why-choose-section {
+    padding: 30px 0 !important;
+
+    .section-title {
+      margin-bottom: 15px !important;
+    }
+
+    h2 {
+      font-size: 26px !important;
+      line-height: 1.2 !important;
+      max-height: 62px !important;
+      overflow: hidden !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      margin-bottom: 10px !important;
+    }
+
+    .ai-why-card-new {
+      min-height: auto !important;
+
+      h3 {
+        font-size: 18px !important;
+      }
+
+      p {
+        font-size: 13px !important;
+      }
+    }
+  }
+
+  // Industry Section
+  .ai-industry-section {
+    padding: 30px 0 !important;
+
+    .text-center {
+      margin-bottom: 10px !important;
+    }
+
+    h2 {
+      font-size: 26px !important;
+      line-height: 1.2 !important;
+      max-height: 62px !important;
+      overflow: hidden !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      margin-bottom: 15px !important;
+    }
+
+    .ai-gradient-btn {
+      margin: 0 auto !important;
+    }
+  }
+
+  // Ranked Section
+  .ai-ranked-testimonial-section {
+    padding: 30px 0 !important;
+
+    h2 {
+      font-size: 26px !important;
+      line-height: 1.2 !important;
+      max-height: 62px !important;
+      overflow: hidden !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+    }
+
+    p {
+      font-size: 14px !important;
+      white-space: normal !important;
+    }
+
+    .ai-stat-box {
+      h3 {
+        font-size: 36px !important;
+      }
+
+      p {
+        font-size: 13px !important;
+      }
+    }
+  }
+
+  // Tech Stack Section
+  .ai-tech-stack-section {
+    padding: 30px 0 !important;
+
+    .text-center {
+      margin-bottom: 10px !important;
+    }
+
+    h2 {
+      font-size: 26px !important;
+      line-height: 1.2 !important;
+      max-height: 62px !important;
+      overflow: hidden !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      margin-bottom: 15px !important;
+    }
+
+    .tech-category-btn {
+      font-size: 14px !important;
+      padding: 15px 20px !important;
+    }
+  }
+
+  // Portfolio Section
+  .ai-portfolio-section {
+    padding: 30px 0 !important;
+
+    .text-center {
+      margin-bottom: 10px !important;
+    }
+
+    h2 {
+      font-size: 26px !important;
+      line-height: 1.2 !important;
+      max-height: 62px !important;
+      overflow: hidden !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      margin-bottom: 15px !important;
+    }
+  }
+
+  // Benefits Accordion Section
+  .ai-benefits-section {
+    padding: 30px 0 !important;
+
+    .text-center {
+      margin-bottom: 10px !important;
+    }
+
+    h2 {
+      font-size: 26px !important;
+      line-height: 1.2 !important;
+      max-height: 62px !important;
+      overflow: hidden !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      margin-bottom: 15px !important;
+    }
+
+    .accordion-item {
+      button h3 {
+        font-size: 18px !important;
+      }
+
+      p {
+        font-size: 13px !important;
+      }
+    }
+  }
+
+  // FAQ Section
+  .ai-faq-section {
+    padding: 30px 0 !important;
+
+    .section-title,
+    .text-center {
+      margin-bottom: 10px !important;
+    }
+
+    h2 {
+      font-size: 26px !important;
+      line-height: 1.2 !important;
+      max-height: 62px !important;
+      overflow: hidden !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      margin-bottom: 15px !important;
+    }
+
+    .faq-accordion {
+      h4 {
+        font-size: 16px !important;
+      }
+
+      p {
+        font-size: 13px !important;
+      }
+    }
+
+    button {
+      font-size: 14px !important;
+    }
+  }
+
+  // All h2 headings - ensure 2 line limit
+  h2 {
+    font-size: 26px !important;
+    line-height: 1.2 !important;
+    max-height: 62px !important;
+    overflow: hidden !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+  }
+
+  // All h3 headings
+  h3 {
+    font-size: 20px !important;
+  }
+
+  // All paragraphs
+  p {
+    font-size: 14px !important;
+  }
+
+  // Portfolio Section specific
+  .ai-portfolio-content {
+    h3 {
+      font-size: 20px !important;
+    }
+
+    p {
+      font-size: 13px !important;
+    }
+  }
+
+  // Ensure button containers are centered
+  .service-action-btns {
+    display: flex !important;
+    justify-content: center !important;
+
+    .ai-gradient-btn {
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+  }
+
+  // CTA sections - reduce internal padding
+  .ai-cta-section,
+  .ai-cta-market-section {
+    >div {
+      padding: 30px 20px !important;
+    }
+  }
+
+  // Awards Section - Fix stretching and layout
+  .ai-awards-section {
+    .row {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      justify-content: center !important;
+      padding-left: 15px;
+      padding-right: 15px;
+      gap: 15px !important; // Add gap between items
+
+      >div[class*="col-"] {
+        flex: 0 0 calc(50% - 15px) !important; // 2 items per row with gap adjustment
+        max-width: calc(50% - 15px) !important;
+        margin-bottom: 0 !important; // Margin handled by gap or reduced
+        padding: 0 !important; // Reset padding if causing issues
+      }
+    }
+
+    .ai-award-box {
+      height: 100% !important; // Ensure uniform height
+      padding: 15px !important;
+
+      h4 {
+        font-size: 16px !important; // Adjust font size for mobile
+        margin-bottom: 5px !important;
+      }
+
+      p {
+        font-size: 12px !important;
+        line-height: 1.4 !important;
+      }
+
+      .ai-award-icon img {
+        max-height: 30px !important; // Resize logos
+        width: auto !important;
+      }
+
+      .ai-award-laurel svg {
+        width: 80px !important; // Resize laurel
+        height: 80px !important;
+      }
+    }
+  }
+}
+
+// Tablet responsive (768px - 991px)
+@media (min-width: 768px) and (max-width: 991px) {
+  .ai-hero-section {
+    .page-section-title.service-title h1 {
+      font-size: 32px !important;
+    }
+  }
+
+  .ai-expertise-section,
+  .ai-models-section,
+  .ai-expertise-proven-section,
+  .ai-why-choose-section,
+  .ai-industry-section,
+  .ai-benefits-section,
+  .ai-faq-section {
+    h2 {
+      font-size: 32px !important;
+      line-height: 1.3 !important;
+    }
+  }
+}
+
+// AI page app-partners section override
+section.app-partners {
+  .app-partner-title {
+    background: linear-gradient(90deg, #DB241B 0%, #4C2523 100%) !important;
+  }
+}
+
+// Custom AI Solutions Mobile Layout - 3 Horizontal Rows
+@media (max-width: 767px) {
+  .ai-industry-section {
+    .ai-industry-badges {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 15px !important;
+      overflow: hidden !important;
+      padding-bottom: 0 !important;
+
+      .marquee-row {
+        display: flex !important;
+        width: 100% !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+
+        .marquee-content {
+          display: flex !important;
+          gap: 10px !important;
+          flex-shrink: 0 !important;
+          animation: marquee 30s linear infinite !important;
+          padding-right: 10px !important;
+        }
+
+        &.reverse .marquee-content {
+          animation-direction: reverse !important;
+        }
+      }
+
+      .mobile-only {
+        display: flex !important;
+      }
+    }
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}

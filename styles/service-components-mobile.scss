@@ -1,0 +1,450 @@
+// Mobile Responsive Styles for AI Development Page
+@media (max-width: 767px) {
+
+    // Hero Section - Banner Image Left Align
+    .page-title.service-page-banner.ai-hero-section {
+        // Left align banner image in mobile view to show main AI objects
+        background-position: left center !important;
+    }
+
+    .ai-hero-section {
+        .page-section-title.service-title {
+            h1 {
+                font-size: 24px !important;
+                line-height: 1.3 !important;
+                margin-bottom: 12px !important;
+            }
+
+            p {
+                font-size: 14px !important;
+                line-height: 1.5 !important;
+            }
+        }
+
+        .service-action-btns {
+            justify-content: center !important;
+
+            .ai-gradient-btn {
+                font-size: 14px !important;
+                padding: 10px 24px !important;
+            }
+        }
+    }
+
+    // About Section
+    .why-az-service {
+        h2 {
+            font-size: 24px !important;
+            line-height: 1.3 !important;
+            margin-bottom: 15px !important;
+        }
+
+        p {
+            font-size: 14px !important;
+            line-height: 1.6 !important;
+        }
+
+        .ai-gradient-btn {
+            display: block !important;
+            text-align: center !important;
+            margin: 20px auto 0 !important;
+            max-width: 200px !important;
+        }
+    }
+
+    // Expertise Section
+    .ai-expertise-section {
+        .section-title-dark h2 {
+            font-size: 24px !important;
+            line-height: 1.3 !important;
+        }
+
+        .ai-expertise-card {
+            .ai-expertise-content {
+                h3 {
+                    font-size: 18px !important;
+                }
+
+                p {
+                    font-size: 13px !important;
+                }
+            }
+        }
+    }
+
+    // CTA Sections
+    .ai-cta-section,
+    .ai-cta-market-section {
+        h2 {
+            font-size: 22px !important;
+            line-height: 1.3 !important;
+        }
+
+        p {
+            font-size: 14px !important;
+        }
+
+        .ai-gradient-btn {
+            font-size: 14px !important;
+            padding: 10px 24px !important;
+        }
+    }
+
+    // AI Models Section
+    .ai-models-section {
+        .section-title-dark h2 {
+            font-size: 24px !important;
+            line-height: 1.3 !important;
+        }
+
+        .ai-model-flip-card {
+            height: 280px !important;
+
+            .ai-model-content h3 {
+                font-size: 16px !important;
+            }
+
+            .ai-model-flip-card-back {
+                h3 {
+                    font-size: 16px !important;
+                }
+
+                p {
+                    font-size: 13px !important;
+                }
+            }
+        }
+    }
+
+    // Proven AI Expertise Section
+    .ai-expertise-proven-section {
+        .section-title-dark h2 {
+            font-size: 24px !important;
+            line-height: 1.3 !important;
+        }
+
+        .ai-expertise-slide-card {
+            height: 280px !important;
+
+            .ai-expertise-slide-content h3 {
+                font-size: 16px !important;
+            }
+
+            .ai-expertise-slide-overlay {
+                h3 {
+                    font-size: 16px !important;
+                }
+
+                p {
+                    font-size: 13px !important;
+                }
+            }
+        }
+    }
+
+    // Awards Section
+    .ai-awards-section {
+        h2 {
+            font-size: 24px !important;
+            line-height: 1.3 !important;
+        }
+
+        .ai-award-box {
+            min-height: 200px !important;
+
+            h4 {
+                font-size: 16px !important;
+            }
+
+            p {
+                font-size: 12px !important;
+            }
+        }
+    }
+
+    // AI Process Section
+    .ai-process-section {
+        .ai-process-left {
+            h2 {
+                font-size: 24px !important;
+                line-height: 1.3 !important;
+            }
+
+            p {
+                font-size: 14px !important;
+            }
+        }
+    }
+
+    // Why Choose Section
+    .ai-why-choose-section {
+        h2 {
+            font-size: 24px !important;
+            line-height: 1.3 !important;
+        }
+
+        .row {
+            >[class*='col-'] {
+                padding-left: 20px !important;
+                padding-right: 20px !important;
+            }
+        }
+
+        .ai-why-card-new {
+            min-height: auto !important;
+
+            h3 {
+                font-size: 18px !important;
+            }
+
+            p {
+                font-size: 13px !important;
+            }
+        }
+    }
+
+    // Industry Section
+    .ai-industry-section {
+        h2 {
+            font-size: 24px !important;
+            line-height: 1.3 !important;
+        }
+
+        .ai-gradient-btn {
+            display: block !important;
+            margin: 0 auto !important;
+            max-width: 250px !important;
+        }
+    }
+
+    // Portfolio Section
+    section {
+        h2 {
+            font-size: 24px !important;
+            line-height: 1.3 !important;
+        }
+    }
+
+    .ai-portfolio-content {
+        h3 {
+            font-size: 22px !important;
+        }
+
+        p {
+            font-size: 13px !important;
+        }
+    }
+
+    // Ranked Section
+    .ai-ranked-testimonial-section {
+        h2 {
+            font-size: 24px !important;
+            line-height: 1.3 !important;
+        }
+
+        p {
+            font-size: 14px !important;
+            white-space: normal !important;
+        }
+
+        .ai-stat-box {
+            h3 {
+                font-size: 36px !important;
+            }
+
+            p {
+                font-size: 13px !important;
+            }
+        }
+    }
+
+    // Ranked #1 AI Product Section - Fix Stat Boxes (xs=6 handles 2-per-row, no grid hack needed)
+    .ai-ranked-testimonial-section {
+        .ai-stat-box {
+            height: 100% !important;
+            min-height: 150px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            align-items: center !important;
+            padding: 15px 10px !important;
+
+            h3 {
+                font-size: 28px !important;
+                margin-bottom: 5px !important;
+            }
+
+            p {
+                font-size: 12px !important;
+                line-height: 1.3 !important;
+                max-width: 100% !important;
+            }
+        }
+    }
+
+    // Old (non-modern) hero banner — stack buttons vertically on mobile
+    .service-page-banner:not(.ai-hero-section) {
+        .service-action-btns {
+            flex-direction: column !important;
+            align-items: center !important;
+        }
+    }
+
+    // Tech Stack Section
+    .ai-tech-stack-section {
+        h2 {
+            font-size: 24px !important;
+            line-height: 1.3 !important;
+        }
+
+        .tech-category-btn {
+            font-size: 14px !important;
+            padding: 15px 20px !important;
+        }
+
+        .tech-stack-content {
+            padding-top: 15px !important;
+            overflow: hidden !important;
+        }
+
+        .tech-logo-grid {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 10px !important;
+            padding: 10px !important;
+            justify-content: flex-start !important;
+            box-sizing: border-box !important;
+        }
+
+        .tech-logo-item {
+            flex: 0 0 calc((100% - 20px) / 3) !important;
+            max-width: calc((100% - 20px) / 3) !important;
+
+            .tech-logo-box {
+                padding: 10px !important;
+                min-height: 70px !important;
+
+                img {
+                    width: 35px !important;
+                    height: 35px !important;
+                }
+            }
+
+            .tech-name {
+                font-size: 11px !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+            }
+        }
+    }
+
+    // Benefits Accordion Section
+    .ai-benefits-section {
+        h2 {
+            font-size: 24px !important;
+            line-height: 1.3 !important;
+        }
+
+        .accordion-item {
+            button h3 {
+                font-size: 18px !important;
+            }
+
+            p {
+                font-size: 13px !important;
+            }
+        }
+    }
+
+    // FAQ Section
+    .ai-faq-section {
+        h2 {
+            font-size: 24px !important;
+            line-height: 1.3 !important;
+        }
+
+        .faq-accordion {
+            h4 {
+                font-size: 16px !important;
+            }
+
+            p {
+                font-size: 13px !important;
+            }
+        }
+
+        .tech-category-btn,
+        button {
+            font-size: 14px !important;
+        }
+    }
+
+    // Center all buttons on mobile
+    .ai-gradient-btn,
+    .btn-style-arrow {
+        display: inline-block !important;
+        text-align: center !important;
+    }
+
+    // Ensure all section headings are max 2 lines
+    h2 {
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    // App Partners / Trusted By Section - Mobile Center Alignment
+    body section.app-partners {
+        .app-partners-content {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .app-partner-title {
+            margin: 0 auto !important;
+            display: inline-block !important;
+            text-align: center !important;
+        }
+
+        .app-dev-partner-icons {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            flex-wrap: wrap !important;
+            width: 100% !important;
+
+            // Make JI Logo larger in mobile view only
+            img[alt="JI"] {
+                transform: scale(1.5) !important;
+                margin: 10px 25px !important;
+            }
+        }
+    }
+}
+
+// Tablet responsive (768px - 991px)
+@media (min-width: 768px) and (max-width: 991px) {
+    .ai-hero-section {
+        .page-section-title.service-title h1 {
+            font-size: 32px !important;
+        }
+    }
+
+    .ai-expertise-section,
+    .ai-models-section,
+    .ai-expertise-proven-section,
+    .ai-why-choose-section,
+    .ai-industry-section,
+    .ai-benefits-section,
+    .ai-faq-section {
+        h2 {
+            font-size: 32px !important;
+            line-height: 1.3 !important;
+        }
+    }
+}

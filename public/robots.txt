@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /stage.appzoro.com/
+Disallow: /blog/categories/
+Disallow: /cgi-bin/
+
+Sitemap: https://appzoro.com/sitemap.xml

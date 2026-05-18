@@ -1,0 +1,98 @@
+section {
+  &.career-intro {
+    padding: 40px 0 0;
+
+    h3 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-weight: 400;
+    }
+  }
+
+  &.career-list {
+    padding: 40px 0 60px;
+
+    h3 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .career-requirement {
+      table {
+        width: 100%;
+
+        thead th {
+          font-weight: 700;
+        }
+
+        tbody tr {
+          border-bottom: 1px solid #ddd;
+
+          td {
+            padding: 10px 0;
+          }
+        }
+      }
+
+      .btn-style-arrow {
+        border: 0;
+      }
+
+      .btn-theme-transparent {
+        color: #333;
+        background: transparent;
+        border: 1px solid #999;
+      }
+    }
+  }
+}
+
+.career-info {
+  p {
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  h3 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  ol {
+    li {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 34px;
+    }
+
+    margin-bottom: 20px;
+  }
+}
+
+.btn-link {
+  border: 0;
+  text-decoration: none;
+  margin: 0;
+}
+
+.theme-light-btn {
+  background: #888;
+
+  &:hover {
+    background: #999;
+  }
+}
+
+@media (max-width: 767px) {
+
+  section.career-list .career-requirement table tbody tr td,
+  section.career-list .career-requirement table thead tr th {
+    font-size: 14px;
+    padding: 5px 10px;
+    white-space: nowrap;
+  }
+}
