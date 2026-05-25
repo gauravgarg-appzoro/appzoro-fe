@@ -45,9 +45,23 @@ function CaseStudyContentSlide({ slide }) {
   );
 }
 
+function CaseStudyStaticContent() {
+  return (
+    <div className="cs-content-slides cs-content-slides-static">
+      {CASE_SLIDES.map((slide, index) => (
+        <div
+          key={slide.href}
+          className={`cs-static-slide${index === 0 ? ' active' : ''}`}
+        >
+          <CaseStudyContentSlide slide={slide} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 const CaseStudy = () => {
   const mounted = useClientMounted();
-  const first = CASE_SLIDES[0];
 
   return (
     <section className="case-study" id="caseStudies">
@@ -77,7 +91,7 @@ const CaseStudy = () => {
                   ))}
                 </Swiper>
               ) : (
-                <CaseStudyContentSlide slide={first} />
+                <CaseStudyStaticContent />
               )}
             </Col>
           </Row>

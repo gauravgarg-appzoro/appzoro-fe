@@ -81,20 +81,20 @@ const MainHeader = () => {
                     <Accordion.Body>
                       <ul className="mobile-menu-list">
                         <li><Link href="/services"><span><GrServices /></span> All Services</Link></li>
-                        <li><Nav.Link href="/services/mobile-app-development-company-usa"><span><MdOutlineAppShortcut /></span> Mobile App Development</Nav.Link></li>
-                        <li><Nav.Link href="/services/cross-platform-app-development-company-usa"><span><MdMobileOff /></span> Crossplatform App Development</Nav.Link></li>
-                        <li><Nav.Link href="/services/web-app-development"><span><CgWebsite /></span> Web App Development</Nav.Link></li>
-                        <li><Nav.Link href="/services/custom-software-development-company-usa"><span><MdDevices /></span> Custom Software Development</Nav.Link></li>
-                        <li><Nav.Link href="/services/android-app-development-company-usa"><span><MdOutlineAppShortcut /></span> Android App Development</Nav.Link></li>
-                        <li><Nav.Link href="/services/ios-app-development"><span><MdDevices /></span> iOS App Development</Nav.Link></li>
-                        <li><Nav.Link href="/services/ui-ux-design-services"><span><MdDevices /></span> UI UX Design Services</Nav.Link></li>
-                        <li><Nav.Link href="/services/iot-development-services"><span><FaCartShopping /></span> IOT Development Services </Nav.Link></li>
-                        <li><Nav.Link href="/services/ai-and-ml-development-company-usa"><span><SiFrontendmentor /></span> AI & ML Services</Nav.Link></li>
+                        <li><Link href="/services/mobile-app-development-company-usa"><span><MdOutlineAppShortcut /></span> Mobile App Development</Link></li>
+                        <li><Link href="/services/cross-platform-app-development-company-usa"><span><MdMobileOff /></span> Crossplatform App Development</Link></li>
+                        <li><Link href="/services/web-app-development"><span><CgWebsite /></span> Web App Development</Link></li>
+                        <li><Link href="/services/custom-software-development-company-usa"><span><MdDevices /></span> Custom Software Development</Link></li>
+                        <li><Link href="/services/android-app-development-company-usa"><span><MdOutlineAppShortcut /></span> Android App Development</Link></li>
+                        <li><Link href="/services/ios-app-development"><span><MdDevices /></span> iOS App Development</Link></li>
+                        <li><Link href="/services/ui-ux-design-services"><span><MdDevices /></span> UI UX Design Services</Link></li>
+                        <li><Link href="/services/iot-development-services"><span><FaCartShopping /></span> IOT Development Services </Link></li>
+                        <li><Link href="/services/ai-and-ml-development-company-usa"><span><SiFrontendmentor /></span> AI & ML Services</Link></li>
 
-                        <li><Nav.Link href="/services/enterprise-mobile-app-development-company"><span><MdOutlineAppShortcut /></span> Enterprise Mobile App Development</Nav.Link></li>
-                        <li><Nav.Link href="/services/ai-app-development-company"><span><SiFrontendmentor /></span> AI App Development</Nav.Link></li>
-                        <li><Nav.Link href="/services/hybrid-app-development-company"><span><MdMobileOff /></span> Hybrid App Development</Nav.Link></li>
-                        <li><Nav.Link href="/services/custom-enterprise-software-development-company"><span><BiCustomize /></span> Custom Enterprise Software Development</Nav.Link></li>
+                        <li><Link href="/services/enterprise-mobile-app-development-company"><span><MdOutlineAppShortcut /></span> Enterprise Mobile App Development</Link></li>
+                        <li><Link href="/services/ai-app-development-company"><span><SiFrontendmentor /></span> AI App Development</Link></li>
+                        <li><Link href="/services/hybrid-app-development-company"><span><MdMobileOff /></span> Hybrid App Development</Link></li>
+                        <li><Link href="/services/custom-enterprise-software-development-company"><span><BiCustomize /></span> Custom Enterprise Software Development</Link></li>
                       </ul>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -102,14 +102,14 @@ const MainHeader = () => {
                     <Accordion.Header as="div">Products</Accordion.Header>
                     <Accordion.Body>
                       <ul className="mobile-menu-list">
-                        <li><Nav.Link href="/fitness-app-development"><span><MdOutlineFitnessCenter /></span> Fitness App Development</Nav.Link></li>
-                        <li><Nav.Link href="/salon-app-development"><span><MdOutlineContentCut /></span> Salon App Development</Nav.Link></li>
-                        <li><Nav.Link href="/wellness-app-development"><span><MdOutlineSpa /></span> Wellness App Development</Nav.Link></li>
-                        <li><Nav.Link href="/transportation-app-development"><span><MdLocalShipping /></span> Transportation App Development</Nav.Link></li>
-                        <li><Nav.Link href="/fintech-app-development"><span><MdOutlineAccountBalance /></span> Fintech App Development</Nav.Link></li>
-                        <li><Nav.Link href="/custom-llm-development"><span><GiArtificialIntelligence /></span> Custom LLM Development</Nav.Link></li>
-                        <li><Nav.Link href="/transportation-software-development-company"><span><MdEmojiTransportation /></span> Transportation Software Development</Nav.Link></li>
-                        <li><Nav.Link href="/custom-fintech-software-development"><span><BiCustomize /></span> Custom Fintech Software Development</Nav.Link></li>
+                        <li><Link href="/fitness-app-development"><span><MdOutlineFitnessCenter /></span> Fitness App Development</Link></li>
+                        <li><Link href="/salon-app-development"><span><MdOutlineContentCut /></span> Salon App Development</Link></li>
+                        <li><Link href="/wellness-app-development"><span><MdOutlineSpa /></span> Wellness App Development</Link></li>
+                        <li><Link href="/transportation-app-development"><span><MdLocalShipping /></span> Transportation App Development</Link></li>
+                        <li><Link href="/fintech-app-development"><span><MdOutlineAccountBalance /></span> Fintech App Development</Link></li>
+                        <li><Link href="/custom-llm-development"><span><GiArtificialIntelligence /></span> Custom LLM Development</Link></li>
+                        <li><Link href="/transportation-software-development-company"><span><MdEmojiTransportation /></span> Transportation Software Development</Link></li>
+                        <li><Link href="/custom-fintech-software-development"><span><BiCustomize /></span> Custom Fintech Software Development</Link></li>
                       </ul>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -118,18 +118,18 @@ const MainHeader = () => {
                     <Accordion.Body>
                       <ul className="mobile-menu-list">
                         <li><Link href="/industry"><span><LiaIndustrySolid /></span> All Industries</Link></li>
-                        <li><Nav.Link href="/industry/retail-ecommerce"><span><FaCartShopping /></span> Retail & E-Commerce</Nav.Link></li>
-                        <li><Nav.Link href="/industry/restaurant-food-delivery-applications"><span><MdOutlineFoodBank /></span> Food & Restaurant </Nav.Link></li>
-                        <li><Nav.Link href="/industry/social-networking-app-development"><span><MdOutlineSocialDistance /></span> Social Networking</Nav.Link></li>
-                        <li><Nav.Link href="/industry/real-estate"><span><MdOutlineRealEstateAgent /></span> Real Estate</Nav.Link></li>
-                        <li><Nav.Link href="/industry/sports-app-development"><span><MdOutlineSportsHandball /></span> Sports & Games</Nav.Link></li>
-                        <li><Nav.Link href="/industry/entertainment-app-development"><span><GrMultimedia /></span> Media and Entertainment</Nav.Link></li>
-                        <li><Nav.Link href="/industry/healthcare-app-development"><span><MdOutlineHealthAndSafety /></span> Healthcare and Fitness</Nav.Link></li>
-                        <li><Nav.Link href="/industry/travel-hospitality"><span><MdCardTravel /></span> Travel & Hospitality</Nav.Link></li>
-                        <li><Nav.Link href="/industry/conference-and-events-app-development"><span><GoCommentDiscussion /></span> Meetings and Events</Nav.Link></li>
-                        <li><Nav.Link href="/industry/education-software-development"><span><MdCastForEducation /></span> E-learning & Education</Nav.Link></li>
-                        <li><Nav.Link href="/industry/financial-software-development"><span><CiDesktop /></span> Fintech</Nav.Link></li>
-                        <li><Nav.Link href="/industry/logistics-app-development"><span><MdOutlineEmojiTransportation /></span> Logistics & Transport</Nav.Link></li>
+                        <li><Link href="/industry/retail-ecommerce"><span><FaCartShopping /></span> Retail & E-Commerce</Link></li>
+                        <li><Link href="/industry/restaurant-food-delivery-applications"><span><MdOutlineFoodBank /></span> Food & Restaurant </Link></li>
+                        <li><Link href="/industry/social-networking-app-development"><span><MdOutlineSocialDistance /></span> Social Networking</Link></li>
+                        <li><Link href="/industry/real-estate"><span><MdOutlineRealEstateAgent /></span> Real Estate</Link></li>
+                        <li><Link href="/industry/sports-app-development"><span><MdOutlineSportsHandball /></span> Sports & Games</Link></li>
+                        <li><Link href="/industry/entertainment-app-development"><span><GrMultimedia /></span> Media and Entertainment</Link></li>
+                        <li><Link href="/industry/healthcare-app-development"><span><MdOutlineHealthAndSafety /></span> Healthcare and Fitness</Link></li>
+                        <li><Link href="/industry/travel-hospitality"><span><MdCardTravel /></span> Travel & Hospitality</Link></li>
+                        <li><Link href="/industry/conference-and-events-app-development"><span><GoCommentDiscussion /></span> Meetings and Events</Link></li>
+                        <li><Link href="/industry/education-software-development"><span><MdCastForEducation /></span> E-learning & Education</Link></li>
+                        <li><Link href="/industry/financial-software-development"><span><CiDesktop /></span> Fintech</Link></li>
+                        <li><Link href="/industry/logistics-app-development"><span><MdOutlineEmojiTransportation /></span> Logistics & Transport</Link></li>
                       </ul>
                     </Accordion.Body>
                   </Accordion.Item>
@@ -225,13 +225,13 @@ const MainHeader = () => {
                                 <Col md="3" xs="12">
                                   <ul className='menu-items-links'>
                                     <li><Link href="/wellness-app-development"><span><MdOutlineSpa /></span> Wellness App Development</Link></li>
-                                    <li><Nav.Link href="/transportation-software-development-company"><span><MdEmojiTransportation /></span> Transportation Software Development</Nav.Link></li>
+                                    <li><Link href="/transportation-software-development-company"><span><MdEmojiTransportation /></span> Transportation Software Development</Link></li>
                                   </ul>
                                 </Col>
                                 <Col md="3" xs="12">
                                   <ul className='menu-items-links'>
                                     <li><Link href="/transportation-app-development"><span><MdLocalShipping /></span> Transportation App Development </Link></li>
-                                    <li><Nav.Link href="/custom-fintech-software-development"><span><BiCustomize /></span> Custom Fintech Software Development</Nav.Link></li>
+                                    <li><Link href="/custom-fintech-software-development"><span><BiCustomize /></span> Custom Fintech Software Development</Link></li>
                                   </ul>
                                 </Col>
                               </Row>

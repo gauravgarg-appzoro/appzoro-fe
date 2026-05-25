@@ -307,6 +307,12 @@ section.case-study {
     opacity: 0 !important;
 }
 
+.cs-content-slides-static {
+    .cs-static-slide:not(.active) {
+        display: none;
+    }
+}
+
 .home-services {
     padding: 70px 0;
 
@@ -1050,11 +1056,33 @@ section.faqs-section {
         border: 1px solid #DDD;
         margin: 4px 0;
         border-radius: 4px;
-        overflow: hidden;
+        // `overflow: hidden` was clipping FAQ questions that wrapped to 3+
+        // lines on mobile (e.g. "Does the programming language affect how
+        // long it takes to develop an app?" lost the third line "an app?").
+        // The border-radius rounded-corner clip is handled by Bootstrap's
+        // accordion-button border-radius reset below, so we no longer need
+        // overflow:hidden on the wrapper.
+        // overflow: hidden;  // ← removed; was the truncation bug
+
+        .accordion-header,
+        .accordion-button {
+            // Defensive: ensure header / button always grow to fit wrapped
+            // text. Bootstrap's flex defaults can clip on long questions
+            // when combined with the chevron icon on the right.
+            min-height: auto;
+            height: auto;
+            white-space: normal;
+            text-align: left;
+            align-items: flex-start;
+        }
 
         .accordion-button {
             &::after {
                 background-image: url('/assets/images/down-arrow.png');
+                // Anchor chevron to the top so it doesn't visually drift
+                // down when the question wraps to 3+ lines.
+                margin-top: 4px;
+                flex-shrink: 0;
             }
 
             &:not(.collapsed) {
