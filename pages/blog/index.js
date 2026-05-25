@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { DEFAULT_OG_IMAGE } from '../../lib/defaultOgImage';
 import { Col, Container, Row } from 'react-bootstrap'
 import MainHeaderComponent from '../../components/MainHeader';
 import FooterComponent from '../../components/Footer';
@@ -11,6 +12,8 @@ const TalkExpertComponent = dynamic(() => import('../../components/common/TalkEx
 
 import { useForm } from 'react-hook-form';
 import MetaData from '../../components/common/MetaData'
+import SeoJsonLd from '../../components/common/SeoJsonLd'
+import { buildBreadcrumbSchema } from '../../lib/schemaBuilders'
 import Loader from '../../components/Loader'
 import { REACT_APP_API_URL } from '../../lib/constants'
 import { LuMoveRight } from '../../components/OptimizedIcons';
@@ -149,8 +152,15 @@ const Blog = ({ initialPosts, category, total, currentPage = 1 }) => {
                 description={currentPage > 1
                     ? `Stay informed with AppZoro Blogs, featuring articles on app development strategies, design tips, and the latest industry trends. Page ${currentPage}`
                     : "Stay informed with AppZoro Blogs, featuring articles on app development strategies, design tips, and the latest industry trends."}
-                url={`/blog`}
-                image={`${process.env.REACT_APP_API_URL}/assets/images/az-logo-large.png`}
+                url={currentPage > 1 ? `/blog?page=${currentPage}` : '/blog'}
+                canonicalPath={currentPage > 1 ? `/blog?page=${currentPage}` : '/blog'}
+                image={DEFAULT_OG_IMAGE}
+            />
+            <SeoJsonLd
+                data={buildBreadcrumbSchema([
+                    { name: 'Home', url: '/' },
+                    { name: 'Blog', url: '/blog' },
+                ])}
             />
             {isLoading && <Loader />}
             <MainHeaderComponent />
@@ -165,7 +175,7 @@ const Blog = ({ initialPosts, category, total, currentPage = 1 }) => {
                 />
                 <Container style={{ position: 'relative', zIndex: 1 }}>
                     <div className='page-section-title'>
-                        <h1>Blog</h1>
+                        <h1>App Development &amp; Tech Blog</h1>
                     </div>
                     <div className="searchBox">
                         <form onSubmit={handleSubmit(onSubmit)}>
@@ -255,6 +265,17 @@ export async function getServerSideProps(context) {
         return {
             redirect: { destination: '/blog', permanent: true },
         };
+    }
+
+    // CDN/edge cache: serve cached HTML for 60s; serve stale for 5min while
+    // revalidating in background. Turns repeated /blog visits from "cold SSR
+    // every time" (1-12s with 3 parallel API calls) into instant edge hits.
+    // Blog list rarely changes per-second, so 60s freshness is safe.
+    if (context.res) {
+        context.res.setHeader(
+            'Cache-Control',
+            'public, s-maxage=60, stale-while-revalidate=300',
+        );
     }
 
     const limit = 9;

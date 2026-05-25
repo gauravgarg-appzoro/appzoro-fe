@@ -24,6 +24,7 @@ const Sidebar = ({ isOpen }) => {
 
     const industriesMenuItems = [
         { name: 'All Industries', path: '/admin/industries', icon: <FaBuilding /> },
+        { name: 'Industry Names', path: '/admin/industry/industry-names', icon: <FaList /> },
     ];
 
     const countryPagesMenuItems = [
@@ -36,10 +37,12 @@ const Sidebar = ({ isOpen }) => {
         { name: 'All Blogs', path: '/admin/blogs', icon: <FaBlog /> },
         { name: 'Categories', path: '/admin/blogs/categories', icon: <FaList /> },
         { name: 'Writers', path: '/admin/blogs/writers', icon: <FaPen /> },
+        { name: 'Archives', path: '/admin/blogs/archives', icon: <FaArchive /> },
     ];
 
     const portfoliosMenuItems = [
         { name: 'All Portfolios', path: '/admin/portfolios', icon: <FaBriefcase /> },
+        { name: 'Portfolio Industries', path: '/admin/portfolios/industries', icon: <FaBuilding /> },
         { name: 'Tech Stacks', path: '/admin/portfolios/tech-stacks', icon: <FaLayerGroup /> },
         { name: 'Technologies', path: '/admin/portfolios/technologies', icon: <FaMicrochip /> },
     ];
@@ -57,34 +60,41 @@ const Sidebar = ({ isOpen }) => {
         { name: 'Robots.txt', path: '/admin/seo/robots-txt', icon: <FaRobot /> },
     ];
 
-    const isPortfoliosActive = portfoliosMenuItems.some(item => router.pathname === item.path);
-    const isBlogsActive = blogsMenuItems.some(item => router.pathname === item.path);
+    const isPortfoliosActive =
+        portfoliosMenuItems.some((item) => router.pathname === item.path) ||
+        router.pathname.startsWith('/admin/portfolios/');
+    const isBlogsActive =
+        blogsMenuItems.some((item) => router.pathname === item.path) ||
+        router.pathname.startsWith('/admin/blogs/');
     const isCompanyActive = companyMenuItems.some(item => router.pathname === item.path);
 
     const isSeoActive = seoMenuItems.some(item => router.pathname === item.path);
-    const isIndustriesActive = industriesMenuItems.some(item => router.pathname === item.path);
+    const isIndustriesActive =
+        industriesMenuItems.some((item) => router.pathname === item.path) ||
+        router.pathname.startsWith('/admin/industry/');
     const isCountryPagesActive = countryPagesMenuItems.some(item => router.pathname === item.path);
 
     return (
         <div
-            className={`border-end h-100 position-fixed start-0 top-0 pt-5 transition-all`}
+            className={`border-end position-fixed start-0 transition-all`}
             style={{
                 width: isOpen ? '80px' : '250px',
                 zIndex: 1000,
-                marginTop: '56px',
+                top: '64px',
+                bottom: 0,
                 overflowY: 'auto',
-                paddingBottom: '100px',
+                paddingBottom: '40px',
                 backgroundColor: '#3c4b64',
                 borderColor: '#2d3a4d'
             }}
         >
-            <Nav className="flex-column p-3 gap-1">
+            <Nav className="flex-column py-3 px-2 gap-1">
                 {menuItems.map((item, index) => {
                     const isActive = router.pathname === item.path;
                     return (
                         <Link href={item.path} key={index} passHref legacyBehavior>
                             <Nav.Link
-                                className={`d-flex align-items-center px-3 py-2 mb-1 rounded ${isActive ? 'bg-primary text-white' : 'text-light'
+                                className={`d-flex align-items-center px-2 py-2 mb-1 rounded ${isActive ? 'bg-primary text-white' : 'text-light'
                                     }`}
                                 style={{
                                     fontSize: '14px',
@@ -117,7 +127,7 @@ const Sidebar = ({ isOpen }) => {
                 {/* Country Pages Menu with Submenu */}
                 <div>
                     <div
-                        className={`d-flex align-items-center justify-content-between px-3 py-2 mb-1 rounded ${isCountryPagesActive ? 'bg-primary text-white' : 'text-light'}`}
+                        className={`d-flex align-items-center justify-content-between px-2 py-2 mb-1 rounded ${isCountryPagesActive ? 'bg-primary text-white' : 'text-light'}`}
                         style={{
                             fontSize: '14px',
                             cursor: 'pointer',
@@ -153,11 +163,11 @@ const Sidebar = ({ isOpen }) => {
                                 return (
                                     <Link href={item.path} key={index} passHref legacyBehavior>
                                         <Nav.Link
-                                            className={`d-flex align-items-center px-3 py-2 mb-1 rounded ${isActive ? 'bg-primary text-white' : 'text-light'
+                                            className={`d-flex align-items-center px-2 py-2 mb-1 rounded ${isActive ? 'bg-primary text-white' : 'text-light'
                                                 }`}
                                             style={{
                                                 fontSize: '13px',
-                                                marginLeft: isOpen ? '0' : '20px',
+                                                marginLeft: isOpen ? '0' : '14px',
                                                 transition: 'all 0.2s',
                                                 backgroundColor: isActive ? '#0d6efd' : 'transparent',
                                                 opacity: isActive ? 1 : 0.7,
@@ -191,7 +201,7 @@ const Sidebar = ({ isOpen }) => {
                     return (
                         <Link href={item.path} key={index} passHref legacyBehavior>
                             <Nav.Link
-                                className={`d-flex align-items-center px-3 py-2 mb-1 rounded ${isActive ? 'bg-primary text-white' : 'text-light'}`}
+                                className={`d-flex align-items-center px-2 py-2 mb-1 rounded ${isActive ? 'bg-primary text-white' : 'text-light'}`}
                                 style={{
                                     fontSize: '14px',
                                     transition: 'all 0.2s',
@@ -222,7 +232,7 @@ const Sidebar = ({ isOpen }) => {
                 {/* Portfolios Menu with Submenu */}
                 <div>
                     <div
-                        className={`d-flex align-items-center justify-content-between px-3 py-2 mb-1 rounded ${isPortfoliosActive ? 'bg-primary text-white' : 'text-light'}`}
+                        className={`d-flex align-items-center justify-content-between px-2 py-2 mb-1 rounded ${isPortfoliosActive ? 'bg-primary text-white' : 'text-light'}`}
                         style={{
                             fontSize: '14px',
                             cursor: 'pointer',
@@ -258,11 +268,11 @@ const Sidebar = ({ isOpen }) => {
                                 return (
                                     <Link href={item.path} key={index} passHref legacyBehavior>
                                         <Nav.Link
-                                            className={`d-flex align-items-center px-3 py-2 mb-1 rounded ${isActive ? 'bg-primary text-white' : 'text-light'
+                                            className={`d-flex align-items-center px-2 py-2 mb-1 rounded ${isActive ? 'bg-primary text-white' : 'text-light'
                                                 }`}
                                             style={{
                                                 fontSize: '13px',
-                                                marginLeft: isOpen ? '0' : '20px',
+                                                marginLeft: isOpen ? '0' : '14px',
                                                 transition: 'all 0.2s',
                                                 backgroundColor: isActive ? '#0d6efd' : 'transparent',
                                                 opacity: isActive ? 1 : 0.7,
@@ -294,7 +304,7 @@ const Sidebar = ({ isOpen }) => {
 
                 <div>
                     <div
-                        className={`d-flex align-items-center justify-content-between px-3 py-2 mb-1 rounded ${isBlogsActive ? 'bg-primary text-white' : 'text-light'}`}
+                        className={`d-flex align-items-center justify-content-between px-2 py-2 mb-1 rounded ${isBlogsActive ? 'bg-primary text-white' : 'text-light'}`}
                         style={{
                             fontSize: '14px',
                             cursor: 'pointer',
@@ -330,11 +340,11 @@ const Sidebar = ({ isOpen }) => {
                                 return (
                                     <Link href={item.path} key={index} passHref legacyBehavior>
                                         <Nav.Link
-                                            className={`d-flex align-items-center px-3 py-2 mb-1 rounded ${isActive ? 'bg-primary text-white' : 'text-light'
+                                            className={`d-flex align-items-center px-2 py-2 mb-1 rounded ${isActive ? 'bg-primary text-white' : 'text-light'
                                                 }`}
                                             style={{
                                                 fontSize: '13px',
-                                                marginLeft: isOpen ? '0' : '20px',
+                                                marginLeft: isOpen ? '0' : '14px',
                                                 transition: 'all 0.2s',
                                                 backgroundColor: isActive ? '#0d6efd' : 'transparent',
                                                 opacity: isActive ? 1 : 0.7,
@@ -365,7 +375,7 @@ const Sidebar = ({ isOpen }) => {
                 {/* Company Menu with Submenu */}
                 <div>
                     <div
-                        className={`d-flex align-items-center justify-content-between px-3 py-2 mb-1 rounded ${isCompanyActive ? 'bg-primary text-white' : 'text-light'}`}
+                        className={`d-flex align-items-center justify-content-between px-2 py-2 mb-1 rounded ${isCompanyActive ? 'bg-primary text-white' : 'text-light'}`}
                         style={{
                             fontSize: '14px',
                             cursor: 'pointer',
@@ -401,11 +411,11 @@ const Sidebar = ({ isOpen }) => {
                                 return (
                                     <Link href={item.path} key={index} passHref legacyBehavior>
                                         <Nav.Link
-                                            className={`d-flex align-items-center px-3 py-2 mb-1 rounded ${isActive ? 'bg-primary text-white' : 'text-light'
+                                            className={`d-flex align-items-center px-2 py-2 mb-1 rounded ${isActive ? 'bg-primary text-white' : 'text-light'
                                                 }`}
                                             style={{
                                                 fontSize: '13px',
-                                                marginLeft: isOpen ? '0' : '20px',
+                                                marginLeft: isOpen ? '0' : '14px',
                                                 transition: 'all 0.2s',
                                                 backgroundColor: isActive ? '#0d6efd' : 'transparent',
                                                 opacity: isActive ? 1 : 0.7,
@@ -436,7 +446,7 @@ const Sidebar = ({ isOpen }) => {
                 {/* SEO Management Menu with Submenu */}
                 <div>
                     <div
-                        className={`d-flex align-items-center justify-content-between px-3 py-2 mb-1 rounded ${isSeoActive ? 'bg-primary text-white' : 'text-light'}`}
+                        className={`d-flex align-items-center justify-content-between px-2 py-2 mb-1 rounded ${isSeoActive ? 'bg-primary text-white' : 'text-light'}`}
                         style={{
                             fontSize: '14px',
                             cursor: 'pointer',
@@ -472,11 +482,11 @@ const Sidebar = ({ isOpen }) => {
                                 return (
                                     <Link href={item.path} key={index} passHref legacyBehavior>
                                         <Nav.Link
-                                            className={`d-flex align-items-center px-3 py-2 mb-1 rounded ${isActive ? 'bg-primary text-white' : 'text-light'
+                                            className={`d-flex align-items-center px-2 py-2 mb-1 rounded ${isActive ? 'bg-primary text-white' : 'text-light'
                                                 }`}
                                             style={{
                                                 fontSize: '13px',
-                                                marginLeft: isOpen ? '0' : '20px',
+                                                marginLeft: isOpen ? '0' : '14px',
                                                 transition: 'all 0.2s',
                                                 backgroundColor: isActive ? '#0d6efd' : 'transparent',
                                                 opacity: isActive ? 1 : 0.7,

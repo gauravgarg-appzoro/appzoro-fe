@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Image from 'next/image';
 import { STRAPI_IMAGE_BASE_URL } from '../../lib/constants';
+import RichText from './RichText';
 
 /**
  * ServiceWhyChooseCards — Renders dark-background cards with gradient borders and icons.
@@ -28,7 +29,7 @@ const ServiceWhyChooseCards = ({ sectionTitle, cards }) => {
                             <Col md={idx < 3 ? '4' : '6'} xs="12" className="mb-4" key={idx}>
                                 <div className="ai-why-card-new">
                                     <h3>{card.title}</h3>
-                                    <p>{card.description}</p>
+                                    <RichText>{card.description}</RichText>
                                     {imgSrc && (
                                         <div className="card-icon">
                                             <Image src={imgSrc} width={80} height={80} alt={card.title || 'Icon'} unoptimized />

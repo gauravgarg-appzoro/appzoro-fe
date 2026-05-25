@@ -3,7 +3,9 @@ import { Button, Form, Card, Row, Col, Collapse, Image, Dropdown, Spinner, Modal
 import { toast } from 'react-toastify';
 import AdminLayout from '../../../components/admin/AdminLayout';
 import adminService from '../../../services/admin.service';
-import { STRAPI_IMAGE_BASE_URL } from '../../../lib/constants';
+import authService from '../../../services/auth.service.js';
+import { mapHomepageToAdminForm } from '../../../lib/mapHomepageToAdminForm';
+import { DEFAULT_HERO_TITLE } from '../../../lib/homepageDefaults';
 import dynamic from 'next/dynamic';
 import {   FaSave, FaPlus, FaTrash, FaUndo, FaChevronDown, FaChevronRight, FaGripLines, FaCloudUploadAlt, FaPen   } from '../../../components/OptimizedIcons';
 
@@ -65,7 +67,7 @@ const HomepageAdmin = () => {
 
     const [formData, setFormData] = useState({
         // Hero
-        hero_title: 'Mobile App Development Atlanta',
+        hero_title: DEFAULT_HERO_TITLE,
         hero_subtitles: [],
         hero_links: [],
 
@@ -129,100 +131,57 @@ const HomepageAdmin = () => {
     const fetchHomepageData = async () => {
         setLoading(true);
         try {
-            const response = await adminService.getHomepage();
-            let data = null;
+            const [homepageRes, reviewsRes, pressRes] = await Promise.all([
+                adminService.getHomepage(),
+                adminService.getClientReviews({ limit: 50, sort: 'createdAt:ASC' }),
+                adminService.getPressList({ limit: 12, sort: 'PressDate:DESC' }),
+            ]);
 
-            if (response && (response._id || response.id || response.hero)) {
-                data = response;
-            } else if (response && response.data) {
-                data = response.data;
+            let data = null;
+            if (homepageRes && (homepageRes._id || homepageRes.id || homepageRes.hero || homepageRes.seo)) {
+                data = homepageRes;
+            } else if (homepageRes && homepageRes.data) {
+                data = homepageRes.data;
+            } else if (homepageRes) {
+                data = homepageRes;
             }
 
-            if (data) {
-                // Map backend data to form state
-                setFormData({
-                    // Hero
-                    hero_title: data.hero?.title || '',
-                    hero_subtitles: data.hero?.subtitles || [],
-                    hero_links: data.hero?.links || [],
+            const clientReviews = Array.isArray(reviewsRes?.data)
+                ? reviewsRes.data
+                : Array.isArray(reviewsRes)
+                  ? reviewsRes
+                  : [];
 
-                    // About
-                    about_title: data.AboutAppzoro?.title || '',
-                    about_details: data.AboutAppzoro?.details || '',
+            const presses = Array.isArray(pressRes?.data)
+                ? pressRes.data
+                : Array.isArray(pressRes)
+                  ? pressRes
+                  : [];
 
-                    // Awards
-                    awards_title: data.awards?.title || '',
-                    awards_list: data.awards?.list?.map(item => ({
-                        ...item,
-                        image: item.image ? item.image._id || item.image : null // Ensure ID is used
-                    })) || [],
+            const { form, previews } = mapHomepageToAdminForm(data || {}, { clientReviews, presses });
+            setFormData(form);
+            setImagePreviews(previews);
+            setCollapsedItems((prev) => ({
+                ...prev,
+                awards: false,
+                testimonials: false,
+            }));
 
-                    // Press
-                    press_title: data.pressCarousel?.title || '',
-                    press_list: data.pressCarousel?.list?.map(item => ({
-                        ...item,
-                        image: item.image ? item.image._id || item.image : null
-                    })) || [],
+            const usedCmsAwards = Boolean(
+                data?.awards?.list?.length || data?.awards?.award?.length,
+            );
+            const usedCmsTestimonials = Boolean(
+                data?.testimonials?.list?.length || data?.testimonials?.testimonalsList?.length,
+            );
+            const usedCmsPress = Boolean(
+                data?.pressCarousel?.list?.length || data?.pressCarousel?.pressLinks?.length,
+            );
 
-                    // Testimonials
-                    testimonials_title: data.testimonials?.title || '',
-                    testimonials_list: data.testimonials?.list?.map(item => ({
-                        ...item,
-                        image: item.image ? item.image._id || item.image : null
-                    })) || [],
-
-                    // Home Content - if stored in hero or separate
-                    home_content_title: data.hero?.content_title || '',
-                    home_content_details: data.hero?.content_details || '',
-
-                    homepage_video_link: data.hero?.video_link || '',
-
-                    // SEO
-                    slug: data.seo?.slug || '',
-                    seo_title: data.seo?.seoTitle || '',
-                    seo_description: data.seo?.seoDescription || '',
-                    seo_keywords: data.seo?.keywords || '',
-                    seo_robots: data.seo?.robots || 'index, follow',
-                    og_title: data.seo?.ogTitle || '',
-                    og_description: data.seo?.ogDescription || '',
-                    og_image: data.seo?.ogImage ? data.seo.ogImage._id || data.seo.ogImage : null,
-                    twitter_title: data.seo?.twitterTitle || '',
-                    twitter_description: data.seo?.twitterDescription || '',
-                    twitter_image: data.seo?.twitterImage ? data.seo.twitterImage._id || data.seo.twitterImage : null,
-                    schema_code: data.seo?.schemaCode || ''
-                });
-
-                // Set Previews
-                const newPreviews = {};
-                // Awards Previews
-                if (data.awards?.list) {
-                    data.awards.list.forEach((item, idx) => {
-                        if (item.image && item.image.url) {
-                            newPreviews[`award-${idx}`] = `${STRAPI_IMAGE_BASE_URL}${item.image.url}`;
-                        }
-                    });
-                }
-                // Press Previews
-                if (data.pressCarousel?.list) {
-                    data.pressCarousel.list.forEach((item, idx) => {
-                        if (item.image && item.image.url) {
-                            newPreviews[`press-${idx}`] = `${STRAPI_IMAGE_BASE_URL}${item.image.url}`;
-                        }
-                    });
-                }
-                // Testimonials Previews
-                if (data.testimonials?.list) {
-                    data.testimonials.list.forEach((item, idx) => {
-                        if (item.image && item.image.url) {
-                            newPreviews[`testimonial-${idx}`] = `${STRAPI_IMAGE_BASE_URL}${item.image.url}`;
-                        }
-                    });
-                }
-                // SEO Previews
-                if (data.seo?.ogImage?.url) newPreviews['og_image'] = `${STRAPI_IMAGE_BASE_URL}${data.seo.ogImage.url}`;
-                if (data.seo?.twitterImage?.url) newPreviews['twitter_image'] = `${STRAPI_IMAGE_BASE_URL}${data.seo.twitterImage.url}`;
-
-                setImagePreviews(newPreviews);
+            if (!usedCmsAwards || !usedCmsTestimonials || !usedCmsPress) {
+                toast.info(
+                    'Some sections were filled from live-site defaults (awards, press releases, client reviews). Click Save to store them in homepage CMS.',
+                    { autoClose: 9000 },
+                );
             }
         } catch (error) {
             toast.error('Failed to load homepage data');
@@ -231,6 +190,9 @@ const HomepageAdmin = () => {
             setLoading(false);
         }
     };
+
+    const stripListForSave = (list) =>
+        (Array.isArray(list) ? list : []).map(({ previewPath, ...item }) => item);
 
     const handleSave = async () => {
         setSaving(true);
@@ -251,15 +213,15 @@ const HomepageAdmin = () => {
                 },
                 awards: {
                     title: formData.awards_title,
-                    list: formData.awards_list
+                    list: stripListForSave(formData.awards_list)
                 },
                 pressCarousel: {
                     title: formData.press_title,
-                    list: formData.press_list
+                    list: stripListForSave(formData.press_list)
                 },
                 testimonials: {
                     title: formData.testimonials_title,
-                    list: formData.testimonials_list
+                    list: stripListForSave(formData.testimonials_list)
                 },
                 seo: {
                     slug: formData.slug,
@@ -279,9 +241,27 @@ const HomepageAdmin = () => {
 
             await adminService.updateHomepage(payload);
             toast.success('Homepage updated successfully');
+
+            // Purge the ISR cache for `/` so the public homepage shows fresh
+            // CMS data right away instead of waiting up to 60s for the next
+            // automatic revalidation.
+            try {
+                const token = authService.getToken();
+                if (token) {
+                    await fetch('/api/revalidate-homepage', {
+                        method: 'POST',
+                        headers: { Authorization: `Bearer ${token}` },
+                    });
+                }
+            } catch (revalErr) {
+                // Best-effort: don't block UI on revalidation failure.
+                console.warn('Homepage revalidate ping failed', revalErr);
+            }
+
+            await fetchHomepageData();
         } catch (error) {
             toast.error('Failed to update homepage');
-            console.error(error);
+            console.error('[Homepage Save] Error:', error);
         } finally {
             setSaving(false);
         }
@@ -409,7 +389,15 @@ const HomepageAdmin = () => {
                             <Card.Body>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Hero Title</Form.Label>
-                                    <Form.Control type="text" name="hero_title" value={formData.hero_title} onChange={handleChange} />
+                                    <Form.Control
+                                        type="text"
+                                        name="hero_title"
+                                        value={formData.hero_title}
+                                        onChange={handleChange}
+                                    />
+                                    <Form.Text className="text-muted">
+                                        HTML allowed for accent words, e.g. Crafting Reliable &lt;span&gt;Solutions&lt;/span&gt; Together…
+                                    </Form.Text>
                                 </Form.Group>
 
                                 <div className="mb-3">
@@ -502,6 +490,79 @@ const HomepageAdmin = () => {
                                     </Card>
                                 ))}
                                 <Button variant="outline-primary" onClick={addAward}><FaPlus className="me-2" /> Add Award</Button>
+                            </Card.Body>
+                        </Collapse>
+                    </Card>
+
+                    {/* PRESS CAROUSEL */}
+                    <Card className="border-0 shadow-sm mb-4">
+                        <div className="card-header bg-white py-3 d-flex justify-content-between" onClick={() => toggleCollapse('press')} style={{ cursor: 'pointer' }}>
+                            <h5 className="mb-0 fw-bold">Press Carousel</h5>
+                            <Button variant="link" className="p-0"><FaChevronDown /></Button>
+                        </div>
+                        <Collapse in={!collapsedItems.press}>
+                            <Card.Body>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Section Title</Form.Label>
+                                    <Form.Control type="text" name="press_title" value={formData.press_title} onChange={handleChange} />
+                                </Form.Group>
+                                {formData.press_list.map((item, idx) => (
+                                    <Card key={idx} className="mb-3 bg-light">
+                                        <Card.Body>
+                                            <div className="d-flex justify-content-end mb-2">
+                                                <Button variant="danger" size="sm" onClick={() => removePress(idx)}><FaTrash /></Button>
+                                            </div>
+                                            <Row>
+                                                <Col md={4}>
+                                                    <ImageUpload
+                                                        preview={imagePreviews[`press-${idx}`]}
+                                                        label="Press Image"
+                                                        onUpload={(e) => handleListImageUpload('press_list', idx, e.target.files[0], `press-${idx}`)}
+                                                        onRemove={() => { }}
+                                                    />
+                                                </Col>
+                                                <Col md={8}>
+                                                    <Form.Group className="mb-2">
+                                                        <Form.Label>Link URL</Form.Label>
+                                                        <Form.Control type="text" value={item.url} onChange={(e) => updatePress(idx, 'url', e.target.value)} placeholder="/press-release/slug or https://..." />
+                                                    </Form.Group>
+                                                    <Form.Group className="mb-2">
+                                                        <Form.Label>Alt / Label Text</Form.Label>
+                                                        <Form.Control type="text" value={item.seo_text} onChange={(e) => updatePress(idx, 'seo_text', e.target.value)} />
+                                                    </Form.Group>
+                                                </Col>
+                                            </Row>
+                                        </Card.Body>
+                                    </Card>
+                                ))}
+                                <Button variant="outline-primary" onClick={addPress}><FaPlus className="me-2" /> Add Press Item</Button>
+                            </Card.Body>
+                        </Collapse>
+                    </Card>
+
+                    {/* HOME CONTENT & VIDEO */}
+                    <Card className="border-0 shadow-sm mb-4">
+                        <div className="card-header bg-white py-3 d-flex justify-content-between" onClick={() => toggleCollapse('homeContent')} style={{ cursor: 'pointer' }}>
+                            <h5 className="mb-0 fw-bold">Home Content & Video</h5>
+                            <Button variant="link" className="p-0"><FaChevronDown /></Button>
+                        </div>
+                        <Collapse in={!collapsedItems.homeContent}>
+                            <Card.Body>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Content Section Title</Form.Label>
+                                    <Form.Control type="text" name="home_content_title" value={formData.home_content_title} onChange={handleChange} />
+                                </Form.Group>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Content Details (HTML)</Form.Label>
+                                    <RichTextEditor
+                                        value={formData.home_content_details}
+                                        onChange={(content) => handleEditorChange('home_content_details', content)}
+                                    />
+                                </Form.Group>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Hero Video URL (Vimeo/YouTube)</Form.Label>
+                                    <Form.Control type="text" name="homepage_video_link" value={formData.homepage_video_link} onChange={handleChange} />
+                                </Form.Group>
                             </Card.Body>
                         </Collapse>
                     </Card>

@@ -1,10 +1,14 @@
 import React, { useRef, useState, useEffect, useCallback } from "react";
+import { DEFAULT_OG_IMAGE } from '../../lib/defaultOgImage';
+import { setEdgeCache } from '../../lib/edgeCache';
 import { Col, Container, Row } from "react-bootstrap";
 import MainHeader from "../../components/MainHeader";
 import Footer from "../../components/Footer";
 import PortfolioItem from "./PortfolioItem";
 import Loader from "../../components/Loader";
 import MetaData from "../../components/common/MetaData";
+import SeoJsonLd from "../../components/common/SeoJsonLd";
+import { buildBreadcrumbSchema } from "../../lib/schemaBuilders";
 import FeatureCaseStudy from "./FeatureCaseStudy";
 import { REACT_APP_API_URL } from "../../lib/constants";
 import { CiFilter, IoArrowDownCircleOutline } from '../../components/OptimizedIcons';
@@ -308,7 +312,13 @@ const Portfolio = ({ posts, industry, technologies, featuredPosts, currentPage =
           ? `Check out our app development portfolio showcasing innovative projects across various industries, highlighting our expertise and creativity. Page ${currentPage}`
           : "Check out our app development portfolio showcasing innovative projects across various industries, highlighting our expertise and creativity."}
         url={`/case-study`}
-        image={`${process.env.REACT_APP_API_URL}/assets/images/az-logo-large.png`}
+        image={DEFAULT_OG_IMAGE}
+      />
+      <SeoJsonLd
+        data={buildBreadcrumbSchema([
+          { name: 'Home', url: '/' },
+          { name: 'Case Study', url: '/case-study' },
+        ])}
       />
       <MainHeader />
       {loader && <Loader />}
@@ -316,7 +326,7 @@ const Portfolio = ({ posts, industry, technologies, featuredPosts, currentPage =
         <Container>
           <div className="work-page-title">
             <h1>
-              <span>Transform</span> The World With Your Idea.
+              <span>App Development Portfolio</span> &mdash; 200+ Projects Built
             </h1>
             <p>
               From dream to reality, here are some apps we are proud to be part
@@ -327,7 +337,7 @@ const Portfolio = ({ posts, industry, technologies, featuredPosts, currentPage =
       </section>
       <section className="works-feature-projects">
         <Container>
-          <h3>Featured Projects</h3>
+          <h2>Featured Projects</h2>
           <FeatureCaseStudy data={featuredData} />
         </Container>
       </section>
@@ -480,6 +490,8 @@ export async function getServerSideProps(context) {
       redirect: { destination: '/case-study', permanent: true },
     };
   }
+
+  setEdgeCache(context.res, 'short');
 
   try {
     const limit = 9;

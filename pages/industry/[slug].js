@@ -15,7 +15,11 @@ const TalkExpert = dynamic(() => import('../../components/common/TalkExpert'));
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import MetaData from "../../components/common/MetaData";
+import SeoJsonLd from "../../components/common/SeoJsonLd";
 import { STRAPI_IMAGE_BASE_URL, REACT_APP_API_URL } from "../../lib/constants";
+import { buildBreadcrumbSchema, buildWebPageSchema, buildServiceSchema } from "../../lib/schemaBuilders";
+import { absoluteUrl } from "../../lib/seo";
+import { setEdgeCache } from "../../lib/edgeCache";
 import { LuMoveRight, LiaIndustrySolid } from '../../components/OptimizedIcons';
 const ReactMarkdown = dynamic(import("react-markdown"));
 const BlockRenderer = dynamic(() => import('../../components/page-builder/BlockRenderer'));
@@ -31,11 +35,6 @@ const IndustryDetails = ({ posts: initialPosts }) => {
 
   const postData = Array.isArray(posts) && posts.length > 0 ? posts[0] : null;
   const hasPageBlocks = postData?.pageBlocks && Array.isArray(postData.pageBlocks) && postData.pageBlocks.length > 0;
-
-  const [checkData, setCheckData] = useState(null);
-  useEffect(() => {
-    setCheckData(["test", "test1", "test2"]);
-  }, []);
 
   // New API call for Other Industries
   const [catData, setCatData] = useState([]);
@@ -64,13 +63,41 @@ const IndustryDetails = ({ posts: initialPosts }) => {
     }
   }, [posts, router.query.slug]);
 
+  const pageUrl = postData?.slug ? `/industry/${postData.slug}` : '/industry';
+  const pageTitle = postData?.seoTitle || postData?.Title || 'Industry Solutions | AppZoro';
+  const pageDesc = postData?.seoDescription || postData?.short_description || 'Industry-specific app development solutions from AppZoro.';
+  const bannerImage = postData?.banner_image?.url
+    ? `${STRAPI_IMAGE_BASE_URL}${postData.banner_image.url}`
+    : absoluteUrl('/assets/images/az-logo-large.png');
+
   return (
     <>
       <MetaData
-        title={postData?.seoTitle}
-        description={postData?.seoDescription}
-        url={`/industry/${postData?.slug}`}
-        image={`${STRAPI_IMAGE_BASE_URL}${postData?.banner_image?.url || ''}`}
+        title={pageTitle}
+        description={pageDesc}
+        url={pageUrl}
+        image={bannerImage}
+      />
+      <SeoJsonLd
+        data={[
+          buildBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Industries', url: '/industry' },
+            { name: postData?.Title || 'Industry', url: pageUrl },
+          ]),
+          buildServiceSchema({
+            name: postData?.Title || pageTitle,
+            description: pageDesc,
+            url: pageUrl,
+            image: bannerImage,
+          }),
+          buildWebPageSchema({
+            name: pageTitle,
+            description: pageDesc,
+            url: pageUrl,
+            image: bannerImage,
+          }),
+        ]}
       />
       <MainHeader />
       {postData ? (
@@ -191,7 +218,7 @@ const IndustryDetails = ({ posts: initialPosts }) => {
               </div>
             </Container>
           </section>
-          <CaseStudy isCacehLoad={checkData} />
+          <CaseStudy />
           <TechStack />
           <ClientReview />
           <ArticlesView />
@@ -219,6 +246,7 @@ const IndustryDetails = ({ posts: initialPosts }) => {
 };
 
 export async function getServerSideProps(params) {
+  setEdgeCache(params.res, 'long');
   try {
     const apiBase = REACT_APP_API_URL.replace(/\/$/, '');
     const url = `${apiBase}/induustries?slug=${params.query.slug}`;

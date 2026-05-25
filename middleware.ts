@@ -1,9 +1,40 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { maybeApplyDynamicRedirect } from './lib/urlRedirectsMiddleware'
 
+function applyRobotsTag(res: NextResponse, value: string) {
+    res.headers.set('X-Robots-Tag', value)
+    return res
+}
+
 export async function middleware(req: NextRequest, ev: any) {
     const url = req.url;
     const { pathname, origin } = req.nextUrl
+
+    if (pathname.startsWith('/admin')) {
+        return applyRobotsTag(NextResponse.next(), 'noindex, nofollow')
+    }
+    if (
+        pathname.startsWith('/cache') ||
+        pathname === '/thank-you' ||
+        pathname === '/404' ||
+        pathname === '/500' ||
+        pathname.startsWith('/services/preview')
+    ) {
+        return applyRobotsTag(NextResponse.next(), 'noindex, nofollow, noarchive')
+    }
+
+    // Catch every legacy WordPress admin / polyfill URL Google still has
+    // indexed and 301 them to the homepage. Replaces ~20 individual path
+    // equality checks scattered through this file. Image URLs at
+    // /wp-content/uploads/* are intentionally NOT caught here — those are
+    // proxied to the real Strapi file by next.config.js rewrites so legacy
+    // image-search results keep returning 200 OK with the actual asset.
+    if (
+        pathname.startsWith('/wp-includes/') ||
+        pathname.startsWith('/wp-admin/')
+    ) {
+        return NextResponse.redirect(`${origin}`, 301)
+    }
 
     if (req.nextUrl.pathname === "/press") {
         return NextResponse.redirect(`${origin}/press-release`, 301)
@@ -140,8 +171,6 @@ export async function middleware(req: NextRequest, ev: any) {
     }
     //Redirect all to Homa page
     if (
-        req.nextUrl.pathname === "/wp-admin/admin-ajax.php" ||
-        req.nextUrl.pathname === "/wp-includes/js/dist/vendor/wp-polyfill-object-fit.min.js" ||
         req.nextUrl.pathname === "/uploads/small_Mobile_App_Security_Complete_Guide_e778074d75.webp" ||
         req.nextUrl.pathname === "/uploads/Mobile_App_Security_Complete_Guide_e778074d75.webp" ||
         req.nextUrl.pathname === "/2021/05" ||
@@ -163,9 +192,6 @@ export async function middleware(req: NextRequest, ev: any) {
         req.nextUrl.pathname === "/2017/12" ||
         req.nextUrl.pathname === "/tag/is-android-or-ios-better" ||
         req.nextUrl.pathname === "/tag/android-vs-ios-development" ||
-        req.nextUrl.pathname === "/wp-includes/js/dist/vendor/wp-polyfill-element-closest.js" ||
-        req.nextUrl.pathname === "/wp-includes/js/dist/vendor/wp-polyfill-dom-rect.js" ||
-        req.nextUrl.pathname === "/wp-includes/js/dist/vendor/wp-polyfill-url.js" ||
         req.nextUrl.pathname === "/2018/09" ||
         req.nextUrl.pathname === "/category/seo" ||
         req.nextUrl.pathname === "/2017/10" ||
@@ -175,7 +201,6 @@ export async function middleware(req: NextRequest, ev: any) {
         req.nextUrl.pathname === "/category/web-design" ||
         req.nextUrl.pathname === "/2019/12" ||
         req.nextUrl.pathname === "/category/app-marketing" ||
-        req.nextUrl.pathname === "/wp-includes/js/dist/vendor/wp-polyfill-formdata.min.js" ||
         req.nextUrl.pathname === "/tag/app-indexing" ||
         req.nextUrl.pathname === "/tag/artificial-intelligence" ||
         req.nextUrl.pathname === "/tag/mobile-development" ||
@@ -203,8 +228,6 @@ export async function middleware(req: NextRequest, ev: any) {
         req.nextUrl.pathname === "/tag/mobile-ui-ux-design" ||
         req.nextUrl.pathname === "/category/app-development-trends" ||
         req.nextUrl.pathname === "/tag/android-application-development-company" ||
-        req.nextUrl.pathname === "/wp-includes/js/dist/vendor/wp-polyfill-object-fit.js" ||
-        req.nextUrl.pathname === "/wp-includes/js/dist/vendor/wp-polyfill-node-contains.min.js" ||
         req.nextUrl.pathname === "/blog/why-small-businesses-" ||
         req.nextUrl.pathname === "/tag/why-kotlin-for-android-development" ||
         req.nextUrl.pathname === "/tag/mobile-ui-design" ||
@@ -218,7 +241,6 @@ export async function middleware(req: NextRequest, ev: any) {
         req.nextUrl.pathname === "/tag/iphone-apps-development-company" ||
         req.nextUrl.pathname === "/us/iphone-app-development-atlanta/ios-apps/hotelier" ||
         req.nextUrl.pathname === "/tag/ui-ux-design" ||
-        req.nextUrl.pathname === "/wp-includes/js/dist/vendor/wp-polyfill-node-contains.js" ||
         req.nextUrl.pathname === "/tag/mobile-apps" ||
         req.nextUrl.pathname === "/category/ios-apps" ||
         req.nextUrl.pathname === "/2020/03" ||
@@ -233,7 +255,6 @@ export async function middleware(req: NextRequest, ev: any) {
         req.nextUrl.pathname === "/tag/native-applications" ||
         req.nextUrl.pathname === "/tag/first-mobile-app" ||
         req.nextUrl.pathname === "/tag/user-experience" ||
-        req.nextUrl.pathname === "/wp-includes/js/dist/vendor/wp-polyfill-fetch.min.js" ||
         req.nextUrl.pathname === "/tag/small-businesses" ||
         req.nextUrl.pathname === "/tag/mobile-app-indexing" ||
         req.nextUrl.pathname === "/copythat" ||
@@ -353,7 +374,6 @@ export async function middleware(req: NextRequest, ev: any) {
         req.nextUrl.pathname === "/uploads/Ball_Talk_Case_Study_1a473350aa.pdf" ||
         req.nextUrl.pathname === "/uploads/shubhangi_jangam_Milton_c7aeaf5333_e5b55d8e4c.webp" ||
         req.nextUrl.pathname === "/uploads/thumbnail_Challenges_6dec605cd0_41dfd21422.webp" ||
-        req.nextUrl.pathname === "/wp-admin/admin-ajax.php" ||
         req.nextUrl.pathname === "/uploads/Challenges_6dec605cd0_aab7942b1a.webp" ||
         req.nextUrl.pathname === "/uploads/Challenges_6dec605cd0_8c01352ca7.webp" ||
         req.nextUrl.pathname === "/uploads/Challenges_6dec605cd0_ba387de80e_69b3ef2200.webp" ||
@@ -1147,9 +1167,6 @@ export async function middleware(req: NextRequest, ev: any) {
     if (req.nextUrl.pathname === "/tag/mobile-apps-development") {
         return NextResponse.redirect(`${origin}`, 301)
     }
-    if (req.nextUrl.pathname === "/wp-includes/js/dist/vendor/wp-polyfill-element-closest.js") {
-        return NextResponse.redirect(`${origin}`, 301)
-    }
     if (req.nextUrl.pathname === "/top-6-mistakes-app-entrepreneurs-make-during-app-development-and-marketing/undefinedtop-6-mistakes-app-entrepreneurs-make-during-app-development-and-marketing") {
         return NextResponse.redirect(`${origin}/blog/top-6-mistakes-app-entrepreneurs-make-during-app-development-and-marketing`, 301)
     }
@@ -1644,18 +1661,6 @@ export async function middleware(req: NextRequest, ev: any) {
     if (req.nextUrl.pathname === "/blog/know-more-about-kotlin/feed/") { 
         return NextResponse.redirect(`${origin}/blog/know-more-about-kotlin`, 301) 
     }
-    if (req.nextUrl.pathname === "/wp-includes/js/dist/vendor/wp-polyfill-element-closest.js") { 
-        return NextResponse.redirect(`${origin}`, 301) 
-    }
-    if (req.nextUrl.pathname === "/wp-includes/js/dist/vendor/wp-polyfill-dom-rect.js") { 
-        return NextResponse.redirect(`${origin}`, 301) 
-    }
-    if (req.nextUrl.pathname === "/wp-includes/js/dist/vendor/wp-polyfill-url.js") { 
-        return NextResponse.redirect(`${origin}`, 301) 
-    }
-    if (req.nextUrl.pathname === "/wp-includes/js/dist/vendor/wp-polyfill-formdata.min.js") { 
-        return NextResponse.redirect(`${origin}`, 301) 
-    }
     if (req.nextUrl.pathname === "/how-many-people-does-it-take-to-develop-a-mobile-app//1000") { 
         return NextResponse.redirect(`${origin}/blog/how-many-people-does-it-take-to-develop-a-mobile-app`, 301) 
     }
@@ -1677,20 +1682,8 @@ export async function middleware(req: NextRequest, ev: any) {
     if (req.nextUrl.pathname === "/category/mobile-application-design/") { 
         return NextResponse.redirect(`${origin}`, 301) 
     }
-    if (req.nextUrl.pathname === "/wp-includes/js/dist/vendor/wp-polyfill-object-fit.js") { 
-        return NextResponse.redirect(`${origin}`, 301) 
-    }
-    if (req.nextUrl.pathname === "/wp-includes/js/dist/vendor/wp-polyfill-node-contains.min.js") { 
-        return NextResponse.redirect(`${origin}`, 301) 
-    }
     if (req.nextUrl.pathname === "/services/mobile-development/mobile-app-development/") { 
         return NextResponse.redirect(`${origin}/services/mobile-app-development`, 301) 
-    }
-    if (req.nextUrl.pathname === "/wp-includes/js/dist/vendor/wp-polyfill-node-contains.js") { 
-        return NextResponse.redirect(`${origin}`, 301) 
-    }
-    if (req.nextUrl.pathname === "/wp-includes/js/dist/vendor/wp-polyfill-fetch.min.js") { 
-        return NextResponse.redirect(`${origin}`, 301) 
     }
     if (req.nextUrl.pathname === "/locations/atlanta-app-developers") { 
         return NextResponse.redirect(`${origin}`, 301) 

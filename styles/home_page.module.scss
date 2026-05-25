@@ -234,16 +234,6 @@
                 background-color: #333;
             }
 
-            &:before {
-                content: "";
-                background-image: url(/assets/images/dot-rect.png);
-                width: 220px;
-                height: 202px;
-                right: 50px;
-                position: absolute;
-                top: -120px;
-            }
-
             .prev_cs,
             .next_cs {
                 position: absolute;
@@ -1167,10 +1157,6 @@
 
         .az-home-section1 .home-intro-anim {
             min-height: inherit;
-            display: none;
-        }
-
-        .case-study-block .cs-slider-box:before {
             display: none;
         }
 

@@ -27,10 +27,10 @@ export default function HomeServicesCarousel() {
     >
       <SwiperSlide>
         <div className="service_box">
-          <Image src="/assets/images/service-customer-supply.png" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: "cover", zIndex: -1 }} alt="Service Background" />
-          <Link href="/services/custom-software-development-company-usa" prefetch={false}>
+          <Image src="/assets/images/service-customer-supply.png" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: "cover", zIndex: -1 }} alt="" />
+          <Link href="/services/custom-software-development-company-usa">
             <div className="service-icon">
-              <Image src="/assets/images/cpad.png" alt="Service" width="50" height="50" />
+              <Image src="/assets/images/cpad.png" alt="" width="50" height="50" />
             </div>
             <h3 className="text-capitalize">Custom Software Development</h3>
             <p>
@@ -47,10 +47,10 @@ export default function HomeServicesCarousel() {
       </SwiperSlide>
       <SwiperSlide>
         <div className="service_box">
-          <Image src="/assets/images/service-mobile-app-dev.png" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: "cover", zIndex: -1 }} alt="Service Background" />
-          <Link href="/services/mobile-app-development-company-usa" prefetch={false}>
+          <Image src="/assets/images/service-mobile-app-dev.png" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: "cover", zIndex: -1 }} alt="" />
+          <Link href="/services/mobile-app-development-company-usa">
             <div className="service-icon">
-              <Image src="/assets/images/mad.png" alt="Service" width="50" height="50" />
+              <Image src="/assets/images/mad.png" alt="" width="50" height="50" />
             </div>
             <h3 className="text-capitalize">Mobile app development</h3>
             <p>
@@ -69,10 +69,10 @@ export default function HomeServicesCarousel() {
       </SwiperSlide>
       <SwiperSlide>
         <div className="service_box">
-          <Image src="/assets/images/service-web-dev.png" fill sizes="(max-width: 768px) 200px, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: "cover", zIndex: -1 }} alt="Service Background" />
-          <Link href="/services/web-app-development" prefetch={false}>
+          <Image src="/assets/images/service-web-dev.png" fill sizes="(max-width: 768px) 200px, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: "cover", zIndex: -1 }} alt="" />
+          <Link href="/services/web-app-development">
             <div className="service-icon">
-              <Image src="/assets/images/wad.png" alt="Service" width="57" height="50" />
+              <Image src="/assets/images/wad.png" alt="" width="57" height="50" />
             </div>
             <h3 className="text-capitalize">Web App Development</h3>
             <p>Web application development services offered by AppZoro yield benefits to companies of any type or size.</p>
@@ -87,10 +87,10 @@ export default function HomeServicesCarousel() {
       </SwiperSlide>
       <SwiperSlide>
         <div className="service_box">
-          <Image src="/assets/images/service-iot-dev.png" fill sizes="(max-width: 768px) 200px, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: "cover", zIndex: -1 }} alt="Service Background" />
-          <Link href="/services/iot-development-services" prefetch={false}>
+          <Image src="/assets/images/service-iot-dev.png" fill sizes="(max-width: 768px) 200px, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: "cover", zIndex: -1 }} alt="" />
+          <Link href="/services/iot-development-services">
             <div className="service-icon">
-              <Image src="/assets/images/dpd.png" alt="Service" width="50" height="50" />
+              <Image src="/assets/images/dpd.png" alt="" width="50" height="50" />
             </div>
             <h3 className="text-capitalize">IOT App Development</h3>
             <p>AppZoro develops tech-advanced IoT applications to improve efficiency and accuracy in human life. We are proficient in IoT and can ease your business process.</p>
@@ -105,10 +105,10 @@ export default function HomeServicesCarousel() {
       </SwiperSlide>
       <SwiperSlide>
         <div className="service_box">
-          <Image src="/assets/images/cross-platform-App-developments.png" fill sizes="(max-width: 768px) 200px, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: "cover", zIndex: -1 }} alt="Service Background" />
-          <Link href="/services/cross-platform-app-development-company-usa" prefetch={false}>
+          <Image src="/assets/images/cross-platform-App-developments.png" fill sizes="(max-width: 768px) 200px, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: "cover", zIndex: -1 }} alt="" />
+          <Link href="/services/cross-platform-app-development-company-usa">
             <div className="service-icon">
-              <Image src="/assets/images/cross-platform-app-deve.png" alt="Service" width="50" height="50" />
+              <Image src="/assets/images/cross-platform-app-deve.png" alt="" width="50" height="50" />
             </div>
             <h3 className="text-capitalize">Cross-Platform App Development</h3>
             <p>We specialize in creating cross-platform applications that are scalable, robust, and cost-effective while ensuring that users have a consistent experience across Android, iOS, and web platforms, allowing you to expand your reach.</p>
@@ -117,10 +117,10 @@ export default function HomeServicesCarousel() {
       </SwiperSlide>
       <SwiperSlide>
         <div className="service_box">
-          <Image src="/assets/images/ui-ux-design.png" fill sizes="(max-width: 768px) 200px, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: "cover", zIndex: -1 }} alt="Service Background" />
-          <Link href="/services/ui-ux-design-services" prefetch={false}>
+          <Image src="/assets/images/ui-ux-design.png" fill sizes="(max-width: 768px) 200px, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: "cover", zIndex: -1 }} alt="" />
+          <Link href="/services/ui-ux-design-services">
             <div className="service-icon">
-              <Image src="/assets/images/ui-ux-design_icon.png" alt="Service" width="50" height="50" />
+              <Image src="/assets/images/ui-ux-design_icon.png" alt="" width="50" height="50" />
             </div>
             <h3 className="text-capitalize">UI/UX Design Services</h3>
             <p>Our experienced design team creates beautiful and user-friendly interfaces, delivering great experiences in one seamless experience that retains customers, driving higher engagement and satisfaction.</p>
@@ -129,10 +129,10 @@ export default function HomeServicesCarousel() {
       </SwiperSlide>
       <SwiperSlide>
         <div className="service_box">
-          <Image src="/assets/images/ai-ml-development-services.png" fill sizes="(max-width: 768px) 200px, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: "cover", zIndex: -1 }} alt="Service Background" />
-          <Link href="/services/ai-and-ml-development-company-usa" prefetch={false}>
+          <Image src="/assets/images/ai-ml-development-services.png" fill sizes="(max-width: 768px) 200px, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: "cover", zIndex: -1 }} alt="" />
+          <Link href="/services/ai-and-ml-development-company-usa">
             <div className="service-icon">
-              <Image src="/assets/images/ai-ml-icon.png" alt="Service" width="50" height="50" />
+              <Image src="/assets/images/ai-ml-icon.png" alt="" width="50" height="50" />
             </div>
             <h3 className="text-capitalize">AI/ML Development Services</h3>
             <p>Tap into the power of AI and machine learning for process automation, data analytics, and custom experiences delivered to end-users. Our services help businesses improve efficiency, make decisions based on data, and drive increased customer satisfaction.</p>
@@ -141,10 +141,10 @@ export default function HomeServicesCarousel() {
       </SwiperSlide>
       <SwiperSlide>
         <div className="service_box">
-          <Image src="/assets/images/android-app-development.png" fill sizes="(max-width: 768px) 200px, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: "cover", zIndex: -1 }} alt="Service Background" />
-          <Link href="/services/android-app-development-company-usa" prefetch={false}>
+          <Image src="/assets/images/android-app-development.png" fill sizes="(max-width: 768px) 200px, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: "cover", zIndex: -1 }} alt="" />
+          <Link href="/services/android-app-development-company-usa">
             <div className="service-icon">
-              <Image src="/assets/images/android app development_icon.png" alt="Service" width="50" height="50" />
+              <Image src="/assets/images/android app development_icon.png" alt="" width="50" height="50" />
             </div>
             <h3 className="text-capitalize">Android App Development</h3>
             <p>We build Android apps that are fast, secure, and easy to use. Every app is designed to match your business goals and deliver a smooth experience on all Android devices.</p>

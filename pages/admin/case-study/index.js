@@ -1,14 +1,12 @@
-import React from 'react';
-import GenericList from '../../../components/admin/ui/GenericList';
+export async function getServerSideProps() {
+    return {
+        redirect: {
+            destination: '/admin/portfolios',
+            permanent: false,
+        },
+    };
+}
 
-const CaseStudyList = () => {
-    return (
-        <GenericList
-            title="Case Studies"
-            addNewLabel="Add New Case Study"
-            createPath="/admin/case-study/create"
-        />
-    );
-};
-
-export default CaseStudyList;
+export default function CaseStudyListRedirect() {
+    return null;
+}

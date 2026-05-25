@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from "react";
+import { DEFAULT_OG_IMAGE } from '../../lib/defaultOgImage';
 import MainHeader from "../../components/MainHeader";
 import Footer from "../../components/Footer";
 import { Col, Container, Row } from "react-bootstrap";
 import TalkExpert from "../../components/common/TalkExpert";
-import dynamic from "next/dynamic";
 import MetaData from "../../components/common/MetaData";
 import { REACT_APP_API_URL, STRAPI_IMAGE_BASE_URL } from "../../lib/constants";
 import Image from "next/image";
-import { usePathname } from 'next/navigation'
+import { useRouter } from "next/router";
 import Accordion from "react-bootstrap/Accordion";
 import Head from "next/head";
 import { sanitizeJsonLdString } from "../../lib/jsonLdSanitize";
-const ReactMarkdown = dynamic(import("react-markdown"));
+import { setEdgeCache } from "../../lib/edgeCache";
+import MarkdownContent from "../../components/common/MarkdownContent";
+import SeoJsonLd from "../../components/common/SeoJsonLd";
+import { buildBreadcrumbSchema, buildServiceSchema, buildWebPageSchema } from "../../lib/schemaBuilders";
 
 const Locations = ({ posts: initialPosts, services: initialServices }) => {
   const [posts, setPosts] = useState(initialPosts || []);
@@ -23,16 +26,16 @@ const Locations = ({ posts: initialPosts, services: initialServices }) => {
   }, [initialPosts, initialServices]);
 
   const locationData = Array.isArray(posts) && posts.length > 0 ? posts[0] : null;
-  const [checkData, setCheckData] = useState(null);
-  useEffect(() => {
-    setCheckData(["test", "test1", "test2"]);
-  }, []);
-  const pathname = usePathname();
+  const router = useRouter();
+  const pageUrl = locationData?.slug ? `/locations/${locationData.slug}` : '/locations';
+  const pageTitle = locationData?.seo_title || locationData?.location_title || 'App Development Location | AppZoro';
+  const pageDesc = locationData?.seo_description || locationData?.section1_content?.slice?.(0, 160) || 'App development services from AppZoro.';
+  const cleanedLocationSchema = sanitizeJsonLdString(String(locationData?.location_schema || ''), { stripFaqPage: true });
 
   // Fallback client-side fetch for the current location if props are missing
   useEffect(() => {
-    if ((!posts || posts.length === 0) && pathname) {
-      const slug = pathname.split('/').pop();
+    if ((!posts || posts.length === 0) && router.isReady && router.query.slug) {
+      const slug = String(router.query.slug);
       if (slug && slug !== 'locations') {
         console.log("Triggering client-side fallback fetch for location slug:", slug);
         Promise.all([
@@ -47,27 +50,47 @@ const Locations = ({ posts: initialPosts, services: initialServices }) => {
           .catch(err => console.error("Location fallback fetch failed", err));
       }
     }
-  }, [posts, pathname]);
+  }, [posts, router.isReady, router.query.slug]);
 
   return (
     <>
       <MetaData
-        title={locationData?.seo_title}
-        description={locationData?.seo_description}
-        url={`/locations/${locationData?.slug}`}
-        image={`${REACT_APP_API_URL}/assets/images/az-logo-large.png`}
+        title={locationData?.seo_title || locationData?.location_title || 'App Development Location | AppZoro'}
+        description={locationData?.seo_description || locationData?.section1_content?.slice?.(0, 160) || 'App development services from AppZoro.'}
+        url={`/locations/${locationData?.slug || ''}`}
+        image={DEFAULT_OG_IMAGE}
+        robots={locationData?.robots_meta}
       />
       <Head>
-        {locationData?.location_schema && (
+        {cleanedLocationSchema ? (
           <script
             type="application/ld+json"
             className="yoast-schema-graph"
-            dangerouslySetInnerHTML={{
-              __html: sanitizeJsonLdString(String(locationData?.location_schema || '')),
-            }}
-          ></script>
-        )}
+            dangerouslySetInnerHTML={{ __html: cleanedLocationSchema }}
+          />
+        ) : null}
       </Head>
+      {!cleanedLocationSchema && locationData && (
+        <SeoJsonLd
+          data={[
+            buildBreadcrumbSchema([
+              { name: 'Home', url: '/' },
+              { name: 'Locations', url: '/locations' },
+              { name: locationData.location_title || 'Location', url: pageUrl },
+            ]),
+            buildServiceSchema({
+              name: locationData.location_title || pageTitle,
+              description: pageDesc,
+              url: pageUrl,
+            }),
+            buildWebPageSchema({
+              name: pageTitle,
+              description: pageDesc,
+              url: pageUrl,
+            }),
+          ]}
+        />
+      )}
       <MainHeader />
 
       {locationData ? (
@@ -77,20 +100,14 @@ const Locations = ({ posts: initialPosts, services: initialServices }) => {
             <Container>
               <div className="as1-data">
                 <h1>{locationData?.location_title}</h1>
-                {checkData?.length > 0 ? (
-                  <ReactMarkdown>
-                    {locationData?.section1_content}
-                  </ReactMarkdown>
-                ) : (
-                  <p>{locationData?.section1_content}</p>
-                )}
+                <MarkdownContent content={locationData?.section1_content} />
                 {/* <div className='as1-action'>
                                     <ContactHref href="/contact-us" className="btn-style-arrow me-3">Talk to an Expert <span><LuMoveRight /></span></ContactHref>
                                 </div> */}
                 {locationData?.section1_img?.url && (
                   <Image
                     src={`${STRAPI_IMAGE_BASE_URL}${locationData?.section1_img?.url}`}
-                    alt="Appzoro"
+                    alt={locationData?.location_title || 'AppZoro location'}
                     width="486"
                     height="204"
 
@@ -103,17 +120,11 @@ const Locations = ({ posts: initialPosts, services: initialServices }) => {
             <Container>
               <div className="as2-content">
                 <h2>{locationData?.section2_title}</h2>
-                {checkData?.length > 0 ? (
-                  <ReactMarkdown>
-                    {locationData?.section2_content}
-                  </ReactMarkdown>
-                ) : (
-                  <p>{locationData?.section2_content}</p>
-                )}
+                <MarkdownContent content={locationData?.section2_content} />
               </div>
             </Container>
           </section>
-          {pathname !== "/locations/atlanta-web-development" &&
+          {router.asPath !== "/locations/atlanta-web-development" &&
             <section className="location-features">
               <Container>
                 <h3>Mobile app development offering</h3>
@@ -134,11 +145,7 @@ const Locations = ({ posts: initialPosts, services: initialServices }) => {
                         </div>
                         <div className="lf-data">
                           <h4>{item?.lcs_title}</h4>
-                          {checkData?.length > 0 ? (
-                            <ReactMarkdown>{item?.lcs_content}</ReactMarkdown>
-                          ) : (
-                            <p>{item?.lcs_content}</p>
-                          )}
+                          <MarkdownContent content={item?.lcs_content} />
                         </div>
                       </div>
                     </div>
@@ -154,11 +161,7 @@ const Locations = ({ posts: initialPosts, services: initialServices }) => {
                   <Col xs="12" md="6">
                     <div className="ls-content">
                       <h3>{item?.feature_title}</h3>
-                      {checkData?.length > 0 ? (
-                        <ReactMarkdown>{item?.feature_content}</ReactMarkdown>
-                      ) : (
-                        <p>{item?.feature_content}</p>
-                      )}
+                      <MarkdownContent content={item?.feature_content} />
                     </div>
                   </Col>
                   <Col xs="12" md="6">
@@ -190,7 +193,7 @@ const Locations = ({ posts: initialPosts, services: initialServices }) => {
                       <Accordion.Item eventKey={item?._id || index} key={item?._id || index}>
                         <Accordion.Header>{item.faq_title}</Accordion.Header>
                         <Accordion.Body>
-                          <ReactMarkdown>{item.faq_content}</ReactMarkdown>
+                          <MarkdownContent content={item.faq_content} />
                         </Accordion.Body>
                       </Accordion.Item>
                     ))}
@@ -231,6 +234,7 @@ const Locations = ({ posts: initialPosts, services: initialServices }) => {
 // }
 
 export async function getServerSideProps(params) {
+  setEdgeCache(params.res, 'long');
   try {
     const [postsRes, serviceRes] = await Promise.all([
       fetch(`${REACT_APP_API_URL}locations-news?slug=${params.query.slug}`),

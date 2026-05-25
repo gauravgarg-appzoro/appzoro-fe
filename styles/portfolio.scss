@@ -42,7 +42,8 @@
     padding: 40px 140px 40px 40px;
 
     h2 {
-      font-size: 40px;
+      font-size: clamp(1.375rem, 0.875rem + 1.75vw, 2.5rem);
+      line-height: 1.25;
       position: relative;
       padding-bottom: 10px;
       margin-bottom: 20px;
@@ -682,16 +683,23 @@ section.portfolio-filter {
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
-  .portfolio-app {
-    left: 0;
+  .portfolio-work {
+    overflow: hidden;
   }
 
+  .portfolio-app,
   .portfolio-work:nth-child(even) .portfolio-app {
-    right: 0;
+    position: relative;
+    left: auto;
+    right: auto;
+    transform: none;
+    width: min(260px, 70%);
+    margin: -24px auto 16px;
   }
 
+  .portfolio-work .portfolio-column-info,
   .portfolio-work:nth-child(even) .portfolio-column-info {
-    padding: 40px;
+    padding: 24px 16px;
   }
 }
 
@@ -720,7 +728,8 @@ section.portfolio-filter {
 
   .work-page-title {
     h1 {
-      font-size: 48px;
+      font-size: clamp(1.5rem, 1rem + 2.5vw, 3rem);
+      line-height: 1.2;
       font-weight: 500;
 
       span {
@@ -735,6 +744,7 @@ section.portfolio-filter {
   }
 }
 
+section.works-feature-projects h2,
 section.works-feature-projects h3 {
   font-size: 32px;
   font-weight: 500;

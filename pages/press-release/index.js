@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
+import { DEFAULT_OG_IMAGE } from '../../lib/defaultOgImage';
+import { setEdgeCache } from '../../lib/edgeCache';
 import MainHeader from '../../components/MainHeader'
 import Footer from '../../components/Footer'
 import { Container, Row, Col } from 'react-bootstrap'
 import Image from 'next/image'
 import Link from 'next/link'
-import AwardDev from '../homePage/AwardDev'
+import AwardDev from '../../components/home/AwardDev'
 import ClientReview from '../../components/common/ClientReview'
 import TalkExpert from '../../components/common/TalkExpert'
 import MetaData from '../../components/common/MetaData'
 import { REACT_APP_API_URL, STRAPI_IMAGE_BASE_URL } from '../../lib/constants';
 import { LuMoveRight } from '../../components/OptimizedIcons';
 import { formatDateMMM } from '../../lib/rules';
+import { pressSlug } from '../../lib/contentSlug';
 
 const PressRelease = ({ posts }) => {
   const postData = posts;
@@ -21,7 +24,7 @@ const PressRelease = ({ posts }) => {
 
   return (
     <>
-      <MetaData title="AppZoro Press Release | Announcements, Features, and Updates" description="Stay updated with AppZoro's announcements, PR and media features. Explore milestones and industry recognition as we shape the future of software development." url={`/press-release/`} image={`${REACT_APP_API_URL}/assets/images/az-logo-large.png`} />
+      <MetaData title="AppZoro Press Release | Announcements, Features, and Updates" description="Stay updated with AppZoro's announcements, PR and media features. Explore milestones and industry recognition as we shape the future of software development." url={`/press-release/`} image={DEFAULT_OG_IMAGE} />
       <MainHeader />
       <section className='page-title press-bg'>
         <Container>
@@ -43,7 +46,7 @@ const PressRelease = ({ posts }) => {
                   <h3>{item.PressTitle}</h3>
                   <h5>{formatDateMMM(item.PressDate, 'MMM DD, YYYY')}</h5>
                   <p>{item.PressDescription}</p>
-                  <Link href={`${item.PressUrl ? item.PressUrl : "/press-release"}`} target='_blank' className='btn-style-arrow me-3'>Read More <span><LuMoveRight /></span></Link>
+                  <Link href={`/press-release/${pressSlug(item)}`} className='btn-style-arrow me-3'>Read More <span><LuMoveRight /></span></Link>
                 </div>
               </div>
             ))
@@ -67,7 +70,8 @@ const PressRelease = ({ posts }) => {
   )
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  setEdgeCache(context.res, 'short');
   const res = await fetch(`${REACT_APP_API_URL}presses?_sort=PressDate:desc`);
   const postsdata = await res.json();
   const posts = postsdata.sort((a, b) => {

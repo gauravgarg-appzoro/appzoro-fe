@@ -771,6 +771,11 @@ section.product-banner {
 
     h1 {
         font-weight: 700;
+
+        .h1-line2 {
+            display: block;
+            color: inherit;
+        }
     }
 
 	span {
@@ -861,8 +866,8 @@ section.product-banner {
   }
 
   .whychoose-left_lgtitle {
-    font-size: 40px;
-    line-height: 100%;
+    font-size: clamp(1.375rem, 0.875rem + 1.75vw, 2.5rem);
+    line-height: 1.2;
     font-weight: 600;
     margin-bottom: 15px;
   }

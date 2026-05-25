@@ -1,4 +1,5 @@
 import React from 'react'
+import { DEFAULT_OG_IMAGE } from '../../lib/defaultOgImage';
 import Footer from '../../components/Footer'
 import MainHeader from '../../components/MainHeader'
 import { Col, Container, Row } from 'react-bootstrap'
@@ -6,6 +7,7 @@ import Link from 'next/link';
 import TalkExpert from '../../components/common/TalkExpert';
 import MetaData from '../../components/common/MetaData';
 import { REACT_APP_API_URL } from '../../lib/constants';
+import { setEdgeCache } from '../../lib/edgeCache';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import {   IoLocationOutline, LuMoveRight   } from '../../components/OptimizedIcons';
@@ -217,7 +219,7 @@ const Locaitons = ({ locations, services }) => {
     }
     return (
         <>
-            <MetaData title="AppZoro Locations: App Development Services Nationwide" description="AppZoro's offers app development services across major USA locations. We deliver custom software solutions to startups, enterprises, and various industries." url={`/locations/`} image={`${REACT_APP_API_URL}/assets/images/az-logo-large.png`} />
+            <MetaData title="AppZoro Locations: App Development Services Nationwide" description="AppZoro's offers app development services across major USA locations. We deliver custom software solutions to startups, enterprises, and various industries." url={`/locations/`} image={DEFAULT_OG_IMAGE} />
             <Head>
                 <script
                     type="application/ld+json"
@@ -275,7 +277,8 @@ const Locaitons = ({ locations, services }) => {
     )
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+    setEdgeCache(context.res, 'short');
     const [locationsRes, servicesRes] = await Promise.all([
         fetch(`${REACT_APP_API_URL}locations-news`),
         fetch(`${REACT_APP_API_URL}services`)

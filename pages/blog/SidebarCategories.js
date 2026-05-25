@@ -39,7 +39,8 @@ const SidebarCategories = () => {
           ))}
         </ul>
         :
-        <p className="p-3 text-center">Loading...</p>
+        null /* SEO: don't render "Loading..." placeholder — it leaks into SSR HTML
+                as indexable content. Sidebar will appear after client-side fetch. */
       }
     </div>
   )

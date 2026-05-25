@@ -36,9 +36,14 @@ async function loadRedirects(apiBase: string): Promise<RedirectItem[]> {
     if (cache && Date.now() < cache.exp) return cache.items;
     try {
         const base = apiBase.replace(/\/+$/, '');
+        const controller = new AbortController();
+        const timeoutMs = process.env.NODE_ENV === 'development' ? 200 : 2000;
+        const timer = setTimeout(() => controller.abort(), timeoutMs);
         const res = await fetch(`${base}/url-redirections/public`, {
             headers: { Accept: 'application/json' },
+            signal: controller.signal,
         });
+        clearTimeout(timer);
         if (!res.ok) {
             cache = { items: [], exp: Date.now() + TTL_MS };
             return [];
@@ -84,6 +89,7 @@ export async function maybeApplyDynamicRedirect(
 ): Promise<NextResponse | null> {
     const pathname = req.nextUrl.pathname;
     if (shouldSkipDynamicRedirect(pathname)) return null;
+    if (process.env.NODE_ENV === 'development') return null;
 
     const apiBase =
         process.env.URL_REDIRECTS_API_BASE ||

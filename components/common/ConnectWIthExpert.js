@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -14,12 +14,20 @@ import { LuMoveRight } from '../OptimizedIcons';
 const ConnectWIthExpert = () => {
   const [showLoader, setShowLoader] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [num1, setNum1] = useState(Math.floor(Math.random() * 10) + 1);
-  const [num2, setNum2] = useState(Math.floor(Math.random() * 10) + 1);
+  const [num1, setNum1] = useState(null);
+  const [num2, setNum2] = useState(null);
   const [userAnswer, setUserAnswer] = useState('');
-  const [correctAnswer, setCorrectAnswer] = useState(num1 + num2);
+  const [correctAnswer, setCorrectAnswer] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [captchaFailed, setCaptchaFailed] = useState(false);
+
+  useEffect(() => {
+    const a = Math.floor(Math.random() * 10) + 1;
+    const b = Math.floor(Math.random() * 10) + 1;
+    setNum1(a);
+    setNum2(b);
+    setCorrectAnswer(a + b);
+  }, []);
 
   const handleChange = (e) => {
     setUserAnswer(e.target.value);
@@ -329,7 +337,7 @@ const ConnectWIthExpert = () => {
                       <Form.Group className="mb-3">
                         <Row className="align-items-center">
                           <Col md="3" xs="4">
-                            {num1} + {num2} =
+                            {num1 !== null && num2 !== null ? `${num1} + ${num2} =` : ' '}
                           </Col>
                           <Col md="9" xs="8">
                             <input

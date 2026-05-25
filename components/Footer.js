@@ -23,7 +23,7 @@ const Footer = () => {
               <Col md="4" xs="12">
                 <div className='az_ftr-info'>
                   <div className='mb-3'>
-                    <Image src="/assets/images/ftr-logo.png" width={"139"} height={"35"} alt="Appzoro" />
+                    <Image src="/assets/images/ftr-logo.png" width={"139"} height={"35"} alt="AppZoro logo" />
                   </div>
                   <p>AppZoro is a top-rated custom software development company. We empower businesses and elevate customer experiences through our excellence in what we do.</p>
                   <div className='ftr-social'>
@@ -41,11 +41,11 @@ const Footer = () => {
                 <div className='az_ftr-links'>
                   <h3>Services</h3>
                   <ul>
-                    <li><Link href="/services/mobile-app-development-company-usa" prefetch={false}>Mobile App Development</Link></li>
-                    <li><Link href="/services/web-app-development" prefetch={false}>Web App Development </Link></li>
-                    <li><Link href="/services/ios-app-development" prefetch={false}>iOS App Development</Link></li>
-                    <li><Link href="/services/custom-software-development-company-usa" prefetch={false}>Custom Software Development</Link></li>
-                    <li><Link href="/services/ui-ux-design-services" prefetch={false}>UI UX Design Services</Link></li>
+                    <li><Link href="/services/mobile-app-development-company-usa">Mobile App Development</Link></li>
+                    <li><Link href="/services/web-app-development">Web App Development </Link></li>
+                    <li><Link href="/services/ios-app-development">iOS App Development</Link></li>
+                    <li><Link href="/services/custom-software-development-company-usa">Custom Software Development</Link></li>
+                    <li><Link href="/services/ui-ux-design-services">UI UX Design Services</Link></li>
                   </ul>
                 </div>
               </Col>
@@ -53,13 +53,13 @@ const Footer = () => {
                 <div className='az_ftr-links'>
                   <h3>Quick links</h3>
                   <ul>
-                    <li><Link href="/team/" prefetch={false}>Teams</Link></li>
-                    <li><Link href="/career/" prefetch={false}>Career</Link></li>
-                    <li><ContactHref href="/contact-us" prefetch={false}>Contact</ContactHref></li>
-                    <li><Link href="/blog" prefetch={false}>Blogs</Link></li>
-                    <li><Link href="/locations/ " prefetch={false}>Locations</Link></li>
-                    <li><Link href="/getting-started" prefetch={false}>Getting Started</Link></li>
-                    <li><Link href="/sitemap" prefetch={false}>Sitemap</Link></li>
+                    <li><Link href="/team/">Teams</Link></li>
+                    <li><Link href="/career/">Career</Link></li>
+                    <li><ContactHref href="/contact-us">Contact</ContactHref></li>
+                    <li><Link href="/blog">Blogs</Link></li>
+                    <li><Link href="/locations/ ">Locations</Link></li>
+                    <li><Link href="/getting-started">Getting Started</Link></li>
+                    <li><Link href="/sitemap">Sitemap</Link></li>
                   </ul>
                 </div>
               </Col>

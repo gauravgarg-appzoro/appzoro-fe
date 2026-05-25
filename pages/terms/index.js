@@ -1,4 +1,5 @@
 import React from 'react'
+import { DEFAULT_OG_IMAGE } from '../../lib/defaultOgImage';
 import MainHeader from '../../components/MainHeader'
 import Footer from '../../components/Footer'
 import { Container } from 'react-bootstrap'
@@ -7,7 +8,7 @@ import MetaData from '../../components/common/MetaData';
 const TermsCondition = () => {
     return (
         <>
-            <MetaData title="Terms and Conditions |  Appzoro Technologies" description="These Software Development Terms and Conditions form part of a Statement of Work entered into between us and the customer." url={`/terms`} image={`${process.env.REACT_APP_API_URL}/assets/images/az-logo-large.png`} />
+            <MetaData title="Terms and Conditions |  Appzoro Technologies" description="These Software Development Terms and Conditions form part of a Statement of Work entered into between us and the customer." url={`/terms`} image={DEFAULT_OG_IMAGE} />
             <MainHeader />
             <section className='page-title press-bg'>
                 <Container>

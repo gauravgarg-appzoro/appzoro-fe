@@ -30,6 +30,7 @@ import https from 'https';
 import { pipeline } from 'stream/promises';
 import { LuMoveRight } from '../../components/OptimizedIcons';
 import { sanitizeJsonLdString } from "../../lib/jsonLdSanitize";
+import RichText from "../../components/common/RichText";
 
 /** Build full image URL for section media: backend sends url as path (e.g. /uploads/xxx). */
 function sectionImageUrl(media) {
@@ -59,7 +60,13 @@ const ProductDetails = ({ posts }) => {
     const listItems = str
       .split('\n')
       .slice(2)
-      .filter((line) => line.trim() !== '');
+      .filter((line) => line.trim() !== '')
+      // Strip leading markdown bullet markers (- * •) so they don't
+      // render as visible "dash" characters in the <li> output.
+      // CMS authors paste content like "- Real-time tracking" and expect
+      // proper bullet rendering — the <ul><li> + tick icon handles the bullet,
+      // we just need to remove the redundant markdown prefix.
+      .map((line) => line.replace(/^\s*[-*•]\s+/, '').trim());
     return { title, description: descriptionWithList, listItems };
   };
 
@@ -78,9 +85,9 @@ const ProductDetails = ({ posts }) => {
   return (
     <>
       <MetaData
-        title={postData?.seoTitle}
-        description={postData?.seoDescription}
-        url={`/${postData?.slug}`}
+        title={postData?.seoTitle || postData?.heading || 'AppZoro'}
+        description={postData?.seoDescription || postData?.shortDescription || 'Software development solutions from AppZoro.'}
+        url={`/${postData?.slug || ''}`}
         image={
           postData?.Image?.url
             ? `${STRAPI_IMAGE_BASE_URL}${postData.Image.url}`
@@ -88,15 +95,16 @@ const ProductDetails = ({ posts }) => {
         }
       />
       <Head>
-        {postData?.schema_script && (
-          <script
-            type="application/ld+json"
-            className="yoast-schema-graph"
-            dangerouslySetInnerHTML={{
-              __html: sanitizeJsonLdString(String(postData?.schema_script || '')),
-            }}
-          ></script>
-        )}
+        {(() => {
+          const cleanedSchema = sanitizeJsonLdString(String(postData?.schema_script || ''), { stripFaqPage: true });
+          return cleanedSchema ? (
+            <script
+              type="application/ld+json"
+              className="yoast-schema-graph"
+              dangerouslySetInnerHTML={{ __html: cleanedSchema }}
+            ></script>
+          ) : null;
+        })()}
       </Head>
       <MainHeader />
       {hasPageBlocks ? (
@@ -111,7 +119,7 @@ const ProductDetails = ({ posts }) => {
           <Row className='align-items-center'>
             <Col xs="12" md="7">
               <div className='product-banner-info'>
-                <h1><span>{firstTwo}</span> <br />{rest}</h1>
+                <h1><span>{firstTwo}</span>{rest ? <span className="h1-line2">{rest}</span> : null}</h1>
                 <p>{postData?.shortDescription}</p>
                 <Link href="/case-study" className='btn-style-arrow me-3'>View Portfolio <span><LuMoveRight /></span></Link>
                 <ContactHref href="/contact-us" className='btn-style-arrow me-3'>Inquiry Now <span><LuMoveRight /></span></ContactHref>
@@ -125,12 +133,18 @@ const ProductDetails = ({ posts }) => {
                     : '';
                   const bannerSrc = postData?.LocalBannerPath || remoteBanner;
                   if (!bannerSrc) return null;
+                  const imgFormat = postData?.Image?.formats?.large || postData?.Image;
+                  const intrinsicWidth = Number(imgFormat?.width) || 800;
+                  const intrinsicHeight = Number(imgFormat?.height) || Math.round(intrinsicWidth * 0.75);
+                  const renderedWidth = 800;
+                  const renderedHeight = Math.round((intrinsicHeight / intrinsicWidth) * renderedWidth);
                   if (postData?.LocalBannerPath) {
                     return (
                       <Image
                         src={postData.LocalBannerPath}
                         alt={postData.heading}
-                        width={800}
+                        width={renderedWidth}
+                        height={renderedHeight}
                         priority
                         sizes="(max-width: 768px) 100vw, 50vw"
                         style={{ width: '100%', height: 'auto', objectFit: 'contain' }}
@@ -141,7 +155,8 @@ const ProductDetails = ({ posts }) => {
                     <Image
                       src={remoteBanner}
                       alt={postData.heading}
-                      width={800}
+                      width={renderedWidth}
+                      height={renderedHeight}
                       priority
                       sizes="(max-width: 768px) 100vw, 50vw"
                       style={{ width: '100%', height: 'auto', objectFit: 'contain' }}
@@ -221,15 +236,12 @@ const ProductDetails = ({ posts }) => {
                       </div>
                     </div>
                     <div className="flip-card-back">
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html:
-                            item?.description_back?.replace(
-                              /\/uploads/g,
-                              `${STRAPI_IMAGE_BASE_URL}/uploads`
-                            ) || "",
-                        }}
-                      ></div>
+                      <RichText>
+                        {(item?.description_back || '').replace(
+                          /\/uploads/g,
+                          `${STRAPI_IMAGE_BASE_URL}/uploads`
+                        )}
+                      </RichText>
                       <ContactHref href="/contact-us" className='btn-style-arrow-layout me-3 mt-5'>Connect Now! <span><LuMoveRight /></span></ContactHref>
                     </div>
                   </div>
@@ -379,7 +391,7 @@ const ProductDetails = ({ posts }) => {
                         <h3>{item?.heading}</h3>
                       </Col>
                     </Row>
-                    <p>{item?.description}</p>
+                    <RichText>{item?.description}</RichText>
                   </Col>
                 ))}
               </Row>
@@ -406,7 +418,7 @@ const ProductDetails = ({ posts }) => {
                       ) : null}
                     </div>
                     <h3>{item?.title}</h3>
-                    <p>{item?.short_description}</p>
+                    <RichText>{item?.short_description}</RichText>
                   </Col>
                 ))}
               </Row>
@@ -482,7 +494,7 @@ const ProductDetails = ({ posts }) => {
                 {postData?.section6?.boxes.map((item, i) => (
                   <div key={i} className="design-card">
                     <h3>{item?.heading}</h3>
-                    <p>{item?.short_description}</p>
+                    <RichText>{item?.short_description}</RichText>
                   </div>
                 ))}
               </div>
@@ -505,7 +517,7 @@ const ProductDetails = ({ posts }) => {
                       </Col>
                       <Col sm="9">
                         <h3>{item?.heading}</h3>
-                        <p>{item?.short_description}</p>
+                        <RichText>{item?.short_description}</RichText>
                       </Col>
                     </Row>
 
@@ -525,7 +537,7 @@ const ProductDetails = ({ posts }) => {
             <Row className="mt-5 mb-5">
               <Col sm="6">
                 <h2 className="layout-heading">{postData?.section7?.heading}</h2>
-                <p>{postData?.section7?.short_description}</p>
+                <RichText>{postData?.section7?.short_description}</RichText>
                 <Image className="fitnessimage" src={`${STRAPI_IMAGE_BASE_URL}${postData?.section7?.image?.url || ''}`} alt={postData?.section7?.heading || "Workflow Illustration"} width={500} height={400} sizes="(max-width: 768px) 100vw, 50vw" style={{ width: '100%', height: 'auto' }} />
               </Col>
               <Col sm="6" className="workflow-right-section">
@@ -535,7 +547,7 @@ const ProductDetails = ({ posts }) => {
                       <div className="workflow-circle">{i + 1}</div>
                       <div className="workflow-text">
                         <h5>{item?.title}</h5>
-                        <p>{item?.description}</p>
+                        <RichText>{item?.description}</RichText>
                       </div>
                     </div>
                   ))}
@@ -558,7 +570,7 @@ const ProductDetails = ({ posts }) => {
                       <Image src={`${STRAPI_IMAGE_BASE_URL}${item?.image?.url || ''}`} alt={item?.title || "Feature Preview"} width={600} height={300} sizes="(max-width: 768px) 100vw, 50vw" style={{ width: '100%', height: 'auto' }} />
                     </div>
                     <h3 className="mt-3">{item?.title}</h3>
-                    <p>{item?.description}</p>
+                    <RichText>{item?.description}</RichText>
                   </Col>
                 ))}
               </Row>
@@ -568,7 +580,7 @@ const ProductDetails = ({ posts }) => {
       }
       {/* section 7 */}
 
-      <CaseStudy isCacehLoad={["static"]} />
+      <CaseStudy />
       <TechStack />
       <ClientReview />
       {

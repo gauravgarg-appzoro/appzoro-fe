@@ -9,9 +9,13 @@ import Link from "next/link";
 import dateFormat from "dateformat";
 import dynamic from "next/dynamic";
 import MetaData from "../../components/common/MetaData";
+import SeoJsonLd from "../../components/common/SeoJsonLd";
+import { buildBreadcrumbSchema } from "../../lib/schemaBuilders";
 import { STRAPI_IMAGE_BASE_URL, REACT_APP_API_URL } from "../../lib/constants";
 import { rewriteLegacyWpContentUploadsToAbsolute } from "../../lib/rewriteLegacyWpMedia";
 import { sanitizeJsonLdString } from "../../lib/jsonLdSanitize";
+import { buildBlogPostingSchema } from "../../lib/buildBlogPostingSchema";
+import { slugify } from "../../lib/validation";
 import {
   BlogPostToc,
   BlogPostBody,
@@ -178,24 +182,43 @@ const BlogDetails = ({ posts: initialPosts }) => {
   return (
     <>
       <MetaData
-        title={blogDetail?.meta_title ? blogDetail?.meta_title : blogDetail?.title || "Blog"}
-        description={blogDetail?.meta_description ? blogDetail?.meta_description : blogDetail?.description || ""}
+        title={blogDetail?.meta_title || blogDetail?.title || 'Blog | AppZoro'}
+        description={blogDetail?.meta_description || blogDetail?.description || 'Read the latest insights on app development from AppZoro.'}
         url={`/blog/${slugForMeta}`}
-        image={`${STRAPI_IMAGE_BASE_URL}${blogDetail?.image?.[0]?.url || ""}`}
+        image={blogDetail?.image?.[0]?.url ? `${STRAPI_IMAGE_BASE_URL}${blogDetail.image[0].url}` : undefined}
+        ogType="article"
+      />
+      <SeoJsonLd
+        data={buildBreadcrumbSchema([
+          { name: 'Home', url: '/' },
+          { name: 'Blog', url: '/blog' },
+          { name: blogDetail?.title || 'Article', url: `/blog/${slugForMeta}` },
+        ])}
       />
       <Head>
         <meta name="author" content={blogDetail?.writer?.name ? blogDetail?.writer?.name : "AppZoro"} />
-        {blogDetail?.post_schema && (
-          <script
-            type="application/ld+json"
-            className="yoast-schema-graph"
-            dangerouslySetInnerHTML={{
-              __html: sanitizeJsonLdString(
-                rewriteLegacyWpContentUploadsToAbsolute(String(blogDetail?.post_schema || ''), STRAPI_IMAGE_BASE_URL),
-              ),
-            }}
-          ></script>
-        )}
+        {(() => {
+          const autoSchema = buildBlogPostingSchema(blogDetail, STRAPI_IMAGE_BASE_URL);
+          return autoSchema ? (
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(autoSchema) }}
+            />
+          ) : null;
+        })()}
+        {(() => {
+          const cleanedSchema = sanitizeJsonLdString(
+            rewriteLegacyWpContentUploadsToAbsolute(String(blogDetail?.post_schema || ''), STRAPI_IMAGE_BASE_URL),
+            { stripFaqPage: true, stripBlogPosting: true },
+          );
+          return cleanedSchema ? (
+            <script
+              type="application/ld+json"
+              className="yoast-schema-graph"
+              dangerouslySetInnerHTML={{ __html: cleanedSchema }}
+            ></script>
+          ) : null;
+        })()}
 
       </Head>
       <MainHeader />
@@ -220,32 +243,39 @@ const BlogDetails = ({ posts: initialPosts }) => {
                     </a>
                   )}
                   <h1>{blogDetail?.title}</h1>
-                  <div className="post-by">
-                    <span>
-                      {blogDetail?.writer?.picture?.url ? (
-                        <Image
-                          src={`${STRAPI_IMAGE_BASE_URL}${blogDetail?.writer?.picture?.url}`}
-                          width="100"
-                          height="60"
-                          alt="User"
-
-                        />
-                      ) : (
-                        <Image
-                          src="/assets/images/logo-icon.png"
-                          width="100"
-                          height="60"
-                          alt="User"
-
-                        />
-                      )}
-                    </span>
-                    <h3>
-                      {blogDetail?.writer?.name
-                        ? blogDetail?.writer?.name
-                        : "AppZoro"}
-                    </h3>
-                  </div>
+                  {(() => {
+                    const writerName = blogDetail?.writer?.name;
+                    const authorSlug = writerName ? slugify(writerName) : '';
+                    const authorHref = authorSlug ? `/blog/author/${authorSlug}` : null;
+                    const writerImg = blogDetail?.writer?.picture?.url
+                      ? `${STRAPI_IMAGE_BASE_URL}${blogDetail.writer.picture.url}`
+                      : '/assets/images/logo-icon.png';
+                    const displayName = writerName || 'AppZoro';
+                    const avatar = (
+                      <Image
+                        src={writerImg}
+                        width="100"
+                        height="60"
+                        alt={displayName}
+                      />
+                    );
+                    return (
+                      <div className="post-by">
+                        <span>
+                          {authorHref ? (
+                            <Link href={authorHref} aria-label={`View all articles by ${displayName}`}>
+                              {avatar}
+                            </Link>
+                          ) : avatar}
+                        </span>
+                        <h3>
+                          {authorHref ? (
+                            <Link href={authorHref}>{displayName}</Link>
+                          ) : displayName}
+                        </h3>
+                      </div>
+                    );
+                  })()}
                   <h4 className="post-date">
                     {dateFormat(blogDetail?.publishedAt, "mediumDate")}
                   </h4>
@@ -360,6 +390,16 @@ export async function getServerSideProps(context) {
   const slug = context.params?.slug ?? context.query?.slug;
   if (!slug || typeof slug !== "string") {
     return { notFound: true };
+  }
+
+  // CDN/edge cache: individual blog posts change rarely after publishing, so
+  // cache aggressively (5min fresh, 1hr stale-while-revalidate). Each post URL
+  // is cached independently — editor updates surface within 5min.
+  if (context.res) {
+    context.res.setHeader(
+      'Cache-Control',
+      'public, s-maxage=300, stale-while-revalidate=3600',
+    );
   }
 
   try {

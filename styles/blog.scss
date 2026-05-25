@@ -142,7 +142,8 @@ section.blog-intro {
   padding: 50px 0;
 
   h3 {
-    font-size: 38px;
+    font-size: clamp(1.25rem, 0.875rem + 1.5vw, 2.375rem);
+    line-height: 1.25;
 
     span {
       color: $primary-color;
@@ -314,7 +315,8 @@ section.load-more-blogs {
     }
 
     h1 {
-      font-size: 38px;
+      font-size: clamp(1.25rem, 0.875rem + 1.5vw, 2.375rem);
+    line-height: 1.25;
       margin-bottom: 25px;
     }
 
@@ -676,6 +678,7 @@ section.load-more-blogs {
     font-size: calc(15px + 1 * (100vw - 320px) / 1600);
     font-weight: 500;
     color: #333;
+    text-decoration: none;
     background: none !important;
     border: none !important;
     box-shadow: none !important;
@@ -683,9 +686,11 @@ section.load-more-blogs {
     cursor: pointer;
     transition: color 0.2s, background 0.2s;
 
-    &:hover {
+    &:hover,
+    &:focus {
       color: $primary-color;
       background: rgba(219, 36, 27, 0.06);
+      text-decoration: none;
     }
   }
 }

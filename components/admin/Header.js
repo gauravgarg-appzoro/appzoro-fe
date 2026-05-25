@@ -16,7 +16,20 @@ const Header = ({ toggleSidebar }) => {
     };
 
     return (
-        <Navbar bg="white" variant="light" expand="lg" className="shadow-sm border-bottom py-2 sticky-top">
+        <Navbar
+            bg="white"
+            variant="light"
+            expand="lg"
+            className="shadow-sm border-bottom py-2 admin-header-fixed"
+            style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                zIndex: 1030,
+                backgroundColor: '#fff',
+            }}
+        >
             <Container fluid>
                 <div className="d-flex align-items-center">
                     <Button variant="link" className="text-dark me-3" onClick={toggleSidebar}>

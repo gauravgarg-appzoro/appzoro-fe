@@ -20,12 +20,11 @@ const AdminLayout = ({ children, title = 'Admin Dashboard' }) => {
                 <div className="d-flex flex-column min-vh-100" style={{ backgroundColor: '#f8f9fa' }}>
                     <Header toggleSidebar={toggleSidebar} />
 
-                    <div className="d-flex flex-grow-1">
+                    {/* paddingTop clears the fixed header (Navbar py-2 + logo h=40px ≈ 56px). */}
+                    <div className="d-flex flex-grow-1" style={{ paddingTop: '64px' }}>
                         <Sidebar isOpen={sidebarOpen} />
 
                         <main className="flex-grow-1 p-4" style={{ marginLeft: sidebarOpen ? '80px' : '250px', transition: 'margin 0.3s' }}>
-                            {/* Mobile sidebar adjust logic needed usually, but for now simple desktop first */}
-                            {/* Using media query/css logic for sidebar toggle usually, here relying on prop */}
                             {children}
                         </main>
                     </div>
@@ -33,6 +32,16 @@ const AdminLayout = ({ children, title = 'Admin Dashboard' }) => {
             </ProtectedRoute>
 
             <style jsx global>{`
+        /* Admin navbar must stay fixed at the top while page content scrolls. */
+        .admin-header-fixed {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            z-index: 1030 !important;
+            background-color: #fff !important;
+        }
+
         @media (max-width: 991.98px) {
             main {
                 margin-left: 0 !important;

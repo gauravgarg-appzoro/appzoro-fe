@@ -9,8 +9,9 @@ import ContactHref from '../../common/ContactHref';
 import { LuMoveRight, LiaIndustrySolid } from '../../OptimizedIcons';
 import ServiceHeroBanner from '../../common/ServiceHeroBanner';
 import AppDevelopmentPartners from '../../common/AppDevelopmentPartners';
+import RichText from '../../common/RichText';
 
-const ReactMarkdown = dynamic(() => import('react-markdown'), { ssr: false });
+const ReactMarkdown = dynamic(() => import('react-markdown'));
 
 /**
  * Entity-aware blocks that read from postData via context.
@@ -89,7 +90,7 @@ export function ServiceParentServicesBlock({ postData, STRAPI_IMAGE_BASE_URL = '
                                     <Image src={`${STRAPI_IMAGE_BASE_URL}${srv.mediaItem[0].url}`} width={80} height={80} alt={srv.name || ''} />
                                 )}
                                 <h4>{srv.name}</h4>
-                                <p>{srv.content}</p>
+                                <RichText>{srv.content}</RichText>
                             </div>
                         </Col>
                     ))}
@@ -264,7 +265,7 @@ export function ProductHeroBlock({ postData, STRAPI_IMAGE_BASE_URL = '' }) {
                 <Row className="align-items-center">
                     <Col xs="12" md="7">
                         <div className="product-banner-info">
-                            <h1><span>{firstTwo}</span> <br />{rest}</h1>
+                            <h1><span>{firstTwo}</span>{rest ? <span className="h1-line2">{rest}</span> : null}</h1>
                             <p>{postData.shortDescription}</p>
                             <ContactHref href="/contact-us" className="btn-style-arrow me-3">
                                 Get Free Consultation <span><LuMoveRight /></span>
@@ -339,7 +340,7 @@ export function ProductSectionBlock({ postData, STRAPI_IMAGE_BASE_URL = '', sect
             <section className="container py-5">
                 <div className="section-title text-center">
                     <h3>{section.heading}</h3>
-                    {section.short_description && <p>{section.short_description}</p>}
+                    {section.short_description && <RichText>{section.short_description}</RichText>}
                 </div>
                 <Row className="mt-4">
                     {layout === 'layout_1' && section.image?.url && (
@@ -353,7 +354,7 @@ export function ProductSectionBlock({ postData, STRAPI_IMAGE_BASE_URL = '', sect
                                 )}
                                 <div>
                                     <h5>{pt.title}</h5>
-                                    <p className="text-muted">{pt.description}</p>
+                                    <RichText>{pt.description}</RichText>
                                 </div>
                             </div>
                         ))}
@@ -369,7 +370,7 @@ export function ProductSectionBlock({ postData, STRAPI_IMAGE_BASE_URL = '', sect
             <Container>
                 <div className="section-title text-center">
                     <h3>{section.heading}</h3>
-                    {section.short_description && <p>{section.short_description}</p>}
+                    {section.short_description && <RichText>{section.short_description}</RichText>}
                 </div>
                 <Row className="mt-4">
                     {boxes.map((box, i) => (

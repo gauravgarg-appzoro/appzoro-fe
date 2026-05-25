@@ -134,7 +134,8 @@ section.why-az-industry {
     h5 {
       margin-top: -65px;
       color: $primary-color;
-      font-size: 50px;
+      font-size: clamp(1.75rem, 1.25rem + 2vw, 3.125rem);
+      line-height: 1.1;
       font-weight: 800;
       transition: 0.5s;
     }
@@ -163,7 +164,7 @@ section.why-az-industry {
     transition: 0.5s;
 
     >svg {
-      font-size: 65px;
+      font-size: clamp(2.5rem, 2rem + 2.5vw, 4rem);
     }
 
     h3 {

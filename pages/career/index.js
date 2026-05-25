@@ -1,13 +1,20 @@
 import React, { useState } from 'react'
+import { DEFAULT_OG_IMAGE } from '../../lib/defaultOgImage';
+import { setEdgeCache } from '../../lib/edgeCache';
 import MainHeader from '../../components/MainHeader'
 import Footer from '../../components/Footer'
 import { Container } from 'react-bootstrap'
 import TalkExpert from '../../components/common/TalkExpert'
 import Modal from 'react-bootstrap/Modal';
-import HubspotForm from 'react-hubspot-form';
+import dynamic from 'next/dynamic';
+// Only loaded when the Apply Now modal is opened — keeps ~80KB of HubSpot
+// form code out of the initial career listing bundle.
+const HubspotForm = dynamic(() => import('react-hubspot-form'), { ssr: false });
 import { HUBSPOT_FORM_ID } from '../../lib/constants'
 import MetaData from '../../components/common/MetaData'
 import { REACT_APP_API_URL } from '../../lib/constants'
+import Link from 'next/link'
+import { careerSlug } from '../../lib/contentSlug'
 import {   IoIosArrowForward, LuMoveRight   } from '../../components/OptimizedIcons';
 
 const Career = ({ posts }) => {
@@ -24,7 +31,7 @@ const Career = ({ posts }) => {
   const handleShowApplyModal = (data) => setShowApplyModal(true);
   return (
     <>
-      <MetaData title="Join Our Innovative Team | AppZoro Careers" description="Explore exciting career opportunities at AppZoro. Join a team of passionate developers, engineers, and innovators. Check out open positions and apply today!" url={`/career`} image={`${REACT_APP_API_URL}/assets/images/az-logo-large.png`} />
+      <MetaData title="Join Our Innovative Team | AppZoro Careers" description="Explore exciting career opportunities at AppZoro. Join a team of passionate developers, engineers, and innovators. Check out open positions and apply today!" url={`/career`} image={DEFAULT_OG_IMAGE} />
       <MainHeader />
       <section className='page-title career-bg'>
         <Container>
@@ -65,7 +72,7 @@ const Career = ({ posts }) => {
                       <tr key={index}>
                         <td>{item?.Title}</td>
                         <td>{item?.Experience}</td>
-                        <td><button onClick={() => handleShow(item)} className="btn-style-arrow me-3 btn-theme-transparent">View Detail <span><LuMoveRight /></span></button></td>
+                        <td><Link href={`/career/${careerSlug(item)}`} className="btn-style-arrow me-3 btn-theme-transparent">View Detail <span><LuMoveRight /></span></Link></td>
                         <td className='text-end'><button onClick={() => handleShowApplyModal()} className="btn-style-arrow ms-3">Apply Now <span><LuMoveRight /></span> </button></td>
                         {/* <td><IoIosArrowForward /></td> */}
                       </tr>
@@ -159,7 +166,8 @@ const Career = ({ posts }) => {
   )
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  setEdgeCache(context.res, 'short');
   const res = await fetch(`${REACT_APP_API_URL}careers`);
   const posts = await res.json();
   return {

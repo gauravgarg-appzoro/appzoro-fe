@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { DEFAULT_OG_IMAGE } from '../../lib/defaultOgImage';
 import Link from "next/link";
 import { Container, Row, Col } from "react-bootstrap";
 import Footer from "../../components/Footer";
@@ -88,7 +89,7 @@ const Sitemap = () => {
         title="Sitemap | AppZoro"
         description="Explore the complete sitemap of AppZoro. Easily find links to all pages, products, and services offered on our website."
         url={`/services`}
-        image={`${process.env.REACT_APP_API_URL}/assets/images/az-logo-large.png`}
+        image={DEFAULT_OG_IMAGE}
       />
       <MainHeader />
       <section className='page-title getting-started-bg'>

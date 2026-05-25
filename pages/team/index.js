@@ -1,4 +1,5 @@
 import React from 'react'
+import { DEFAULT_OG_IMAGE } from '../../lib/defaultOgImage';
 import Footer from '../../components/Footer'
 import MainHeader from '../../components/MainHeader'
 import { Container, Row, Col } from 'react-bootstrap'
@@ -102,7 +103,7 @@ const Team = () => {
     ]
     return (
         <>
-            <MetaData title="Team and Members | Appzoro Technologies " description="Appzoro Technology has a professional team that will take your software project to the Next level of success" url={`/team`} image={`${process.env.REACT_APP_API_URL}/assets/images/az-logo-large.png`} />
+            <MetaData title="Team and Members | Appzoro Technologies " description="Appzoro Technology has a professional team that will take your software project to the Next level of success" url={`/team`} image={DEFAULT_OG_IMAGE} />
             <MainHeader />
             <section className='page-title service-bg'>
                 <Container>

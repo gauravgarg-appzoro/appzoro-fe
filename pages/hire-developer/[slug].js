@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { DEFAULT_OG_IMAGE } from '../../lib/defaultOgImage';
+import { setEdgeCache } from '../../lib/edgeCache';
 import MainHeader from "../../components/MainHeader";
 import Footer from "../../components/Footer";
 import { Col, Container, Row } from "react-bootstrap";
 import TalkExpert from "../../components/common/TalkExpert";
 import dynamic from "next/dynamic";
 import MetaData from "../../components/common/MetaData";
+import SeoJsonLd from "../../components/common/SeoJsonLd";
 import { REACT_APP_API_URL } from "../../lib/constants";
+import { buildBreadcrumbSchema, buildJobPostingSchema } from "../../lib/schemaBuilders";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 const ReactMarkdown = dynamic(import("react-markdown"));
 
 const HireDeveloperDetails = ({ posts: initialPosts }) => {
@@ -18,20 +21,32 @@ const HireDeveloperDetails = ({ posts: initialPosts }) => {
   }, [initialPosts]);
 
   const postData = Array.isArray(posts) && posts.length > 0 ? posts[0] : null;
-  const [checkData, setCheckData] = useState(null);
-  useEffect(() => {
-    setCheckData(["test", "test1", "test2"]);
-  }, []);
-  const pathname = usePathname();
-  console.log("postdetails", postData);
+  const pageUrl = postData?.slug ? `/hire-developer/${postData.slug}` : '/hire-developer';
   return (
     <>
       <MetaData
-        title={postData?.seo_title}
-        description={postData?.seo_description}
-        url={`/locations/${postData?.slug}`}
-        image={`${REACT_APP_API_URL}/assets/images/az-logo-large.png`}
+        title={postData?.seo_title || postData?.job_title || 'Hire Developer | AppZoro'}
+        description={postData?.seo_description || postData?.job_description?.slice?.(0, 160) || 'Hire dedicated mobile and web developers from AppZoro.'}
+        url={pageUrl}
+        image={DEFAULT_OG_IMAGE}
       />
+      {postData && (
+        <SeoJsonLd
+          data={[
+            buildBreadcrumbSchema([
+              { name: 'Home', url: '/' },
+              { name: 'Hire Developer', url: '/hire-developer' },
+              { name: postData.job_title || 'Role', url: pageUrl },
+            ]),
+            buildJobPostingSchema({
+              title: postData.job_title,
+              description: postData.job_description,
+              url: pageUrl,
+              datePosted: postData.createdAt || postData.published_at,
+            }),
+          ]}
+        />
+      )}
       <MainHeader />
 
       {postData ? (
@@ -69,6 +84,7 @@ const HireDeveloperDetails = ({ posts: initialPosts }) => {
 };
 
 export async function getServerSideProps(params) {
+  setEdgeCache(params.res, 'long');
   const [postsRes] = await Promise.all([
     fetch(
       `${REACT_APP_API_URL}hire-developers?slug=${params.query.slug}`

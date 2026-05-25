@@ -8,6 +8,8 @@ import ContactHref from "../../components/common/ContactHref";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import MetaData from "../../components/common/MetaData";
+import SeoJsonLd from "../../components/common/SeoJsonLd";
+import { buildBreadcrumbSchema } from "../../lib/schemaBuilders";
 import Head from "next/head";
 import fs from 'fs';
 import path from 'path';
@@ -39,21 +41,30 @@ const PortFolioDetail = ({ posts: initialPosts, featuredPosts: initialFeaturedPo
   return (
     <>
       <MetaData
-        title={postData?.seo_title}
-        description={postData?.seo_description}
+        title={postData?.seo_title || postData?.Title || 'Case Study | AppZoro'}
+        description={postData?.seo_description || postData?.Banner_short_description || 'App development case study from AppZoro.'}
         url={`/case-study/${postData?.slug || ''}`}
-        image={`${STRAPI_IMAGE_BASE_URL}${postData?.secondary_block_img?.url || ''}`}
+        image={postData?.secondary_block_img?.url ? `${STRAPI_IMAGE_BASE_URL}${postData.secondary_block_img.url}` : undefined}
+        robots={postData?.robots_meta}
       />
-      < Head >
-        {postData?.schema_code &&
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: sanitizeJsonLdString(String(postData?.schema_code || '')),
-            }}
-          ></script>
-        }
-      </Head >
+      <SeoJsonLd
+        data={buildBreadcrumbSchema([
+          { name: 'Home', url: '/' },
+          { name: 'Case Study', url: '/case-study' },
+          { name: postData?.Title || 'Project', url: `/case-study/${postData?.slug || ''}` },
+        ])}
+      />
+      <Head>
+        {(() => {
+          const cleanedSchema = sanitizeJsonLdString(String(postData?.schema_code || ''), { stripFaqPage: true });
+          return cleanedSchema ? (
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: cleanedSchema }}
+            ></script>
+          ) : null;
+        })()}
+      </Head>
       <MainHeader />
       <section className="page-title industry-bg" style={{ position: 'relative' }}>
         {postData?.Banner_Image?.url && (

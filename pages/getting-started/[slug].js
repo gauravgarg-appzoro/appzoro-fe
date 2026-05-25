@@ -1,43 +1,53 @@
 import MainHeader from "../../components/MainHeader";
+import { DEFAULT_OG_IMAGE } from '../../lib/defaultOgImage';
 import Footer from "../../components/Footer";
 import { Col, Container, Row } from "react-bootstrap";
 import Image from "next/image";
 import Link from "next/link";
 import TalkExpert from "../../components/common/TalkExpert";
-import NoCodeAgile from "./NoCodeAgile";
-import StartUps from "./StartUps";
-import Enterprises from "./Enterprises";
+import NoCodeAgile from "../../components/getting-started/NoCodeAgile";
+import StartUps from "../../components/getting-started/StartUps";
+import Enterprises from "../../components/getting-started/Enterprises";
 import MetaData from "../../components/common/MetaData";
 import { REACT_APP_API_URL, STRAPI_IMAGE_BASE_URL } from "../../lib/constants";
 import {   LuMoveRight, FaArrowRightLong   } from '../../components/OptimizedIcons';
 
+const SLUG_META = {
+  mvp: {
+    title: 'Streamlined MVP Development for Startups | AppZoro',
+    description:
+      "Explore AppZoro's MVP development process, emphasizing quick, cost-effective solutions for startups to validate their product ideas in the market efficiently.",
+    url: '/getting-started/mvp',
+  },
+  'start-ups': {
+    title: 'Streamlined App Development Process for Startups at AppZoro',
+    description:
+      'AppZoro assists startups in navigating the app development process, from initial brainstorming to creating MVPs aligned with market demands and goals.',
+    url: '/getting-started/start-ups',
+  },
+  enterprises: {
+    title: 'Comprehensive Enterprise Software Development Lifecycle',
+    description:
+      "Explore AppZoro's tailored app development process for enterprises, emphasizing collaboration, user experience, and cost-effective solutions.",
+    url: '/getting-started/enterprises',
+  },
+};
+
 const GettingStartedDetails = ({ posts, pageSlug }) => {
+  const meta = SLUG_META[pageSlug] || {
+    title: 'Software Development Process | AppZoro',
+    description: 'Learn how AppZoro guides your project from discovery through delivery and ongoing support.',
+    url: `/getting-started/${pageSlug || ''}`,
+  };
+
   return (
     <>
-      {pageSlug === "mvp" && (
-        <MetaData
-          title="Streamlined MVP Development for Startups | AppZoro"
-          description="Explore AppZoro's MVP development process, emphasizing quick, cost-effective solutions for startups to validate their product ideas in the market efficiently."
-          url={`/getting-started/mvp`}
-          image={`${REACT_APP_API_URL}/assets/images/az-logo-large.png`}
-        />
-      )}
-      {pageSlug === "start-ups" && (
-        <MetaData
-          title="Streamlined App Development Process for Startups at AppZoro"
-          description="AppZoro assists startups in navigating the app development process, from initial brainstorming to creating MVPs aligned with market demands and goals."
-          url={`/getting-started/start-ups`}
-          image={`${REACT_APP_API_URL}/assets/images/az-logo-large.png`}
-        />
-      )}
-      {pageSlug === "enterprises" && (
-        <MetaData
-          title="Comprehensive Enterprise Software Development Lifecycle"
-          description="Explore AppZoro's tailored app development process for enterprises, emphasizing collaboration, user experience, and cost-effective solutions."
-          url={`/getting-started/enterprises`}
-          image={`${REACT_APP_API_URL}/assets/images/az-logo-large.png`}
-        />
-      )}
+      <MetaData
+        title={meta.title}
+        description={meta.description}
+        url={meta.url}
+        image={DEFAULT_OG_IMAGE}
+      />
       <MainHeader />
       <section className="gs-detail">
         <Container>

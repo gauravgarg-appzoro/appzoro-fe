@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { DEFAULT_OG_IMAGE } from '../../lib/defaultOgImage';
+import { SITE_URL } from '../../lib/seo';
+import { setEdgeCache } from '../../lib/edgeCache';
 import MainHeader from "../../components/MainHeader";
 import Footer from "../../components/Footer";
 import { Container, Row, Col } from "react-bootstrap";
@@ -13,6 +16,8 @@ const ArticlesView = dynamic(() => import("../../components/common/ArticlesView"
 const TalkExpert = dynamic(() => import("../../components/common/TalkExpert"));
 import Link from "next/link";
 import MetaData from "../../components/common/MetaData";
+import SeoJsonLd from "../../components/common/SeoJsonLd";
+import { buildBreadcrumbSchema } from "../../lib/schemaBuilders";
 import { STRAPI_IMAGE_BASE_URL } from "../../lib/constants";
 import { LuMoveRight } from '../../components/OptimizedIcons';
 import { normalizeListPayload, normalizeCountPayload, fetchNoStore } from "../../lib/apiNormalize";
@@ -28,15 +33,10 @@ const mapServiceCard = (post) => ({
 });
 
 const Services = ({ initialPosts = [], total: totalFromServer = 0 }) => {
-  const [postData, setPostData] = useState([]);
   const [posts, setPosts] = useState(() => initialPosts.map(mapServiceCard));
   const [totalServices, setTotalServices] = useState(() => normalizeCountPayload(totalFromServer));
   const [listStart, setListStart] = useState(PAGE_SIZE);
   const [listLoading, setListLoading] = useState(false);
-
-  useEffect(() => {
-    setPostData(["test", "test1", "test2"]);
-  }, []);
 
   useEffect(() => {
     setPosts(initialPosts.map(mapServiceCard));
@@ -73,7 +73,7 @@ const Services = ({ initialPosts = [], total: totalFromServer = 0 }) => {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "ImageObject",
-              "contentUrl": `${process.env.REACT_APP_API_URL || 'https://appzoro.com'}/assets/images/banner/service_main.png`, // Assuming local image is served from base domain
+              "contentUrl": `${SITE_URL}/assets/images/banner/service_main.png`,
               "license": "https://appzoro.com/",
               "acquireLicensePage": "https://appzoro.com/contact-us",
               "creditText": "Appzoro Technologies",
@@ -90,7 +90,13 @@ const Services = ({ initialPosts = [], total: totalFromServer = 0 }) => {
         title="Software Development Services in USA | AppZoro"
         description="AppZoro offers top-tier software development services in the USA, delivering tailored solutions to meet your business needs and enhance operational efficiency."
         url={`/services`}
-        image={`${process.env.REACT_APP_API_URL}/assets/images/az-logo-large.png`}
+        image={DEFAULT_OG_IMAGE}
+      />
+      <SeoJsonLd
+        data={buildBreadcrumbSchema([
+          { name: 'Home', url: '/' },
+          { name: 'Services', url: '/services' },
+        ])}
       />
       <MainHeader />
       <section className="page-title service-bg" style={{ position: "relative" }}>
@@ -108,7 +114,7 @@ const Services = ({ initialPosts = [], total: totalFromServer = 0 }) => {
         />
         <Container>
           <div className="page-section-title">
-            <h1>Software Development Services</h1>
+            <h1>Software Development Services in Atlanta &amp; USA</h1>
             <p>
               Unlock the potential of custom software development services and
               ensure quality services to all sizes and shapes. We provide
@@ -240,7 +246,7 @@ const Services = ({ initialPosts = [], total: totalFromServer = 0 }) => {
           </Row>
         </Container>
       </section>
-      <CaseStudy isCacehLoad={postData} />
+      <CaseStudy />
       <TechStack />
       <ClientReview />
       <ArticlesView />
@@ -253,7 +259,8 @@ const Services = ({ initialPosts = [], total: totalFromServer = 0 }) => {
 const API_BASE = (process.env.NEXT_PUBLIC_API_URL || 'https://admin.appzoro.com').replace(/\/$/, '');
 const isPublishedService = (post) => Boolean(post?.published_at || post?.publishedAt);
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  setEdgeCache(context.res, 'short');
   try {
     const [listRes, countRes] = await Promise.all([
       fetchNoStore(`${API_BASE}/services?_start=0&_limit=${PAGE_SIZE}&_sort=createdAt:DESC`),

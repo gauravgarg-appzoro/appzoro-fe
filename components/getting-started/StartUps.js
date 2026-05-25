@@ -9,7 +9,7 @@ const StartUps = () => {
                 <Row className='align-items-center'>
                     <Col xs="12" md="6">
                         <div className='gs-lr-img'>
-                            <Image  src="/assets/images/nca4.png" width="575" height="490" alt="No code agile" />
+                            <Image src="/assets/images/nca4.png" width={575} height={490} alt="Startup discovery workshop" />
                         </div>
                     </Col>
                     <Col xs="12" md="6">
@@ -22,20 +22,20 @@ const StartUps = () => {
                 <Row className='align-items-center'>
                     <Col xs="12" md="6">
                         <div className='gs-lr-img'>
-                            <Image  src="/assets/images/nca2.png" width="575" height="490" alt="No code agile" />
+                            <Image src="/assets/images/nca2.png" width={575} height={490} alt="Startup wireframes" />
                         </div>
                     </Col>
                     <Col xs="12" md="6">
                         <div className='gs-lr-info'>
                             <h3>Wireframes</h3>
-                            <p>In the wireframe, we will make the structure of your vision, which does not currently exist on the market. We use a User flow diagram from words on the page to screens demonstrating the customer’s journey.</p>
+                            <p>In the wireframe, we will make the structure of your vision, which does not currently exist on the market. We use a User flow diagram from words on the page to screens demonstrating the customer&apos;s journey.</p>
                         </div>
                     </Col>
                 </Row>
                 <Row className='align-items-center'>
                     <Col xs="12" md="6">
                         <div className='gs-lr-img'>
-                            <Image  src="/assets/images/nca3.png" width="575" height="490" alt="No code agile" />
+                            <Image src="/assets/images/nca3.png" width={575} height={490} alt="Startup branding" />
                         </div>
                     </Col>
                     <Col xs="12" md="6">
@@ -48,7 +48,7 @@ const StartUps = () => {
                 <Row className='align-items-center'>
                     <Col xs="12" md="6">
                         <div className='gs-lr-img'>
-                            <Image  src="/assets/images/nca1.png" width="575" height="490" alt="No code agile" />
+                            <Image src="/assets/images/nca1.png" width={575} height={490} alt="User stories and cost" />
                         </div>
                     </Col>
                     <Col xs="12" md="6">

@@ -431,7 +431,8 @@
 @media (min-width: 768px) and (max-width: 991px) {
     .ai-hero-section {
         .page-section-title.service-title h1 {
-            font-size: 32px !important;
+            font-size: clamp(1.5rem, 1rem + 2vw, 2rem) !important;
+            line-height: 1.2 !important;
         }
     }
 
@@ -443,8 +444,47 @@
     .ai-benefits-section,
     .ai-faq-section {
         h2 {
-            font-size: 32px !important;
+            font-size: clamp(1.375rem, 1rem + 1.5vw, 1.75rem) !important;
             line-height: 1.3 !important;
         }
+    }
+}
+
+// Laptop + Windows display scaling (992px - 1366px)
+@media (min-width: 992px) and (max-width: 1366px) {
+    .page-title.service-page-banner.ai-hero-section {
+        padding-top: clamp(36px, 8vh, 72px) !important;
+        padding-bottom: clamp(24px, 4vh, 40px) !important;
+    }
+
+    .page-section-title.service-title h1 {
+        font-size: clamp(1.5rem, 1rem + 2vw, 2.25rem) !important;
+        line-height: 1.2 !important;
+    }
+
+    .ai-expertise-section,
+    .ai-expertise-proven-section,
+    .ai-why-choose-section,
+    .ai-process-section,
+    .ai-cta-section,
+    .ai-stats-section,
+    .ai-benefits-section,
+    .ai-faq-section {
+        .section-title-dark h2,
+        h2 {
+            font-size: clamp(1.375rem, 1rem + 1.5vw, 2rem) !important;
+            line-height: 1.25 !important;
+        }
+    }
+}
+
+@media (max-height: 860px) and (min-width: 992px) {
+    .page-title {
+        padding-top: clamp(28px, 5vh, 48px) !important;
+        padding-bottom: clamp(24px, 4vh, 40px) !important;
+    }
+
+    .page-title.service-page-banner {
+        padding-bottom: 24px !important;
     }
 }

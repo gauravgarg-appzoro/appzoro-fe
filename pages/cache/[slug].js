@@ -1,38 +1,26 @@
-// pages/cache/[slug].js
+import Head from 'next/head';
 
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-
+/** Legacy cache viewer — blocked from search engines. */
 const CachePage = () => {
-  const router = useRouter();
-  const { slug } = router.query;
-  const [cachedContent, setCachedContent] = useState('');
-
-  useEffect(() => {
-    const fetchCachedContent = async () => {
-      try {
-        const response = await fetch(`https://webcache.googleusercontent.com/search?q=cache:${slug}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch cached content');
-        }
-        const data = await response.text();
-        setCachedContent(data);
-      } catch (error) {
-        console.error('Error fetching cached content:', error);
-      }
-    };
-
-    if (slug) {
-      fetchCachedContent();
-    }
-  }, [slug]);
-
   return (
-    <div>
-      <h1>Cached Page</h1>
-      <div dangerouslySetInnerHTML={{ __html: cachedContent }} />
-    </div>
+    <>
+      <Head>
+        <title>Cache | AppZoro</title>
+        <meta name="robots" content="noindex, nofollow, noarchive" />
+      </Head>
+      <main className="container py-5">
+        <h1>Page unavailable</h1>
+        <p>This legacy cache route is no longer available. Please use the main site navigation.</p>
+      </main>
+    </>
   );
 };
+
+export async function getServerSideProps({ res }) {
+  if (res?.setHeader) {
+    res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
+  }
+  return { props: {} };
+}
 
 export default CachePage;

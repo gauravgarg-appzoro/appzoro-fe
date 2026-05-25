@@ -20,37 +20,23 @@ import MetaData from "../../components/common/MetaData";
 import { STRAPI_IMAGE_BASE_URL } from "../../lib/constants";
 import { rewriteLegacyWpContentUploadsToAbsolute } from "../../lib/rewriteLegacyWpMedia";
 import { sanitizeJsonLdString } from "../../lib/jsonLdSanitize";
+import { setEdgeCache } from "../../lib/edgeCache";
+import RichText from "../../components/common/RichText";
+import { useClientMounted } from "../../lib/useClientMounted";
+import SeoJsonLd from "../../components/common/SeoJsonLd";
+import { buildBreadcrumbSchema, buildServiceSchema, buildWebPageSchema } from "../../lib/schemaBuilders";
+import { absoluteUrl } from "../../lib/seo";
 // import LocationsSlide from "../../components/common/LocationsSlide";
-const CaseStudy = dynamic(() => import("../../components/common/CaseStudy"), {
-  loading: () => <p>Loading...</p>,
-});
-const TechStack = dynamic(() => import("../../components/common/TechStack"), {
-  loading: () => <p>Loading...</p>,
-});
-const ClientReview = dynamic(() => import("../../components/common/ClientReview"), {
-  loading: () => <p>Loading...</p>,
-});
-const ArticlesView = dynamic(() => import("../../components/common/ArticlesView"), {
-  loading: () => <p>Loading...</p>,
-});
-const TalkExpert = dynamic(() => import("../../components/common/TalkExpert"), {
-  loading: () => <p>Loading...</p>,
-});
-const ServiceFaqs = dynamic(() => import("../../components/common/ServiceFaqs"), {
-  loading: () => <p>Loading...</p>,
-});
-const ContentExpandCollapse = dynamic(() => import("../../components/common/ContentExpandCollapse"), {
-  loading: () => <p>Loading...</p>,
-});
-const ServiceWhySection = dynamic(() => import("../../components/common/ServiceWhySection"), {
-  loading: () => <p>Loading...</p>,
-});
-const AppDevelopmentPartners = dynamic(() => import("../../components/common/AppDevelopmentPartners"), {
-  loading: () => <p>Loading...</p>,
-});
-const ConnectWIthExpert = dynamic(() => import("../../components/common/ConnectWIthExpert"), {
-  loading: () => <p>Loading...</p>,
-});
+const CaseStudy = dynamic(() => import("../../components/common/CaseStudy"));
+const TechStack = dynamic(() => import("../../components/common/TechStack"));
+const ClientReview = dynamic(() => import("../../components/common/ClientReview"));
+const ArticlesView = dynamic(() => import("../../components/common/ArticlesView"));
+const TalkExpert = dynamic(() => import("../../components/common/TalkExpert"));
+const ServiceFaqs = dynamic(() => import("../../components/common/ServiceFaqs"));
+const ContentExpandCollapse = dynamic(() => import("../../components/common/ContentExpandCollapse"));
+const ServiceWhySection = dynamic(() => import("../../components/common/ServiceWhySection"));
+const AppDevelopmentPartners = dynamic(() => import("../../components/common/AppDevelopmentPartners"));
+const ConnectWIthExpert = dynamic(() => import("../../components/common/ConnectWIthExpert"));
 import Head from "next/head";
 import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight, MdUpdate, LuMoveRight, GoChecklist, PiUserFocusLight, TbHierarchy, TbWorldCheck, BsGlobe, AiOutlineDeploymentUnit } from '../../components/OptimizedIcons';
 const ReactMarkdown = dynamic(() => import("react-markdown"));
@@ -93,10 +79,7 @@ const ServiceDetails = ({ posts: initialPosts, services: initialServices }) => {
   const isModernTemplate  = postData?.templateType === 'modern';
   const hasModernAbout    = !!(postData?.serviceAboutTitle || postData?.serviceAboutDescription || isModernTemplate);
 
-  const [checkData, setCheckData] = useState(null);
-  useEffect(() => {
-    setCheckData(["test", "test1", "test2"]);
-  }, []);
+  const clientReady = useClientMounted();
 
   const router = useRouter();
 
@@ -126,31 +109,74 @@ const ServiceDetails = ({ posts: initialPosts, services: initialServices }) => {
   };
 
   const handleScroll = (e, sectionId) => {
+    // Preserve native modifier-key semantics (Cmd/Ctrl/Shift/Alt+click)
+    // so users can still open section anchors in new tab, copy link, etc.
+    // Only hijack plain left-click for smooth-scroll UX.
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();
     scrollToSection(sectionId, 80); // Adjust the offset as needed (e.g., for a fixed header height)
   };
 
+  const serviceUrl = postData?.slug ? `/services/${postData.slug}` : '/services';
+  const serviceTitle = postData?.seoTitle || postData?.serviceTitle || 'Software Development Services | AppZoro';
+  const serviceDesc = postData?.seoDescription || postData?.ServiceShortDescription || 'Custom software and app development services from AppZoro.';
+  const serviceImage = postData?.serviceBanner?.url
+    ? `${STRAPI_IMAGE_BASE_URL}${postData.serviceBanner.url}`
+    : absoluteUrl('/assets/images/az-logo-large.png');
+  const hasCmsSchema = Boolean(
+    sanitizeJsonLdString(
+      rewriteLegacyWpContentUploadsToAbsolute(String(postData?.schema_script || ''), STRAPI_IMAGE_BASE_URL),
+      { stripFaqPage: true },
+    ),
+  );
+
   return (
     <>
       <MetaData
-        title={postData?.seoTitle}
-        description={postData?.seoDescription}
-        url={`/services/${postData?.slug}`}
-        image={`${STRAPI_IMAGE_BASE_URL}${postData?.serviceBanner?.url || ''}`}
+        title={serviceTitle}
+        description={serviceDesc}
+        url={serviceUrl}
+        image={serviceImage}
+        robots={postData?.robots_meta || postData?.robotsMeta}
       />
+      {!hasCmsSchema && postData && (
+        <SeoJsonLd
+          data={[
+            buildBreadcrumbSchema([
+              { name: 'Home', url: '/' },
+              { name: 'Services', url: '/services' },
+              { name: postData.serviceTitle || 'Service', url: serviceUrl },
+            ]),
+            buildServiceSchema({
+              name: postData.serviceTitle || serviceTitle,
+              description: serviceDesc,
+              url: serviceUrl,
+              image: serviceImage,
+            }),
+            buildWebPageSchema({
+              name: serviceTitle,
+              description: serviceDesc,
+              url: serviceUrl,
+              image: serviceImage,
+            }),
+          ]}
+        />
+      )}
       <Head>
         <link rel="preconnect" href={STRAPI_IMAGE_BASE_URL} />
-        {postData?.schema_script && (
-          <script
-            type="application/ld+json"
-            className="yoast-schema-graph"
-            dangerouslySetInnerHTML={{
-              __html: sanitizeJsonLdString(
-                rewriteLegacyWpContentUploadsToAbsolute(String(postData?.schema_script || ''), STRAPI_IMAGE_BASE_URL),
-              ),
-            }}
-          ></script>
-        )}
+        {(() => {
+          const cleanedSchema = sanitizeJsonLdString(
+            rewriteLegacyWpContentUploadsToAbsolute(String(postData?.schema_script || ''), STRAPI_IMAGE_BASE_URL),
+            { stripFaqPage: true },
+          );
+          return cleanedSchema ? (
+            <script
+              type="application/ld+json"
+              className="yoast-schema-graph"
+              dangerouslySetInnerHTML={{ __html: cleanedSchema }}
+            ></script>
+          ) : null;
+        })()}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -294,7 +320,7 @@ const ServiceDetails = ({ posts: initialPosts, services: initialServices }) => {
           )}
           {postData?.parentServices?.length > 0 && (
             <section id="services"
-              className={`services-views pb-0 ${checkData?.length > 0 ? "asd" : "disabled-js-swiper"
+              className={`services-views pb-0 ${clientReady ? "asd" : "disabled-js-swiper"
                 }`}
             >
               <Container>
@@ -341,7 +367,7 @@ const ServiceDetails = ({ posts: initialPosts, services: initialServices }) => {
                             />
                           </div>
                           <h3>{post?.name}</h3>
-                          <p>{post?.content}</p>
+                          <RichText>{post?.content}</RichText>
                         </div>
                       </SwiperSlide>
                     ))}
@@ -368,13 +394,13 @@ const ServiceDetails = ({ posts: initialPosts, services: initialServices }) => {
                             src="/assets/images/counter_icon1_theme.png"
                             width="59"
                             height="67"
-                            alt="Appzoro"
+                            alt=""
 
                           />
                         </div>
                         <div className="counter-text">
                           <div className="counter-number-text">
-                            {postData?.length > 0 ? (
+                            {clientReady ? (
                               <>
                                 <CountUp delay={1} duration={1} end={150} /> +
                               </>
@@ -396,13 +422,13 @@ const ServiceDetails = ({ posts: initialPosts, services: initialServices }) => {
                             src="/assets/images/counter_icon2_theme.png"
                             width="67"
                             height="67"
-                            alt="Appzoro"
+                            alt=""
 
                           />
                         </div>
                         <div className="counter-text">
                           <div className="counter-number-text">
-                            {postData?.length > 0 ? (
+                            {clientReady ? (
                               <>
                                 <CountUp delay={1} duration={1} end={5} />
                                 M+
@@ -425,13 +451,13 @@ const ServiceDetails = ({ posts: initialPosts, services: initialServices }) => {
                             src="/assets/images/counter_icon3_theme.png"
                             width="64"
                             height="67"
-                            alt="Appzoro"
+                            alt=""
 
                           />
                         </div>
                         <div className="counter-text">
                           <div className="counter-number-text">
-                            {postData?.length > 0 ? (
+                            {clientReady ? (
                               <>
                                 <CountUp delay={1} duration={1} end={150} />+
                               </>
@@ -450,13 +476,13 @@ const ServiceDetails = ({ posts: initialPosts, services: initialServices }) => {
                             src="/assets/images/counter_icon4_theme.png"
                             width="67"
                             height="67"
-                            alt="Appzoro"
+                            alt=""
 
                           />
                         </div>
                         <div className="counter-text">
                           <div className="counter-number-text">
-                            {postData?.length > 0 ? (
+                            {clientReady ? (
                               <>
                                 <CountUp delay={1} duration={1} end={200} />+
                               </>
@@ -480,7 +506,7 @@ const ServiceDetails = ({ posts: initialPosts, services: initialServices }) => {
                   <Col md="6" xs="12">
                     <div className="why-az-content">
                       <h2>{postData?.serviceInfoTitle}</h2>
-                      {checkData?.length > 0 ? (
+                      {clientReady ? (
                         <ReactMarkdown>
                           {postData?.serviceInfoDescription}
                         </ReactMarkdown>
@@ -533,11 +559,7 @@ const ServiceDetails = ({ posts: initialPosts, services: initialServices }) => {
                         <Tab.Pane eventKey={item.id} key={item.id}>
                           <Row>
                             <Col md="6" xs="12">
-                              {checkData?.length > 0 ? (
-                                <ReactMarkdown>{item.content}</ReactMarkdown>
-                              ) : (
-                                <p>{item.content}</p>
-                              )}
+                              <RichText>{item.content}</RichText>
                             </Col>
 
                             <Col md="6" xs="12">
@@ -631,7 +653,7 @@ const ServiceDetails = ({ posts: initialPosts, services: initialServices }) => {
           {postData?.ctaSections?.[2] && (
             <ServiceCTABanner {...postData.ctaSections[2]} className="ai-lost-potential-cta" />
           )}
-          <CaseStudy isCacehLoad={checkData} />
+          <CaseStudy />
           {hasModernStats ? (
             <ServiceStatsSection
               title={postData.statsSection.title}
@@ -800,7 +822,8 @@ const normalizeServiceForPage = (post) => {
   return normalized;
 };
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps({ params, res: response }) {
+  setEdgeCache(response, 'long');
   try {
     const res = await fetch(`${API_BASE}/services?slug=${params.slug}`);
     if (!res.ok) return { notFound: true };

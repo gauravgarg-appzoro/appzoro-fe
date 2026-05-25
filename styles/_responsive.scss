@@ -1,0 +1,433 @@
+// Sitewide responsive foundation — loaded last (overrides page partials when needed).
+
+$fluid-page-title: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+$fluid-section-h2: clamp(1.375rem, 0.875rem + 1.75vw, 2.625rem);
+$fluid-section-h3: clamp(1.25rem, 0.75rem + 1.25vw, 2rem);
+$fluid-body-lg: clamp(1rem, 0.875rem + 0.5vw, 1.25rem);
+$fluid-display: clamp(1.75rem, 1.25rem + 2.5vw, 4rem);
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  overflow-x: clip;
+}
+
+body {
+  overflow-x: hidden;
+  min-width: 0;
+}
+
+#main-content {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img,
+video,
+iframe,
+embed,
+object,
+picture,
+svg:not(.navbar-toggler-icon) {
+  max-width: 100%;
+  height: auto;
+}
+
+table {
+  max-width: 100%;
+}
+
+.gs-table,
+.blog-content-main,
+.blog-detail-info,
+.table-responsive-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+
+.container,
+.container-fluid,
+.container-sm,
+.container-md,
+.container-lg,
+.container-xl,
+.container-xxl {
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+.swiper,
+.swiper-wrapper,
+.swiper-slide {
+  max-width: 100%;
+}
+
+// ——— All pages: inner banners (services, blog, career, press, etc.) ———
+.page-title {
+  padding: clamp(40px, 10vh, 100px) 0;
+
+  .page-section-title {
+    h1,
+    h2,
+    h3 {
+      font-size: $fluid-page-title;
+      line-height: 1.2;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    p {
+      font-size: $fluid-body-lg;
+      max-width: 100%;
+    }
+  }
+}
+
+.page-section-title.service-title h1 {
+  font-size: $fluid-page-title;
+  line-height: 1.2;
+}
+
+// ——— Section headings (home, services, industry, blog, ads…) ———
+.section-title-dark h2,
+.section-title h2,
+.section-title h3,
+.whyservice-left_lgtitle,
+.whyservice-left_smtitle,
+.work-page-title h1,
+.works_title .work-page-title h1,
+.portfolio-work .portfolio-column-info h2,
+.portfolio-detail-page-new h2,
+.blog-detail-intro .blog-detail-info h1,
+.blog-list-title h1,
+.contact-info-title h1,
+.contact-page-form .book-content,
+section.not-found h3,
+.location-section1 h1,
+.location-section2 h2,
+.industry-detail-title h2,
+.why-ind-az-content-box .ind-box-counter h5,
+.gs-lr-info h3,
+section.gs-detail .gs-detail-info h3,
+section.gs-detail .gs_banner_inner .gs-inner-head,
+.ads_fonts .home-intro h1,
+.home-section.ads_fonts h1 {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.section-title-dark h2,
+.section-title h2 {
+  font-size: $fluid-section-h2;
+  line-height: 1.25;
+}
+
+.section-title-dark p,
+.section-title p {
+  font-size: $fluid-body-lg;
+  line-height: 1.5;
+}
+
+.whyservice-left_lgtitle {
+  font-size: $fluid-section-h2;
+  line-height: 1.25;
+}
+
+.work-page-title h1,
+.works_title .work-page-title h1 {
+  font-size: clamp(1.5rem, 1rem + 2.5vw, 3rem);
+  line-height: 1.2;
+}
+
+.portfolio-work .portfolio-column-info h2 {
+  font-size: $fluid-section-h2;
+  line-height: 1.25;
+}
+
+// Getting started
+.gs-info-all .gs-info-all-left h3 {
+  font-size: $fluid-display;
+  line-height: 1.15;
+}
+
+.gs-lr-info h3,
+section.gs-detail .gs-detail-info h3,
+section.gs-detail .gs_banner_inner .gs-inner-head {
+  font-size: $fluid-section-h2;
+  line-height: 1.25;
+}
+
+// Contact
+.contact-info-title h1 {
+  font-size: $fluid-section-h2;
+  line-height: 1.2;
+}
+
+.contact-info-title p {
+  font-size: $fluid-body-lg;
+}
+
+.contact-page-form .book-content {
+  font-size: $fluid-section-h2;
+  line-height: 1.2;
+}
+
+// Blog
+.blog-detail-intro .blog-detail-info h1 {
+  font-size: $fluid-section-h2;
+  line-height: 1.25;
+}
+
+// Locations
+.location-section1 h1 {
+  font-size: $fluid-page-title;
+  line-height: 1.2;
+}
+
+.location-section2 h2 {
+  font-size: $fluid-section-h3;
+  line-height: 1.25;
+}
+
+// Product / fitness pages
+.product-hero h1,
+.fitness-hero h1,
+section.product-banner h1 {
+  font-size: $fluid-page-title;
+  line-height: 1.2;
+}
+
+// Service counters & stats
+section.services-counter .serv-counter h3,
+.clutch-awards .ca-title h2,
+.clutch-awards .ca-title h4,
+.ai-stats-section h3 {
+  font-size: clamp(1.5rem, 1rem + 1.5vw, 2.25rem);
+  line-height: 1.2;
+}
+
+// Large vertical padding — scale down on short screens
+section.talk_expert_main,
+section.home-services,
+.industry-section,
+.contact-section,
+.gs-info-all {
+  padding-top: clamp(32px, 6vh, 80px);
+  padding-bottom: clamp(32px, 6vh, 80px);
+}
+
+.gs-info-all {
+  padding-top: clamp(40px, 8vh, 90px);
+  padding-bottom: clamp(40px, 8vh, 90px);
+}
+
+// Service / AI blocks (inline JSX font sizes)
+.ai-expertise-section,
+.ai-expertise-proven-section,
+.ai-why-choose-section,
+.ai-process-section,
+.ai-cta-section,
+.ai-cta-market-section,
+.ai-tech-stack-section,
+.ai-portfolio-section,
+.ai-industry-section,
+.ai-stats-section,
+.ai-benefits-section,
+.ai-awards-section,
+.ai-client-review-section {
+  h2,
+  h3 {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .section-title-dark h2,
+  .section-title h2,
+  h2[style*='fontSize'] {
+    font-size: $fluid-section-h2 !important;
+    line-height: 1.25 !important;
+  }
+}
+
+.portfolio-column-thumb {
+  min-height: clamp(200px, 35vh, 550px);
+}
+
+@media (max-width: 1366px) {
+  .portfolio-column-thumb {
+    height: auto;
+  }
+}
+
+// ——— Laptop + Windows 125–150% scale (992px–1366px wide) ———
+@media (max-width: 1366px) and (min-width: 992px) {
+  .page-title {
+    padding: clamp(36px, 8vh, 64px) 0;
+  }
+
+  .page-section-title.service-title {
+    max-width: 100%;
+  }
+
+  section.services-counter .serv-counter h3 {
+    font-size: clamp(1.375rem, 1rem + 1vw, 1.75rem);
+  }
+
+  .why-ind-az-content-box .ind-box-counter h5 {
+    font-size: clamp(1.75rem, 1.25rem + 2vw, 2.5rem);
+  }
+
+  .why-ind-az-content-box-type2 .ind-box-type2 > svg {
+    font-size: clamp(2.5rem, 2rem + 2vw, 4rem);
+  }
+
+  .ads_fonts.home-section {
+    padding-top: clamp(48px, 8vh, 100px);
+    padding-bottom: clamp(32px, 6vh, 60px);
+  }
+}
+
+// ——— Short viewport height (common on 1366×768 + scaling) ———
+@media (max-height: 860px) and (min-width: 992px) {
+  .page-title {
+    padding: clamp(28px, 5vh, 48px) 0;
+  }
+
+  .page-title .page-section-title h1,
+  .page-title .page-section-title h2,
+  .page-title .page-section-title h3 {
+    margin-bottom: clamp(8px, 1.5vh, 20px);
+    padding-bottom: clamp(6px, 1vh, 12px);
+  }
+
+  .section-title-dark,
+  .section-title {
+    margin-bottom: 10px;
+  }
+
+  .service-page-banner,
+  .page-title.service-page-banner {
+    padding-bottom: 24px !important;
+  }
+}
+
+// ——— Tablet (768–991px) ———
+@media (min-width: 768px) and (max-width: 991px) {
+  .container {
+    max-width: 100%;
+  }
+
+  .portfolio-work {
+    overflow: hidden;
+  }
+
+  .portfolio-app,
+  .portfolio-work:nth-child(even) .portfolio-app {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+    width: min(260px, 70%) !important;
+    margin: -30px auto 16px !important;
+  }
+
+  .portfolio-work .portfolio-column-info,
+  .portfolio-work:nth-child(even) .portfolio-column-info {
+    padding: 24px 16px !important;
+  }
+
+  .press-main .press-item {
+    flex-direction: column;
+
+    .press-img {
+      min-width: 0;
+      width: 100%;
+    }
+
+    .press-info {
+      margin-left: 0;
+      margin-top: 20px;
+    }
+  }
+
+  .ai-expertise-section .section-title-dark h2,
+  .ai-expertise-proven-section .section-title-dark h2,
+  .ai-why-choose-section .section-title h2,
+  .ai-process-section h2,
+  .ai-cta-section h2,
+  .ai-stats-section h2 {
+    font-size: 1.75rem !important;
+    line-height: 1.25 !important;
+  }
+}
+
+// ——— Mobile (≤767px) ———
+@media (max-width: 767px) {
+  .container {
+    max-width: 100%;
+  }
+
+  .fs-48 {
+    font-size: 2rem !important;
+  }
+
+  .fs-32 {
+    font-size: 1.5rem !important;
+  }
+
+  .page-title .page-section-title h1,
+  .page-section-title h1 {
+    font-size: clamp(1.375rem, 6vw, 2rem) !important;
+    line-height: 1.25 !important;
+  }
+
+  .page-title .page-section-title p {
+    font-size: 1rem;
+    max-width: 100%;
+  }
+
+  .section-title-dark h2,
+  .work-page-title h1 {
+    font-size: clamp(1.375rem, 5vw, 1.75rem) !important;
+    line-height: 1.25 !important;
+  }
+
+  .gs-info-all .gs-info-all-left h3 {
+    font-size: clamp(1.5rem, 8vw, 2.25rem);
+  }
+
+  .icon-bubble {
+    display: none;
+  }
+
+  .hero-visual,
+  .product-hero-visual {
+    overflow: hidden;
+  }
+
+  pre,
+  code {
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  [class*='col-'] {
+    min-width: 0;
+  }
+}
+
+// ——— Small phones (≤480px) ———
+@media (max-width: 480px) {
+  .btn-style-arrow {
+    font-size: 13px;
+    padding: 6px 10px 6px 12px;
+  }
+
+  .portfolio-detail-page-new h2 {
+    font-size: 1.5rem !important;
+  }
+}

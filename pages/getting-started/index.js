@@ -1,4 +1,6 @@
 import React from 'react'
+import { DEFAULT_OG_IMAGE } from '../../lib/defaultOgImage';
+import { setEdgeCache } from '../../lib/edgeCache';
 import MainHeader from '../../components/MainHeader'
 import Footer from '../../components/Footer'
 import Container from 'react-bootstrap/Container'
@@ -19,7 +21,7 @@ const GettingStarted = (posts) => {
   return (
     <>
       <MainHeader />
-      <MetaData title="AppZoro Software Development Process | Start Your Project" description="Learn about AppZoro's comprehensive approach to software development, from requirement analysis to maintenance, for businesses and startups alike.  " url={`/getting-started`} image={`${REACT_APP_API_URL}/assets/images/az-logo-large.png`} />
+      <MetaData title="AppZoro Software Development Process | Start Your Project" description="Learn about AppZoro's comprehensive approach to software development, from requirement analysis to maintenance, for businesses and startups alike.  " url={`/getting-started`} image={DEFAULT_OG_IMAGE} />
       <section className='page-title getting-started-bg'>
         <Container>
           <div className='page-section-title'>
@@ -329,7 +331,8 @@ const GettingStarted = (posts) => {
   )
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  setEdgeCache(context.res, 'short');
   const res = await fetch(`${REACT_APP_API_URL}services`);
   const posts = await res.json();
   return {

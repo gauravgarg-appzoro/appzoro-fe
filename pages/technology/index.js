@@ -1,4 +1,6 @@
 import React from 'react'
+import { DEFAULT_OG_IMAGE } from '../../lib/defaultOgImage';
+import { setEdgeCache } from '../../lib/edgeCache';
 import Footer from '../../components/Footer'
 import MainHeader from '../../components/MainHeader'
 import { Col, Container, Row } from 'react-bootstrap'
@@ -11,7 +13,7 @@ import {   GrTechnology, LuMoveRight   } from '../../components/OptimizedIcons';
 const TechnologyListing = ({ posts }) => {
     return (
         <>
-            <MetaData title="Technologies Powering Our Software Development | AppZoro" description="Discover the technology stack behind AppZoro's success, featuring advanced tools and frameworks that enhance software performance and user engagement." url={`/technology/`} image={`${REACT_APP_API_URL}/assets/images/az-logo-large.png`} />
+            <MetaData title="Technologies Powering Our Software Development | AppZoro" description="Discover the technology stack behind AppZoro's success, featuring advanced tools and frameworks that enhance software performance and user engagement." url={`/technology/`} image={DEFAULT_OG_IMAGE} />
             <MainHeader />
             <section className='page-title service-bg'>
                 <Container>
@@ -47,7 +49,8 @@ const TechnologyListing = ({ posts }) => {
     )
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+    setEdgeCache(context.res, 'short');
     const res = await fetch(`${REACT_APP_API_URL}technologies`);
     const posts = await res.json();
     return {

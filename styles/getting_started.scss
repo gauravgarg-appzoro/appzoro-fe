@@ -1,12 +1,13 @@
 .gs-info-all {
   background: #23272A;
   color: #FFF;
-  padding: 90px 0;
+  padding: clamp(40px, 8vh, 90px) 0;
 
   .gs-info-all-left {
     h3 {
-      font-size: 64px;
+      font-size: clamp(1.75rem, 1.25rem + 2.5vw, 4rem);
       font-weight: 600;
+      line-height: 1.15;
       margin-bottom: 20px;
     }
 
@@ -317,9 +318,10 @@
 
 section.gs-info {
   .gs-info-left {
-    font-size: 50px;
+    font-size: clamp(1.5rem, 1rem + 2.5vw, 3.125rem);
+    line-height: 1.2;
     font-weight: 700;
-    padding-left: 80px;
+    padding-left: clamp(0px, 5vw, 80px);
 
     span {
       color: $primary-color;
@@ -350,7 +352,8 @@ section {
       .gs-inner-head {
         display: flex;
         align-items: center;
-        font-size: 40px;
+        font-size: clamp(1.375rem, 0.875rem + 1.75vw, 2.5rem);
+        line-height: 1.25;
         margin-bottom: 30px;
 
         img {
@@ -376,13 +379,15 @@ section {
     .gs-detail-info {
       h3 {
         font-weight: 400;
-        font-size: 40px;
+        font-size: clamp(1.375rem, 0.875rem + 1.75vw, 2.5rem);
+        line-height: 1.25;
         margin-bottom: 30px;
       }
 
       p {
-        font-size: 20px;
+        font-size: clamp(1rem, 0.875rem + 0.5vw, 1.25rem);
         font-weight: 400;
+        line-height: 1.5;
       }
     }
 
@@ -407,14 +412,16 @@ section {
 
 .gs-lr-info {
   h3 {
-    font-size: 40px;
+    font-size: clamp(1.375rem, 0.875rem + 1.75vw, 2.5rem);
+    line-height: 1.25;
     font-weight: 500;
     margin-bottom: 20px;
   }
 
   p {
-    font-size: 20px;
+    font-size: clamp(1rem, 0.875rem + 0.5vw, 1.25rem);
     font-weight: 400;
+    line-height: 1.5;
   }
 }
 
@@ -456,5 +463,45 @@ section {
   .gs-lr-info p,
   section.gs-detail .gs-detail-info p {
     font-size: 16px;
+  }
+
+  .gs-tbinfo .gs-lt-ms {
+    flex-direction: column;
+
+    .gs-lt,
+    .gs-ms {
+      min-width: 0;
+      width: 100%;
+      flex-basis: 100%;
+    }
+  }
+
+  .gs-tbinfo .gs-lt-ms-info {
+    flex-wrap: wrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    .gs-lm-info {
+      min-width: 120px;
+      flex: 1 1 auto;
+    }
+  }
+
+  .gs-table {
+    overflow-x: auto;
+    display: block;
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .gs-tbinfo .gs-lt-ms {
+    flex-wrap: wrap;
+
+    .gs-lt,
+    .gs-ms {
+      min-width: 0;
+      flex: 1 1 100%;
+    }
   }
 }

@@ -9,7 +9,8 @@ section {
       margin: 0 auto 50px auto;
 
       h1 {
-        font-size: 38px;
+        font-size: clamp(1.25rem, 0.875rem + 1.5vw, 2.375rem);
+        line-height: 1.25;
         line-height: 44px;
         margin-bottom: 20px;
       }

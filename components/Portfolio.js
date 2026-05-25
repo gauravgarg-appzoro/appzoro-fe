@@ -42,7 +42,7 @@ const PortfolioView = (portfolios) => {
                                         <h2>{p.Projectname}</h2>
                                         <p>{p.Projectdes}</p>
                                         <div className="case-action">
-                                            <Link href={`/case-study/${p.slug}`} prefetch={false} className="btn-style-arrow me-3">Explore more <span><LuMoveRight /></span></Link>
+                                            <Link href={`/case-study/${p.slug}`} className="btn-style-arrow me-3">Explore more <span><LuMoveRight /></span></Link>
                                             {p.Casestudybtnlink &&
                                                 <Link href={p.Casestudybtnlink} target="_blank" className="btn-style-arrow me-3">View Case study <span><LuMoveRight /></span></Link>
                                             }

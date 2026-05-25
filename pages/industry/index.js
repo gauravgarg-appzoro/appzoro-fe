@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { DEFAULT_OG_IMAGE } from '../../lib/defaultOgImage';
+import { setEdgeCache } from '../../lib/edgeCache';
 import { Col, Container, Row } from 'react-bootstrap'
 import MainHeader from '../../components/MainHeader'
 import Footer from '../../components/Footer'
@@ -15,14 +17,9 @@ import { REACT_APP_API_URL, STRAPI_IMAGE_BASE_URL } from '../../lib/constants';
 import { LuMoveRight } from '../../components/OptimizedIcons';
 
 const Industries = ({ posts }) => {
-    const [checkData, setCheckData] = useState(null);
-    useEffect(() => {
-        setCheckData(["test", "test1", "test2"])
-    }, [])
-
     return (
         <>
-            <MetaData title="Industry Specific App Development Solutions | AppZoro" description="Explore AppZoro's app development services for various industries, from healthcare to finance, how our specialized solutions can elevate your business." url={`/industry/`} image={`${REACT_APP_API_URL}/assets/images/az-logo-large.png`} />
+            <MetaData title="Industry Specific App Development Solutions | AppZoro" description="Explore AppZoro's app development services for various industries, from healthcare to finance, how our specialized solutions can elevate your business." url={`/industry/`} image={DEFAULT_OG_IMAGE} />
             <MainHeader />
             <section className='page-title industry-bg' style={{ position: 'relative', overflow: 'hidden' }}>
                 <Image
@@ -80,7 +77,7 @@ const Industries = ({ posts }) => {
                     </div>
                 ))}
             </section>
-            <CaseStudy isCacehLoad={checkData} />
+            <CaseStudy />
             <TechStack />
             <ClientReview />
             <ArticlesView />
@@ -90,7 +87,8 @@ const Industries = ({ posts }) => {
     )
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+    setEdgeCache(context.res, 'short');
     try {
         const res = await fetch(`${REACT_APP_API_URL}induustries`);
         const posts = await res.json();

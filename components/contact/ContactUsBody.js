@@ -12,7 +12,18 @@ import { LuMoveRight } from '../OptimizedIcons';
  * Used on /contact-us and inside ContactModal.
  * @param {{ variant?: 'page' | 'modal', onSuccess?: () => void }} props
  */
-export default function ContactUsBody({ variant = 'page', onSuccess }) {
+export default function ContactUsBody({
+    variant = 'page',
+    onSuccess,
+    headlinePrimary,
+    headlineSecondary,
+    intro,
+}) {
+    const pageHeadlinePrimary = headlinePrimary || 'Connect with Us';
+    const pageHeadlineSecondary = headlineSecondary || 'And Go Digital';
+    const pageIntro =
+        intro ||
+        'Book a free consultation with Appzoro to understand your app development requirements. Our experts are ready to bring your ideas to life with innovative solutions. Contact us today and take the first step toward building your custom mobile or web app.';
     const [showLoader, setShowLoader] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
     const [num1, setNum1] = useState(0);
@@ -80,9 +91,12 @@ export default function ContactUsBody({ variant = 'page', onSuccess }) {
                                                 <span className="contact-modal__heading-rest"> And Go Digital</span>
                                             </h1>
                                         ) : (
-                                            <h1><span>Connect with Us</span><br />And Go Digital</h1>
+                                            <h1>
+                                                <span>{pageHeadlinePrimary}</span>
+                                                <span className="contact-h1-rest">{pageHeadlineSecondary}</span>
+                                            </h1>
                                         )}
-                                        <p className={variant === 'modal' ? 'fs-18 contact-modal__intro' : 'fs-18'}>Book a free consultation with Appzoro to understand your app development requirements. Our experts are ready to bring your ideas to life with innovative solutions. Contact us today and take the first step toward building your custom mobile or web app.</p>
+                                        <p className={variant === 'modal' ? 'fs-18 contact-modal__intro' : 'fs-18'}>{pageIntro}</p>
                                     </div>
                                     <div className={variant === 'modal' ? 'awards_view awards_view--modal awards_view--modal-below-intro' : 'awards_view'}>
                                         <div className="contact_awards_view">
@@ -104,7 +118,7 @@ export default function ContactUsBody({ variant = 'page', onSuccess }) {
                                         </div>
                                     </div>
                                     <div className={variant === 'modal' ? 'contact-enquiry contact-enquiry--modal contact-enquiry--modal-last' : 'contact-enquiry'}>
-                                        <h3 className="contact-title">For sales Enquiry</h3>
+                                        <h2 className="contact-title">For sales Enquiry</h2>
                                         <div className="sales-address">
                                             {variant === 'modal' ? (
                                                 <div className="add-view add-view--modal add-view--modal-inline">

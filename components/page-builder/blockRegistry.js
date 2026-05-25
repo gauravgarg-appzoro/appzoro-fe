@@ -9,7 +9,7 @@ const BLOCK_TYPES = {
     HeroBanner: {
         label: 'Hero Banner',
         category: 'Hero & Banners',
-        Component: dynamic(() => import('./blocks/HeroBannerBlock'), { ssr: false }),
+        Component: dynamic(() => import('./blocks/HeroBannerBlock')),
         defaultProps: { title: '', subtitle: '', backgroundImage: '' },
         propsSchema: [
             { key: 'title', label: 'Title', type: 'text' },
@@ -20,21 +20,21 @@ const BLOCK_TYPES = {
     ServiceHeroBanner: {
         label: 'Trusted-By Logos Strip',
         category: 'Hero & Banners',
-        Component: dynamic(() => import('../common/ServiceHeroBanner'), { ssr: false }),
+        Component: dynamic(() => import('../common/ServiceHeroBanner')),
         defaultProps: {},
         entityHint: 'Uses trusted-by / partner logo data from the service record (same as the main service form).',
     },
     ServiceAwards: {
         label: 'Awards Strip',
         category: 'Hero & Banners',
-        Component: dynamic(() => import('../common/ServiceAwards'), { ssr: false }),
+        Component: dynamic(() => import('../common/ServiceAwards')),
         defaultProps: {},
         entityHint: 'Uses awards content from the service record.',
     },
     AppDevelopmentPartners: {
         label: 'Trusted By / Partner Logos',
         category: 'Hero & Banners',
-        Component: dynamic(() => import('../common/AppDevelopmentPartners'), { ssr: false }),
+        Component: dynamic(() => import('../common/AppDevelopmentPartners')),
         defaultProps: {},
         entityHint: 'Uses partner logos from the service record.',
     },
@@ -43,7 +43,7 @@ const BLOCK_TYPES = {
     CustomContent: {
         label: 'Custom Content Section',
         category: 'Content',
-        Component: dynamic(() => import('./blocks/CustomContentBlock'), { ssr: false }),
+        Component: dynamic(() => import('./blocks/CustomContentBlock')),
         defaultProps: {
             title: 'Your section title',
             description: 'Add your section description here.',
@@ -64,7 +64,7 @@ const BLOCK_TYPES = {
     MarkdownContent: {
         label: 'Rich Text / Markdown',
         category: 'Content',
-        Component: dynamic(() => import('./blocks/MarkdownContentBlock'), { ssr: false }),
+        Component: dynamic(() => import('./blocks/MarkdownContentBlock')),
         defaultProps: { title: '', content: '' },
         propsSchema: [
             { key: 'title', label: 'Title', type: 'text' },
@@ -74,7 +74,7 @@ const BLOCK_TYPES = {
     ContentExpandCollapse: {
         label: 'Expandable Content (SEO)',
         category: 'Content',
-        Component: dynamic(() => import('../common/ContentExpandCollapse'), { ssr: false }),
+        Component: dynamic(() => import('../common/ContentExpandCollapse')),
         defaultProps: { title: '', info: '', dividerBelow: false, compact: false },
         propsSchema: [
             { key: 'title', label: 'Section Title', type: 'text' },
@@ -86,7 +86,7 @@ const BLOCK_TYPES = {
     ServiceAboutSection: {
         label: 'About Section + CTA',
         category: 'Content',
-        Component: dynamic(() => import('../common/ServiceAboutSection'), { ssr: false }),
+        Component: dynamic(() => import('../common/ServiceAboutSection')),
         defaultProps: { title: '', description: '', ctaText: 'Get Started', ctaLink: '/contact-us' },
         propsSchema: [
             { key: 'title', label: 'Heading', type: 'text' },
@@ -98,7 +98,7 @@ const BLOCK_TYPES = {
     ServiceWhySection: {
         label: 'Why Choose Us (Text + List)',
         category: 'Content',
-        Component: dynamic(() => import('../common/ServiceWhySection'), { ssr: false }),
+        Component: dynamic(() => import('../common/ServiceWhySection')),
         defaultProps: { title: '', subtitle: '', info: '', list: [] },
         propsSchema: [
             { key: 'title', label: 'Large Title', type: 'text' },
@@ -121,7 +121,7 @@ const BLOCK_TYPES = {
     FeaturesGrid: {
         label: 'Features Grid',
         category: 'Cards & Grids',
-        Component: dynamic(() => import('./blocks/FeaturesGridBlock'), { ssr: false }),
+        Component: dynamic(() => import('./blocks/FeaturesGridBlock')),
         defaultProps: { title: '', subtitle: '', features: [] },
         propsSchema: [
             { key: 'title', label: 'Section Title', type: 'text' },
@@ -143,7 +143,7 @@ const BLOCK_TYPES = {
     ServiceCardsGrid: {
         label: 'Service Cards Grid',
         category: 'Cards & Grids',
-        Component: dynamic(() => import('../common/ServiceCardsGrid'), { ssr: false }),
+        Component: dynamic(() => import('../common/ServiceCardsGrid')),
         defaultProps: { sectionTitle: '', cards: [] },
         propsSchema: [
             { key: 'sectionTitle', label: 'Section Title', type: 'text' },
@@ -157,7 +157,7 @@ const BLOCK_TYPES = {
     ServiceFlipCards: {
         label: 'Flip Cards',
         category: 'Cards & Grids',
-        Component: dynamic(() => import('../common/ServiceFlipCards'), { ssr: false }),
+        Component: dynamic(() => import('../common/ServiceFlipCards')),
         defaultProps: {
             sectionTitle: 'Flip Cards Section',
             cards: [
@@ -184,7 +184,7 @@ const BLOCK_TYPES = {
     ServiceSlideCards: {
         label: 'Slide / Hover Cards',
         category: 'Cards & Grids',
-        Component: dynamic(() => import('../common/ServiceSlideCards'), { ssr: false }),
+        Component: dynamic(() => import('../common/ServiceSlideCards')),
         defaultProps: { sectionTitle: '', cards: [] },
         propsSchema: [
             { key: 'sectionTitle', label: 'Section Title', type: 'text' },
@@ -199,7 +199,7 @@ const BLOCK_TYPES = {
     ServiceWhyChooseCards: {
         label: 'Why Choose Us Cards',
         category: 'Cards & Grids',
-        Component: dynamic(() => import('../common/ServiceWhyChooseCards'), { ssr: false }),
+        Component: dynamic(() => import('../common/ServiceWhyChooseCards')),
         defaultProps: { sectionTitle: '', cards: [] },
         propsSchema: [
             { key: 'sectionTitle', label: 'Section Title', type: 'text' },
@@ -215,7 +215,7 @@ const BLOCK_TYPES = {
     ServiceProcessTimeline: {
         label: 'Process / Timeline Steps',
         category: 'Process & Timeline',
-        Component: dynamic(() => import('../common/ServiceProcessTimeline'), { ssr: false }),
+        Component: dynamic(() => import('../common/ServiceProcessTimeline')),
         defaultProps: { sectionTitle: '', sectionSubtitle: '', steps: [] },
         propsSchema: [
             { key: 'sectionTitle', label: 'Section Title', type: 'text' },
@@ -232,7 +232,7 @@ const BLOCK_TYPES = {
     CTABanner: {
         label: 'CTA Banner (Simple)',
         category: 'Call to Action',
-        Component: dynamic(() => import('./blocks/CTABannerBlock'), { ssr: false }),
+        Component: dynamic(() => import('./blocks/CTABannerBlock')),
         defaultProps: { title: '', subtitle: '', buttonText: 'Get Started', buttonLink: '/contact-us' },
         propsSchema: [
             { key: 'title', label: 'Title', type: 'text' },
@@ -244,7 +244,7 @@ const BLOCK_TYPES = {
     ServiceCTABanner: {
         label: 'CTA Banner (with Background)',
         category: 'Call to Action',
-        Component: dynamic(() => import('../common/ServiceCTABanner'), { ssr: false }),
+        Component: dynamic(() => import('../common/ServiceCTABanner')),
         defaultProps: { title: '', subtitle: '', buttonText: 'Get Started', buttonLink: '/contact-us', backgroundImage: '', className: '' },
         propsSchema: [
             { key: 'title', label: 'Title', type: 'text' },
@@ -258,14 +258,14 @@ const BLOCK_TYPES = {
     TalkExpert: {
         label: 'Talk to Expert CTA',
         category: 'Call to Action',
-        Component: dynamic(() => import('../common/TalkExpert'), { ssr: false }),
+        Component: dynamic(() => import('../common/TalkExpert')),
         defaultProps: {},
         entityHint: 'Static marketing CTA—copy and layout come from the shared TalkExpert component.',
     },
     ConnectWithExpert: {
         label: 'Connect With Expert (Form)',
         category: 'Call to Action',
-        Component: dynamic(() => import('../common/ConnectWIthExpert'), { ssr: false }),
+        Component: dynamic(() => import('../common/ConnectWIthExpert')),
         defaultProps: {},
         entityHint: 'Lead form block—no per-block fields; uses global form configuration.',
     },
@@ -274,28 +274,28 @@ const BLOCK_TYPES = {
     CaseStudy: {
         label: 'Case Studies / Portfolio',
         category: 'Social Proof',
-        Component: dynamic(() => import('../common/CaseStudy'), { ssr: false }),
+        Component: dynamic(() => import('../common/CaseStudy')),
         defaultProps: {},
         entityHint: 'Pulls featured case studies from the site API—manage case studies in Portfolios admin.',
     },
     ClientReview: {
         label: 'Client Reviews (Light)',
         category: 'Social Proof',
-        Component: dynamic(() => import('../common/ClientReview'), { ssr: false }),
+        Component: dynamic(() => import('../common/ClientReview')),
         defaultProps: {},
         entityHint: 'Loads testimonials from global content—no fields on this block.',
     },
     ServiceClientReview: {
         label: 'Client Reviews (Dark)',
         category: 'Social Proof',
-        Component: dynamic(() => import('../common/ServiceClientReview'), { ssr: false }),
+        Component: dynamic(() => import('../common/ServiceClientReview')),
         defaultProps: {},
         entityHint: 'Loads testimonials from global content—no fields on this block.',
     },
     ServicePortfolioShowcase: {
         label: 'Portfolio Showcase',
         category: 'Social Proof',
-        Component: dynamic(() => import('../common/ServicePortfolioShowcase'), { ssr: false }),
+        Component: dynamic(() => import('../common/ServicePortfolioShowcase')),
         defaultProps: {
             sectionTitle: '',
             portfolio: {
@@ -331,7 +331,7 @@ const BLOCK_TYPES = {
     ServiceStatsSection: {
         label: 'Stats / Counters Section',
         category: 'Social Proof',
-        Component: dynamic(() => import('../common/ServiceStatsSection'), { ssr: false }),
+        Component: dynamic(() => import('../common/ServiceStatsSection')),
         defaultProps: { title: '', subtitle: '', stats: [] },
         propsSchema: [
             { key: 'title', label: 'Title (HTML allowed)', type: 'textarea' },
@@ -351,7 +351,7 @@ const BLOCK_TYPES = {
     PressSlider: {
         label: 'Press / News Slider',
         category: 'Social Proof',
-        Component: dynamic(() => import('../common/PressSlider'), { ssr: false }),
+        Component: dynamic(() => import('../common/PressSlider')),
         defaultProps: {},
         entityHint: 'Press items come from global content—no per-block fields.',
     },
@@ -360,14 +360,14 @@ const BLOCK_TYPES = {
     TechStack: {
         label: 'Technology Stack (Static)',
         category: 'Technology & Industry',
-        Component: dynamic(() => import('../common/TechStack'), { ssr: false }),
+        Component: dynamic(() => import('../common/TechStack')),
         defaultProps: {},
         entityHint: 'Static logo grid from the TechStack component—no block-level fields.',
     },
     ServiceTechStackTabs: {
         label: 'Tech Stack Tabs (Dynamic)',
         category: 'Technology & Industry',
-        Component: dynamic(() => import('../common/ServiceTechStackTabs'), { ssr: false }),
+        Component: dynamic(() => import('../common/ServiceTechStackTabs')),
         defaultProps: { sectionTitle: '', techStack: { categories: [] } },
         propsSchema: [
             { key: 'sectionTitle', label: 'Section Title (HTML allowed)', type: 'textarea' },
@@ -384,7 +384,7 @@ const BLOCK_TYPES = {
     ServiceIndustryMarquee: {
         label: 'Industry Marquee',
         category: 'Technology & Industry',
-        Component: dynamic(() => import('../common/ServiceIndustryMarquee'), { ssr: false }),
+        Component: dynamic(() => import('../common/ServiceIndustryMarquee')),
         defaultProps: { sectionTitle: '', industries: [], ctaText: '', ctaLink: '' },
         propsSchema: [
             { key: 'sectionTitle', label: 'Section Title', type: 'text' },
@@ -408,14 +408,14 @@ const BLOCK_TYPES = {
     CommonFaqs: {
         label: 'FAQ Accordion (Static)',
         category: 'FAQ',
-        Component: dynamic(() => import('../common/CommonFaqs'), { ssr: false }),
+        Component: dynamic(() => import('../common/CommonFaqs')),
         defaultProps: {},
         entityHint: 'Uses built-in static FAQ content—no block fields.',
     },
     ServiceFaqs: {
         label: 'FAQ Accordion (Dynamic)',
         category: 'FAQ',
-        Component: dynamic(() => import('../common/ServiceFaqs'), { ssr: false }),
+        Component: dynamic(() => import('../common/ServiceFaqs')),
         defaultProps: { faqData: [] },
         propsSchema: [
             {
@@ -433,7 +433,7 @@ const BLOCK_TYPES = {
     ServiceBenefitsAccordion: {
         label: 'Benefits Accordion',
         category: 'FAQ',
-        Component: dynamic(() => import('../common/ServiceBenefitsAccordion'), { ssr: false }),
+        Component: dynamic(() => import('../common/ServiceBenefitsAccordion')),
         defaultProps: { sectionTitle: '', benefits: [] },
         propsSchema: [
             { key: 'sectionTitle', label: 'Section Title (HTML allowed)', type: 'textarea' },
@@ -452,7 +452,7 @@ const BLOCK_TYPES = {
     ServiceCategoryFAQ: {
         label: 'FAQ by Category',
         category: 'FAQ',
-        Component: dynamic(() => import('../common/ServiceCategoryFAQ'), { ssr: false }),
+        Component: dynamic(() => import('../common/ServiceCategoryFAQ')),
         defaultProps: { sectionTitle: '', categories: [] },
         propsSchema: [
             { key: 'sectionTitle', label: 'Section Title (HTML allowed)', type: 'textarea' },
@@ -471,7 +471,7 @@ const BLOCK_TYPES = {
     ArticlesView: {
         label: 'Latest Articles Carousel',
         category: 'Blog & Articles',
-        Component: dynamic(() => import('../common/ArticlesView'), { ssr: false }),
+        Component: dynamic(() => import('../common/ArticlesView')),
         defaultProps: {},
         entityHint: 'Loads latest blog posts from the API—no block-level fields.',
     },
@@ -480,7 +480,7 @@ const BLOCK_TYPES = {
     LocationsSlide: {
         label: 'Locations Slider',
         category: 'Locations',
-        Component: dynamic(() => import('../common/LocationsSlide'), { ssr: false }),
+        Component: dynamic(() => import('../common/LocationsSlide')),
         defaultProps: {},
         entityHint: 'Office locations from global content—no block fields.',
     },
@@ -489,7 +489,7 @@ const BLOCK_TYPES = {
     ServiceHero: {
         label: 'Service Hero Banner',
         category: 'Page Sections',
-        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.ServiceHeroBlock })), { ssr: false }),
+        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.ServiceHeroBlock }))),
         defaultProps: {},
         entityAware: true,
         entityHint: 'Uses service banner, title, and short description from the main service form (same fields as legacy layout).',
@@ -497,7 +497,7 @@ const BLOCK_TYPES = {
     ServiceHeroSection: {
         label: 'Service Hero Section (Combined)',
         category: 'Page Sections',
-        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.ServiceHeroSectionBlock })), { ssr: false }),
+        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.ServiceHeroSectionBlock }))),
         defaultProps: {},
         entityAware: true,
         entityHint: 'Uses hero banner, about strip, and partner logos from the service record—edit those sections on the main form.',
@@ -505,7 +505,7 @@ const BLOCK_TYPES = {
     ServiceParentServices: {
         label: 'Parent Services Carousel',
         category: 'Page Sections',
-        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.ServiceParentServicesBlock })), { ssr: false }),
+        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.ServiceParentServicesBlock }))),
         defaultProps: {},
         entityAware: true,
         entityHint: 'Uses parent services list and title from the service form.',
@@ -513,7 +513,7 @@ const BLOCK_TYPES = {
     ServiceExpertiseTabs: {
         label: 'Service Expertise Tabs',
         category: 'Page Sections',
-        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.ServiceExpertiseTabsBlock })), { ssr: false }),
+        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.ServiceExpertiseTabsBlock }))),
         defaultProps: {},
         entityAware: true,
         entityHint: 'Uses expertise tabs, section title, and media from the service form.',
@@ -521,7 +521,7 @@ const BLOCK_TYPES = {
     IndustryCTA: {
         label: 'Industry CTA Section',
         category: 'Page Sections',
-        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.IndustryCTABlock })), { ssr: false }),
+        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.IndustryCTABlock }))),
         defaultProps: {},
         entityAware: true,
         entityHint: 'Uses industry CTA image from the industry form (copy is fixed in the component).',
@@ -529,7 +529,7 @@ const BLOCK_TYPES = {
     IndustryDetailContent: {
         label: 'Industry Detail Content',
         category: 'Page Sections',
-        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.IndustryDetailContentBlock })), { ssr: false }),
+        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.IndustryDetailContentBlock }))),
         defaultProps: {},
         entityAware: true,
         entityHint: 'Uses “Industry detail content” markdown from the industry form.',
@@ -537,7 +537,7 @@ const BLOCK_TYPES = {
     IndustryWhyChoose: {
         label: 'Industry Why Choose + Features',
         category: 'Page Sections',
-        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.IndustryWhyChooseBlock })), { ssr: false }),
+        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.IndustryWhyChooseBlock }))),
         defaultProps: {},
         entityAware: true,
         entityHint: 'Uses why-choose title, description, and feature cards from the industry form.',
@@ -545,7 +545,7 @@ const BLOCK_TYPES = {
     OtherIndustries: {
         label: 'Other Industries Grid',
         category: 'Page Sections',
-        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.OtherIndustriesBlock })), { ssr: false }),
+        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.OtherIndustriesBlock }))),
         defaultProps: {},
         entityAware: true,
         entityHint: 'Lists other industries from the API (excludes current slug). No extra fields.',
@@ -553,7 +553,7 @@ const BLOCK_TYPES = {
     ProductHero: {
         label: 'Product Hero Banner',
         category: 'Page Sections',
-        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.ProductHeroBlock })), { ssr: false }),
+        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.ProductHeroBlock }))),
         defaultProps: {},
         entityAware: true,
         entityHint: 'Uses product heading, short description, and banner image from the product form.',
@@ -561,7 +561,7 @@ const BLOCK_TYPES = {
     ProductBrands: {
         label: 'Product Client Logos',
         category: 'Page Sections',
-        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.ProductBrandsBlock })), { ssr: false }),
+        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.ProductBrandsBlock }))),
         defaultProps: {},
         entityAware: true,
         entityHint: 'Uses “Brands logo” from the product form.',
@@ -569,7 +569,7 @@ const BLOCK_TYPES = {
     ProductSection: {
         label: 'Product Section (Generic)',
         category: 'Page Sections',
-        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.ProductSectionBlock })), { ssr: false }),
+        Component: dynamic(() => import('./blocks/EntityBlock').then(m => ({ default: m.ProductSectionBlock }))),
         defaultProps: { sectionKey: '' },
         entityAware: true,
         entityHint: 'Renders one product JSON section (section2–section8, section3, section7, etc.) from the product record. Set the key below; edit section content on the main product form.',

@@ -5,7 +5,7 @@ import { RxArrowDown, RxArrowUp } from '../OptimizedIcons';
 import { STRAPI_IMAGE_BASE_URL } from '../../lib/constants';
 import { rewriteLegacyWpContentUploadsToAbsolute } from '../../lib/rewriteLegacyWpMedia';
 
-const ReactMarkdown = dynamic(() => import('react-markdown'), { ssr: false });
+const ReactMarkdown = dynamic(() => import('react-markdown'));
 
 const stripHtmlForDisplay = (str) => {
     if (str == null || typeof str !== 'string') return '';
@@ -30,11 +30,14 @@ const ContentExpandCollapse = (props) => {
     const compact = !!props?.compact;
     const isHtml = looksLikeHtml(info);
     const plainText = stripHtmlForDisplay(info);
-    const previewText = plainText.substring(0, 400);
 
     const toggleReadMore = () => {
         setIsExpanded(!isExpanded);
     };
+
+    // SEO: render full body unconditionally so it lives in the initial SSR HTML.
+    // Collapsed state only clips it visually via CSS — never excludes it from the DOM.
+    const collapsedStyle = !isExpanded ? { maxHeight: 260, overflow: 'hidden' } : undefined;
 
     return (
         <section className={`content-about-view ${dividerBelow ? 'has-divider' : ''} ${compact ? 'compact-spacing' : ''}`}>
@@ -44,31 +47,19 @@ const ContentExpandCollapse = (props) => {
                         <h2>{props?.title}</h2>
                     </div>
 
-                    {/* Collapsed view: short preview */}
-                    {!isExpanded && (
-                        isHtml ? (
-                            <div
-                                className="content-section-html collapsed"
-                                style={{ maxHeight: 260, overflow: 'hidden' }}
-                                dangerouslySetInnerHTML={{ __html: info }}
-                            />
-                        ) : (
-                            <ReactMarkdown>
-                                {previewText}
-                            </ReactMarkdown>
-                        )
-                    )}
-
-                    {/* Expanded view: full content with formatting */}
-                    {isExpanded && (
-                        isHtml ? (
-                            <div
-                                className="content-section-html"
-                                dangerouslySetInnerHTML={{ __html: info }}
-                            />
-                        ) : (
+                    {isHtml ? (
+                        <div
+                            className={`content-section-html ${!isExpanded ? 'collapsed' : ''}`}
+                            style={collapsedStyle}
+                            dangerouslySetInnerHTML={{ __html: info }}
+                        />
+                    ) : (
+                        <div
+                            className={`content-section-md ${!isExpanded ? 'collapsed' : ''}`}
+                            style={collapsedStyle}
+                        >
                             <ReactMarkdown>{plainText}</ReactMarkdown>
-                        )
+                        </div>
                     )}
 
                     <div className="btn-animated-height text-center">

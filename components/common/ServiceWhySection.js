@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import dynamic from 'next/dynamic';
 import { IoIosArrowRoundForward, LuMoveRight } from '../OptimizedIcons';
+import RichText from './RichText';
 
 
 
@@ -21,6 +22,10 @@ const ServiceWhySection = (props) => {
   };
 
   const handleScroll = (e, sectionId) => {
+    // Preserve native modifier-key semantics (Cmd/Ctrl/Shift/Alt+click)
+    // so users can still open section anchors in new tab, copy link, etc.
+    // Only hijack plain left-click for smooth-scroll UX.
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();
     scrollToSection(sectionId, 80); // Adjust the offset as needed (e.g., for a fixed header height)
   };
@@ -34,7 +39,7 @@ const ServiceWhySection = (props) => {
               <div className="whyservice-left_smtitle">{props.subtitle && props.subtitle}</div>
               <div className="whyservice-left_lgtitle">{props.title && props.title}</div>
               <div className="whyservice-left_p">
-                <p>{props.info && props.info}</p>
+                <RichText>{props.info}</RichText>
               </div>
               <div className="view-more-btn mt-5">
                 <Link href="#expertConnect" onClick={(e) => handleScroll(e, "expertConnect")} className="btn-style-arrow me-3">
@@ -60,7 +65,7 @@ const ServiceWhySection = (props) => {
                           <h3>{item?.az_diff_list_title}</h3>
                         </div>
                         <div className="whyservice-right_box_p">
-                          <p>{item?.az_diff_list_content}</p>
+                          <RichText>{item?.az_diff_list_content}</RichText>
                         </div>
                       </li>
                     ))}

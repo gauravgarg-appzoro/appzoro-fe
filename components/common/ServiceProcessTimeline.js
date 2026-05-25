@@ -2,6 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import RichText from './RichText';
 
 /**
  * ServiceProcessTimeline — Renders a numbered process timeline (2-col layout).
@@ -43,7 +44,7 @@ const ServiceProcessTimeline = ({ sectionTitle, sectionSubtitle, steps }) => {
                                     <div className="step-number">{step.stepNumber || idx + 1}</div>
                                     <div className="step-content">
                                         <h3>{step.title}</h3>
-                                        <p>{step.description}</p>
+                                        <RichText>{step.description}</RichText>
                                     </div>
                                 </div>
                             ))}

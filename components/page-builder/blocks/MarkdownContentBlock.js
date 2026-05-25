@@ -2,7 +2,7 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import dynamic from 'next/dynamic';
 
-const ReactMarkdown = dynamic(() => import('react-markdown'), { ssr: false });
+const ReactMarkdown = dynamic(() => import('react-markdown'));
 
 export default function MarkdownContentBlock({ title, content }) {
     if (!content && !title) return null;

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { REACT_APP_API_URL, STRAPI_IMAGE_BASE_URL } from "../../lib/constants";
+import RichText from "../../components/common/RichText";
 
 const RecentPosts = () => {
   const [data, setData] = useState([]);
@@ -48,16 +49,15 @@ const RecentPosts = () => {
                   </span>
                   <div className="rp-content">
                     <h3>{item?.title}</h3>
-                    <p>{item?.description}</p>
+                    <RichText>{item?.description}</RichText>
                   </div>
                 </Link>
               </div>
             </li>
           ))}
         </ul>
-      ) : (
-        <p className="p-3 text-center">Loading...</p>
-      )}
+      ) : null /* SEO: don't render "Loading..." placeholder — it leaks into SSR HTML as
+                  indexable content. Sidebar widget will appear after client-side fetch. */}
     </div>
   );
 };

@@ -464,9 +464,28 @@
     margin: 5px 0;
 }
 
-@media screen and (min-width: 992px) and (max-width: 1024px) {
+@media screen and (min-width: 992px) and (max-width: 1366px) {
     .az-menu ul li a {
-        font-size: 14px;
-        padding: 5px 10px;
+        font-size: 13px;
+        padding: 12px 8px;
+
+        &.mm-link {
+            margin-right: 8px;
+        }
+    }
+
+    .az-info .call-az {
+        font-size: 13px;
+        margin-right: 10px;
+    }
+
+    .consult-btn-az .theme-btn-normal {
+        font-size: 13px;
+        padding: 8px 14px;
+    }
+
+    .az-header .logo img {
+        max-width: 140px;
+        height: auto;
     }
 }

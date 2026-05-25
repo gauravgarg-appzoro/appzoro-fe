@@ -64,24 +64,26 @@ const withNoCacheParam = (url) => {
  * Generic fetch wrapper
  */
 const apiFetch = async (url, options = {}) => {
+    const { allowNotFound = false, ...fetchOptions } = options;
+
     try {
-        console.log('API Request:', url, options.method || 'GET'); // Debug log
+        console.log('API Request:', url, fetchOptions.method || 'GET'); // Debug log
 
         const token = authService.getToken();
         const headers = {
             'Accept': 'application/json',
             ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
-            ...options.headers,
+            ...fetchOptions.headers,
         };
 
         // Only set Content-Type to application/json if body is present and it's not FormData
-        if (options.body && typeof options.body === 'string' && !headers['Content-Type']) {
+        if (fetchOptions.body && typeof fetchOptions.body === 'string' && !headers['Content-Type']) {
             headers['Content-Type'] = 'application/json';
         }
 
-        const method = (options.method || 'GET').toUpperCase();
+        const method = (fetchOptions.method || 'GET').toUpperCase();
         const response = await fetch(url, {
-            ...options,
+            ...fetchOptions,
             // Prevent browser/proxy stale reads in admin after update.
             ...(method === 'GET' ? { cache: 'no-store' } : {}),
             headers,
@@ -94,6 +96,9 @@ const apiFetch = async (url, options = {}) => {
         }
 
         if (!response.ok) {
+            if (allowNotFound && response.status === 404) {
+                return null;
+            }
             const errorText = await response.text();
             throw new Error(`API Error: ${response.status} ${response.statusText} - ${errorText}`);
         }
@@ -983,12 +988,19 @@ const adminService = {
 
     /* HOMEPAGE (Singleton) */
     getHomepage: async () => {
-        const url = buildUrl('homepage');
+        // Cache-bust the GET so the admin form always sees the latest saved data,
+        // not a stale response cached upstream (CDN/HTTP cache) or by any proxy.
+        // Without this, saved edits revert to old content after handleSave →
+        // fetchHomepageData() re-populates form from cached stale GET response.
+        const url = withNoCacheParam(buildUrl('homepage'));
         return await apiFetch(url);
     },
 
     updateHomepage: async (data) => {
-        const url = buildUrl('homepage');
+        // Cache-bust the PUT URL too so any intermediate proxy doesn't dedupe
+        // identical PUT requests as cached. Also forces the upstream to bust
+        // its cache entry for the homepage GET response.
+        const url = withNoCacheParam(buildUrl('homepage'));
         return await apiFetch(url, {
             method: 'PUT',
             body: JSON.stringify(data),
@@ -1734,6 +1746,84 @@ const adminService = {
             const url = buildUrl(`${ENDPOINTS.URL_REDIRECTIONS}/${id}`);
             const result = await apiFetch(url, { method: 'DELETE' });
             return { success: true, data: result };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+    },
+
+    /* SITE PAGES (about-us, contact-us) */
+    getSitePage: async (slug) => {
+        try {
+            const url = buildUrl(`site-pages/${slug}`);
+            const data = await apiFetch(url, { allowNotFound: true });
+            if (data === null) {
+                return {
+                    success: false,
+                    notFound: true,
+                    error: 'Site pages API is not available on this server (404).',
+                };
+            }
+            return { success: true, data };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+    },
+    updateSitePage: async (slug, payload) => {
+        try {
+            const url = buildUrl(`site-pages/${slug}`);
+            const data = await apiFetch(url, {
+                method: 'PUT',
+                body: JSON.stringify(payload),
+                allowNotFound: true,
+            });
+            if (data === null) {
+                return {
+                    success: false,
+                    notFound: true,
+                    error:
+                        'Cannot save: site-pages API is not deployed on this server. Deploy the latest backend, or point REACT_APP_API_URL to a local API (localhost:3001).',
+                };
+            }
+            return { success: true, data };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+    },
+
+    /* SITE CONFIG */
+    getRobotsTxt: async () => {
+        try {
+            const url = buildUrl('site-config/robots');
+            const data = await apiFetch(url, { allowNotFound: true });
+            if (data === null) {
+                return {
+                    success: false,
+                    notFound: true,
+                    error: 'site-config API is not deployed on this server yet.',
+                };
+            }
+            return { success: true, data };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+    },
+    updateRobotsTxt: async (robots_txt) => {
+        try {
+            const url = buildUrl('site-config/robots');
+            const data = await apiFetch(url, {
+                method: 'PUT',
+                body: JSON.stringify({ robots_txt }),
+                allowNotFound: true,
+            });
+            if (data === null) {
+                return {
+                    success: false,
+                    notFound: true,
+                    error:
+                        'Cannot save: site-config API is not deployed on this server. Deploy the latest backend, or point REACT_APP_API_URL to a local API (localhost:3001).',
+                };
+            }
+            return { success: true, data };
         } catch (error) {
             return { success: false, error: error.message };
         }

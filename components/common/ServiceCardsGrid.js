@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Image from 'next/image';
 import { STRAPI_IMAGE_BASE_URL } from '../../lib/constants';
+import RichText from './RichText';
 
 /**
  * ServiceCardsGrid — Renders a 3-column grid of image+title+description cards.
@@ -55,7 +56,7 @@ const ServiceCardsGrid = ({ sectionTitle, cards }) => {
                                     )}
                                     <div className="ai-expertise-content">
                                         {card.title && <h3>{card.title}</h3>}
-                                        {card.description && <p>{card.description}</p>}
+                                        {card.description && <RichText>{card.description}</RichText>}
                                     </div>
                                 </div>
                             </Col>

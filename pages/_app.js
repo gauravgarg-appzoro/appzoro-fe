@@ -1,16 +1,28 @@
 import Script from 'next/script';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import { ContactModalProvider } from '../contexts/ContactModalContext';
+import SiteJsonLd from '../components/common/SiteJsonLd';
 import Loader from '../components/Loader';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/scss/bootstrap.scss';
 import '../styles/style.scss'
 import '../styles/service-components.scss'
 import '../styles/service-components-mobile.scss'
+import 'react-toastify/dist/ReactToastify.css';
+
+// Toast JS (~25KB) is only used in /admin/* routes. CSS (~3KB) is small enough
+// to ship globally via the static import above. Turbopack only accepts CSS as
+// top-level static imports — dynamic CSS imports inside async chunks fail at
+// build time. Dynamic JS still keeps react-toastify off the public bundle.
+const AdminToastContainer = dynamic(
+  () => import('react-toastify').then((m) => m.ToastContainer),
+  { ssr: false },
+);
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+  const isAdminRoute = router.pathname?.startsWith('/admin');
   const [loading, setLoading] = useState(false);
   const [loadAnalytics, setLoadAnalytics] = useState(false);
 
@@ -68,20 +80,23 @@ function MyApp({ Component, pageProps }) {
         </>
       )}
       {loading && <Loader />}
+      {!isAdminRoute && <SiteJsonLd />}
       <main id="main-content">
         <Component {...pageProps} />
-        <ToastContainer
-          position="top-right"
-          autoClose={4000}
-          hideProgressBar={false}
-          newestOnTop
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-        />
+        {isAdminRoute && (
+          <AdminToastContainer
+            position="top-right"
+            autoClose={4000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+          />
+        )}
       </main>
     </ContactModalProvider>
   )

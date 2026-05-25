@@ -9,18 +9,32 @@ const HomeServicesCarousel = dynamic(() => import("./HomeServicesCarousel"), {
 });
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import Link from "next/link";
-import ContactHref from '../../components/common/ContactHref';
+import ContactHref from '../common/ContactHref';
 const Marquee = dynamic(() => import("react-fast-marquee"), { ssr: false });
 import Head from "next/head";
+import MetaData from '../common/MetaData';
+import { SITE_URL, resolveOgImage } from '../../lib/seo';
+import { sanitizeJsonLdString } from '../../lib/jsonLdSanitize';
+import { formatHeroTitleHtml } from '../../lib/formatHeroTitleHtml';
 const HomeAnimation = dynamic(() => import("./HomeAnimation"), { ssr: false });
 const HomeContent = dynamic(() => import("./HomeContent"));
 
-const ReactRotatingTextComponent = dynamic(() => import('react-rotating-text'));
-import MainHeaderComponent from '../../components/MainHeader';
-import FooterComponent from '../../components/Footer';
-import LazyWhenVisible from '../../components/LazyWhenVisible';
+const HERO_ROTATING_ITEMS = [
+  "Unlock Digital Potential",
+  "Build Your Dream Software",
+  "Unleash the Power of Technology",
+  "Partner with Best Software Experts",
+];
+
+const ReactRotatingTextComponent = dynamic(() => import('react-rotating-text'), {
+  ssr: false,
+  loading: () => <>{HERO_ROTATING_ITEMS[0]}</>,
+});
+import MainHeaderComponent from '../MainHeader';
+import FooterComponent from '../Footer';
+import LazyWhenVisible from '../LazyWhenVisible';
 import { REACT_APP_API_URL, STRAPI_IMAGE_BASE_URL } from "../../lib/constants";
-import { MdOutlineKeyboardArrowRight, MdOutlineKeyboardArrowLeft, LuMoveRight, MdUpdate, GoChecklist, AiOutlineDeploymentUnit, TbWorldCheck, TbHierarchy, BsGlobe, PiUserFocusLight } from '../../components/OptimizedIcons';
+import { MdOutlineKeyboardArrowRight, MdOutlineKeyboardArrowLeft, LuMoveRight, MdUpdate, GoChecklist, AiOutlineDeploymentUnit, TbWorldCheck, TbHierarchy, BsGlobe, PiUserFocusLight } from '../OptimizedIcons';
 
 
 
@@ -30,21 +44,61 @@ import { MdOutlineKeyboardArrowRight, MdOutlineKeyboardArrowLeft, LuMoveRight, M
 
 
 
-const Faqs = dynamic(() => import('../../components/common/CommonFaqs'));
-const BlogPosts = dynamic(() => import('../../components/common/ArticlesView'));
-const NewsComponent = dynamic(() => import('../../components/common/PressSlider'));
-const CaseStudyComponent = dynamic(() => import('../../components/common/CaseStudy'));
-const ClientReviewComponent = dynamic(() => import('../../components/common/ClientReview'));
+const Faqs = dynamic(() => import('../common/CommonFaqs'));
+const BlogPosts = dynamic(() => import('../common/ArticlesView'));
+const NewsComponent = dynamic(() => import('../common/PressSlider'));
+const CaseStudyComponent = dynamic(() => import('../common/CaseStudy'));
+const ClientReviewComponent = dynamic(() => import('../common/ClientReview'));
 const AwardDevComponent = dynamic(() => import('./AwardDev'));
-const TechStackComponent = dynamic(() => import('../../components/common/TechStack'));
-const TalkExpertComponent = dynamic(() => import('../../components/common/TalkExpert'));
+const TechStackComponent = dynamic(() => import('../common/TechStack'));
+const TalkExpertComponent = dynamic(() => import('../common/TalkExpert'));
 
 
-const HomePage = () => {
+const DEFAULT_HERO_TITLE = "Crafting Reliable Solutions Together with Atlanta's App Developers";
+
+const HomePage = ({ initialBlogs = [], initialPresses = [], initialReviews = [], homepage = null }) => {
+  const seo = homepage?.seo || {};
+  const hero = homepage?.hero || {};
+  const about = homepage?.AboutAppzoro || {};
+  const awards = homepage?.awards || {};
+  const pressCarousel = homepage?.pressCarousel || {};
+  const testimonials = homepage?.testimonials || {};
+  const heroTitle = (hero.title && String(hero.title).trim()) || DEFAULT_HERO_TITLE;
+  const rotatingItems =
+    Array.isArray(hero.subtitles) && hero.subtitles.length > 0
+      ? hero.subtitles.map((s) => (typeof s === 'string' ? s : s?.text || '')).filter(Boolean)
+      : HERO_ROTATING_ITEMS;
+  const heroVideoUrl = (hero.video_link && String(hero.video_link).trim()) || 'https://vimeo.com/957195782';
+  const primaryLink = Array.isArray(hero.links) && hero.links[0] ? hero.links[0] : null;
+  const secondaryLink = Array.isArray(hero.links) && hero.links[1] ? hero.links[1] : null;
+  const ogImage = (() => {
+    const raw = seo?.ogImage;
+    const cmsUrl =
+      typeof raw === 'string'
+        ? raw
+        : raw?.url || raw?.URL || '';
+    if (!cmsUrl || !String(cmsUrl).trim()) {
+      return resolveOgImage('/assets/images/az-logo-large.png');
+    }
+    const url = String(cmsUrl).trim();
+    if (/^https?:\/\//i.test(url)) {
+      return url.replace(/([^:]\/)\/+/g, '$1');
+    }
+    if (url.startsWith('/assets/')) {
+      return resolveOgImage(url);
+    }
+    if (url.startsWith('/uploads/')) {
+      const adminBase = (process.env.NEXT_PUBLIC_API_URL || 'https://admin.appzoro.com').replace(
+        /\/+$/,
+        '',
+      );
+      return `${adminBase}${url}`;
+    }
+    return resolveOgImage(url);
+  })();
   const [scrollPixels, setScrollPixels] = useState(0);
   const [playIntroVideo, setPlayIntroVideo] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
-  const [postData, setPostData] = useState([]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -69,10 +123,6 @@ const HomePage = () => {
     };
   }, []);
 
-  useEffect(() => {
-    setPostData(["test", "test1", "test2"]);
-  }, []);
-
   const CustomPlayIcon = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -86,68 +136,46 @@ const HomePage = () => {
   );
   return (
     <>
+      <MetaData
+        title={seo.seoTitle || "Atlanta's Top Mobile and Web App Developers | AppZoro"}
+        description={
+          seo.seoDescription ||
+          'Appzoro Technologies is the leading software development company in USA that provides reliable software development and web app development solutions.'
+        }
+        url="/"
+        image={ogImage}
+        robots={seo.robots || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}
+      />
       <Head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title key="title">
-          Atlanta's Top Mobile and Web App Developers | AppZoro
-        </title>
-        <meta
-          name="title"
-          content="Atlanta's Top Mobile and Web App Developers | AppZoro"
-        />
-        <meta
-          name="description"
-          content="Appzoro Technologies is the leading software development company in USA that provides reliable software development and web app development solutions."
-        />
-        <meta
-          property="og:title"
-          content="Atlanta's Top Mobile and Web App Developers | AppZoro"
-        />
-        <meta
-          property="og:description"
-          content="Appzoro Technologies is the leading software development company in USA that provides reliable software development and web app development solutions."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://appzoro.com/" />
-        <meta
-          property="og:image"
-          content={`${REACT_APP_API_URL}/assets/images/az-logo-large.png`}
-        />
-        <meta property="twitter:url" content="https://appzoro.com/" />
-        <meta
-          name="twitter:title"
-          content="Best Software Development Company in Atlanta | AppZoro Technologies"
-        />
-        <meta
-          name="twitter:description"
-          content="Appzoro Technologies is the leading software development company in USA that provides reliable software development and web app development solutions."
-        />
-        <meta
-          name="twitter:image"
-          content={`${REACT_APP_API_URL}/assets/images/az-logo-large.png`}
-        />
-        <meta
-          property="twitter:card"
-          content="summary_large_image - @AppZoroT"
-        />
         <meta name="msvalidate.01" content="B7CA750DFB954728824AA5A1D0D54A8E" />
-        <link rel="canonical" href="https://appzoro.com/" />
-
+        {(() => {
+          const cleanedSchema = seo.schemaCode
+            ? sanitizeJsonLdString(String(seo.schemaCode), { stripFaqPage: true })
+            : '';
+          return cleanedSchema ? (
+            <script
+              type="application/ld+json"
+              className="yoast-schema-graph"
+              dangerouslySetInnerHTML={{ __html: cleanedSchema }}
+            />
+          ) : null;
+        })()}
+        {!seo.schemaCode ? (
+        <>
         <script
           type="application/ld+json"
           className="yoast-schema-graph"
           dangerouslySetInnerHTML={{
-            __html: `{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://appzoro.com/#organization","url":"https://appzoro.com","name":"Appzoro Technologies","sameAs":[]},{"@type":"WebSite","@id":"https://appzoro.com/#website","url":"https://appzoro.com","name":"Appzoro Technologies","publisher":{"@id":"https://appzoro.com/#organization"}},{"@type":"WebPage","@id":"https://appzoro.com/#webpage","url":"https://appzoro.com","inLanguage":"en-US","name":"Software and App Development Company USA","isPartOf":{"@id":"https://appzoro.com/#website"},"datePublished":"2016-23-04T00:09:11-08:00","dateModified":"2024-05-01T00:31:05-08:00","description":"Appzoro is a trusted and reliable software development company in USA, providing full-fledged software development services to drive business growth."}]}`,
+            __html: `{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"${SITE_URL}/#organization","url":"${SITE_URL}","name":"Appzoro Technologies","sameAs":[]},{"@type":"WebSite","@id":"${SITE_URL}/#website","url":"${SITE_URL}","name":"Appzoro Technologies","publisher":{"@id":"${SITE_URL}/#organization"}},{"@type":"WebPage","@id":"${SITE_URL}/#webpage","url":"${SITE_URL}","inLanguage":"en-US","name":"Software and App Development Company USA","isPartOf":{"@id":"${SITE_URL}/#website"},"datePublished":"2016-04-23T00:09:11-08:00","dateModified":"2026-05-20T00:00:00-08:00","description":"Appzoro is a trusted and reliable software development company in USA, providing full-fledged software development services to drive business growth."}]}`,
           }}
-        ></script>
+        />
         <script
           type="application/ld+json"
           className="yoast-schema-graph"
           dangerouslySetInnerHTML={{
-            __html: `{"@context":"https://schema.org","@type":"LocalBusiness","name":"Appzoro Technologies","address":{"@type":"PostalAddress","addressCountry":"US","streetAddress":"3423 Piedmont Rd NE, STE 320","addressLocality":"Atlanta","addressRegion":"GA","postalCode":"30305"},"pricerange":"$$$","email":"info@appzoro.com","telePhone":"+1 678-462-4034","openingHours":"Mo,Tu,We,Th,Fr, 10:00-16:00","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"10:00","closes":"16:00"}],"geo":{"@type":"GeoCoordinates","latitude":"33.848650","longitude":"-84.373370"},"image":"${REACT_APP_API_URL}/assets/images/logo.png"}`,
+            __html: `{"@context":"https://schema.org","@type":"LocalBusiness","name":"Appzoro Technologies","address":{"@type":"PostalAddress","addressCountry":"US","streetAddress":"3423 Piedmont Rd NE, STE 320","addressLocality":"Atlanta","addressRegion":"GA","postalCode":"30305"},"priceRange":"$$$","email":"info@appzoro.com","telephone":"+1 678-462-4034","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"10:00","closes":"16:00"}],"geo":{"@type":"GeoCoordinates","latitude":"33.848650","longitude":"-84.373370"},"image":"${SITE_URL}/assets/images/logo.png"}`,
           }}
-        ></script>
+        />
         {/* <script
           type="application/ld+json"
           className="yoast-schema-graph"
@@ -164,9 +192,30 @@ const HomePage = () => {
         ></script>
         <script
           type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'VideoObject',
+              name: 'AppZoro Technologies — Company Introduction',
+              description:
+                'Introduction to AppZoro Technologies, an Atlanta-based mobile and web app development agency.',
+              thumbnailUrl: `${SITE_URL}/assets/images/banner.png`,
+              uploadDate: '2024-05-01T00:00:00-04:00',
+              contentUrl: heroVideoUrl,
+              embedUrl: heroVideoUrl,
+              publisher: {
+                '@type': 'Organization',
+                name: 'Appzoro Technologies',
+                logo: { '@type': 'ImageObject', url: `${SITE_URL}/assets/images/az-logo-large.png` },
+              },
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
           className="yoast-schema-graph"
           dangerouslySetInnerHTML={{
-            __html: `{"@context": "https://schema.org","@type": "VideoObject","name": "Mobile and Web App Solutions Delivered. Atlanta, GA","description": "Appzoro Technologies is a software development company dedicated to offering creative and comprehensive software development solutions. The solutions are tailored to fulfill the requirements of clients. We have experienced professionals who are dedicated to offering creative solutions. They enable clients to stay ahead of their competitors. The development team has the potential to deliver an ingenious website that gives suitable information to users. This user base will convert into loyal customers in the future.","thumbnailUrl": ["${STRAPI_IMAGE_BASE_URL}/uploads/transform_your_business_online_with_appzoro_1293cb8fe5.png"],"uploadDate": "2024-05-15T08:00:00+08:00","duration": "PT0M33S","contentUrl": "${REACT_APP_API_URL}/assets/images/appzoro_intro.mp4","embedUrl": "https://www.youtube.com/embed/0cpWor2aw78?si=Z82RdDxo3lVt1fOT","interactionStatistic": {"@type": "InteractionCounter","interactionType": { "@type": "WatchAction" },"userInteractionCount": "5647018"},"regionsAllowed": "US"}`,
+            __html: `{"@context": "https://schema.org","@type": "VideoObject","name": "Mobile and Web App Solutions Delivered. Atlanta, GA","description": "Appzoro Technologies software development overview video.","thumbnailUrl": ["${STRAPI_IMAGE_BASE_URL}/uploads/transform_your_business_online_with_appzoro_1293cb8fe5.png"],"uploadDate": "2024-05-15T08:00:00+08:00","duration": "PT0M33S","contentUrl": "${SITE_URL}/assets/images/appzoro_intro.mp4","embedUrl": "https://www.youtube.com/embed/0cpWor2aw78","regionsAllowed": "US"}`,
           }}
         ></script>
         <script
@@ -175,60 +224,43 @@ const HomePage = () => {
             __html: `{"@context": "https://schema.org","@type": "WebSite","name": "Appzoro Technologies","url": "https://appzoro.com/","potentialAction": {"@type": "SearchAction","target": {"@type": "EntryPoint","urlTemplate": "https://query.appzoro.com/search?q={search_term_string}"},"query-input": "required name=search_term_string"}}`,
           }}
         ></script>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: `{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much do I need to pay for an app development service?","acceptedAnswer":{"@type":"Answer","text":"If you are also wondering how much mobile application development costs, then there is no precise answer before knowing your project requirement. The price of an app project generally depends upon the platform, features, UI/UX, plugins, and complexities involved. However, let me give you a brief idea about the estimate of this service. The average beginning cost of developing a basic mobile application with simple and limited features is around $10,000 to $20,000. Further, the price of developing a medium complex app project falls anywhere between $60,000 to $100,000. This development cost may go as high as $200,000 or more than $300,000 depending upon the higher complexity of the project."}},{"@type":"Question","name":"How much time does it take to develop an app?","acceptedAnswer":{"@type":"Answer","text":"The time span for developing a mobile application varies on several factors such as what features you want, how complex is the app, what are the available resources, and their skill sets. In general, it takes around 6 to 16 weeks."}},{"@type":"Question","name":"Why are app development services so expensive?","acceptedAnswer":{"@type":"Answer","text":"App development is considered quite an expensive task to incur owing to various factors. Some of the key reasons behind this higher cost are the complexity and functionality of the app, the high-quality UI/UX involved, and the lack of expert resources. Furthermore, developing a mobile application is a time-consuming process. Besides looking after the security and compliance part, there also goes cost in the QA, testing, plugins purchasing, and post-launch maintenance and updates."}},{"@type":"Question","name":"Which is the best app development company in Atlanta?","acceptedAnswer":{"@type":"Answer","text":"Though there are a larger number of companies available in the state of Atlanta: not all of them are an expert. If you are looking for a result-driven trusted mobile app development company in Atlanta, then you can go with Appzoro. Carrying a team of seasoned developers and designers, Appzoro Technologies is the best in the business. So when you want to hire highly professional mobile app developers with profound experience in the app development business, connect Appzoro."}},{"@type":"Question","name":"What are the benefits of web and app development services?","acceptedAnswer":{"@type":"Answer","text":"In this rapidly evolving era of digitalization, when all your competitors are on Google, your presence is inevitable here. With engaging architecture infrastructure and a robust backend system, a professional build website gives your business a strong identity on the internet. You have streamlined operations, you eventually get more user engagement with an improved customer base, better sales, and enhanced revenue streams."}},{"@type":"Question","name":"How much does a web development service cost in Atlanta?","acceptedAnswer":{"@type":"Answer","text":"The cost of website development in Atlanta cost can range from $1500 to $150,000 on average. A simple business website with basic features can cost around $1000 while an e-commerce website can cost you between $2000 to $10,000. All the prices exclude annual maintenance spending. Moreover, the exact cost can be estimated after evaluating your business size, types, and scope. Now when you are looking for a reliable web development company in Atlanta, you can connect with Appzoro Technologies."}}]}`,
-          }}
-        ></script>
+        {/* FAQPage JSON-LD is emitted by <CommonFaqs /> from the same data it renders,
+            guaranteeing schema ↔ DOM correspondence. Do not re-add a hardcoded FAQPage here. */}
         {/* <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: `{"@context": "https://schema.org/", "@type": "Product", "name": "AppZoro Technologies","image": "${REACT_APP_API_URL}/assets/images/logo.png","description": "Appzoro Technologies is the leading software development company in USA that provides reliable software development and web app development solutions","brand": {"@type": "Brand","name": "AppZoro Inc."},"aggregateRating": {"@type": "AggregateRating","ratingValue": "4.8","bestRating": "5","worstRating": "3.5","ratingCount": "16"}}`,
           }}
         ></script> */}
+        </>
+        ) : null}
       </Head>
 
       <MainHeaderComponent />
 
       <section className="az-home-section1">
-        <Image src="/assets/images/banner.png" fill priority style={{ objectFit: 'cover', objectPosition: 'left top', zIndex: -1 }} alt="Hero Background" />
+        <Image src="/assets/images/banner.png" fill priority style={{ objectFit: 'cover', objectPosition: 'left top', zIndex: -1 }} alt="" />
         <Container>
           <Row className="align-items-center">
             <Col md="6" lg="6" xs="12">
               <div className="home-intro">
                 <div>
-                  <h1>
-                    Crafting Reliable <span>Solutions</span> Together with
-                    Atlanta's App Developers
-                  </h1>
+                  <h1 dangerouslySetInnerHTML={{ __html: formatHeroTitleHtml(heroTitle) }} />
                   <h2>
-                    Connect <br />
-                    to{" "}
-                    <span className="mob-rotate">
-                      Partner with Best Software Experts
-                    </span>
-                    <span className="desktop-rotate">
-                      <ReactRotatingTextComponent
-                        items={[
-                          "Unlock Digital Potential",
-                          "Build Your Dream Software",
-                          "Unleash the Power of Technology",
-                          "Partner with Best Software Experts",
-                        ]}
-                      />
-                    </span>
+                    <span className="hero-h2-line">Connect</span>
+                    <span className="hero-h2-line">to <span className="mob-rotate">{rotatingItems.join(' · ')}</span><span className="desktop-rotate"><ReactRotatingTextComponent items={rotatingItems} /></span></span>
+                    <span className="hero-h2-sr">{rotatingItems.join('. ')}</span>
                   </h2>
                 </div>
                 <div className="az_home-btns">
-                  <ContactHref href="/contact-us" className="btn-style-arrow me-3">
-                    Contact Us{" "}
+                  <ContactHref href={primaryLink?.url || primaryLink?.URL || '/contact-us'} className="btn-style-arrow me-3">
+                    {primaryLink?.title || primaryLink?.Title || 'Contact Us'}{" "}
                     <span>
                       <LuMoveRight />
                     </span>
                   </ContactHref>
-                  <Link href="/case-study" className="btn-style-arrow" prefetch={false}>
-                    View Portfolio{" "}
+                  <Link href={secondaryLink?.url || secondaryLink?.URL || '/case-study'} className="btn-style-arrow">
+                    {secondaryLink?.title || secondaryLink?.Title || 'View Portfolio'}{" "}
                     <span>
                       <LuMoveRight />
                     </span>
@@ -244,7 +276,7 @@ const HomePage = () => {
                     src="/assets/images/triangle.png"
                     width={"87"}
                     height={"72"}
-                    alt="Appzoro"
+                    alt=""
                   />
                 </div>
                 <div className="az_home_icon2 icon-animation">
@@ -253,7 +285,7 @@ const HomePage = () => {
                     src="/assets/images/circle2.png"
                     width={"61"}
                     height={"69"}
-                    alt="Appzoro"
+                    alt=""
                   />
                 </div>
                 <div className="az-home-animation">
@@ -277,7 +309,7 @@ const HomePage = () => {
                   controls={false}
                   loop={true}
                   suppressHydrationWarning
-                  url="https://vimeo.com/957195782"
+                  url={heroVideoUrl}
                 />
               )}
             </div>
@@ -290,10 +322,10 @@ const HomePage = () => {
                       src="/assets/images/counter_icon1.png"
                       width="59"
                       height="67"
-                      alt="Appzoro"
+                      alt=""
                     />
                     <div className="counter-number-text">
-                      {postData?.length > 0 ? (
+                      {hasScrolled ? (
                         <>
                           <CountUp delay={1} duration={1} end={150} /> +
                         </>
@@ -313,10 +345,10 @@ const HomePage = () => {
                       src="/assets/images/counter_icon2.png"
                       width="67"
                       height="67"
-                      alt="Appzoro"
+                      alt=""
                     />
                     <div className="counter-number-text">
-                      {postData?.length > 0 ? (
+                      {hasScrolled ? (
                         <>
                           <CountUp delay={1} duration={1} end={5} />
                           M+
@@ -337,10 +369,10 @@ const HomePage = () => {
                       src="/assets/images/counter_icon3.png"
                       width="64"
                       height="67"
-                      alt="Appzoro"
+                      alt=""
                     />
                     <div className="counter-number-text">
-                      {postData?.length > 0 ? (
+                      {hasScrolled ? (
                         <>
                           <CountUp delay={1} duration={1} end={150} />+
                         </>
@@ -357,10 +389,10 @@ const HomePage = () => {
                       src="/assets/images/counter_icon4.png"
                       width="67"
                       height="67"
-                      alt="Appzoro"
+                      alt=""
                     />
                     <div className="counter-number-text">
-                      {postData?.length > 0 ? (
+                      {hasScrolled ? (
                         <>
                           <CountUp delay={1} duration={1} end={200} />+
                         </>
@@ -377,7 +409,7 @@ const HomePage = () => {
         </Container>
       </section>
       <LazyWhenVisible minHeight={480}>
-        <CaseStudyComponent isCacehLoad={postData} />
+        <CaseStudyComponent />
       </LazyWhenVisible>
 
       <section className="home-services">
@@ -390,11 +422,13 @@ const HomePage = () => {
               Do you want to leverage technology investments in custom software
               to bring new business to life? Our experienced team in product
               management, design and development can help build complex software
-              ecosystems across multiple touchpoints. <br />
+              ecosystems across multiple touchpoints.
+            </p>
+            <p>
               We drive the business value of tech investments.
             </p>
           </div>
-          {postData?.length > 0 ? (
+          {hasScrolled ? (
             <div className="glimpses-slides" style={{ minHeight: 380 }}>
               <HomeServicesCarousel />
               <div className="prev_glimpses"><MdOutlineKeyboardArrowLeft /></div>
@@ -405,8 +439,8 @@ const HomePage = () => {
               <Row>
                 <Col xs="12" md="3">
                   <div className="service_box">
-                    <Image src="/assets/images/service-customer-supply.png" fill sizes="(max-width: 768px) 200px, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: "cover", zIndex: -1 }} alt="Service Background" />
-                    <Link href="/services/custom-software-development-company-usa" prefetch={false}>
+                    <Image src="/assets/images/service-customer-supply.png" fill sizes="(max-width: 768px) 200px, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: "cover", zIndex: -1 }} alt="" />
+                    <Link href="/services/custom-software-development-company-usa">
                       <div className="service-icon">
                         <Image
                           src="/assets/images/cpad.png"
@@ -442,8 +476,8 @@ const HomePage = () => {
                 </Col>
                 <Col xs="12" md="3">
                   <div className="service_box">
-                    <Image src="/assets/images/service-mobile-app-dev.png" fill style={{ objectFit: "cover", zIndex: -1 }} alt="Service Background" />
-                    <Link href="/services/mobile-app-development-company-usa" prefetch={false}>
+                    <Image src="/assets/images/service-mobile-app-dev.png" fill style={{ objectFit: "cover", zIndex: -1 }} alt="" />
+                    <Link href="/services/mobile-app-development-company-usa">
                       <div className="service-icon">
                         <Image
                           src="/assets/images/mad.png"
@@ -485,8 +519,8 @@ const HomePage = () => {
                 </Col>
                 <Col xs="12" md="3">
                   <div className="service_box">
-                    <Image src="/assets/images/service-web-dev.png" fill style={{ objectFit: "cover", zIndex: -1 }} alt="Service Background" />
-                    <Link href="/services/web-app-development" prefetch={false}>
+                    <Image src="/assets/images/service-web-dev.png" fill style={{ objectFit: "cover", zIndex: -1 }} alt="" />
+                    <Link href="/services/web-app-development">
                       <div className="service-icon">
                         <Image
                           src="/assets/images/wad.png"
@@ -521,8 +555,8 @@ const HomePage = () => {
                 </Col>
                 <Col xs="12" md="3">
                   <div className="service_box">
-                    <Image src="/assets/images/service-iot-dev.png" fill style={{ objectFit: "cover", zIndex: -1 }} alt="Service Background" />
-                    <Link href="/services/iot-development-services" prefetch={false}>
+                    <Image src="/assets/images/service-iot-dev.png" fill style={{ objectFit: "cover", zIndex: -1 }} alt="" />
+                    <Link href="/services/iot-development-services">
                       <div className="service-icon">
                         <Image
                           src="/assets/images/dpd.png"
@@ -589,7 +623,7 @@ const HomePage = () => {
                   Our core experiences and profound expertise have added values
                   to various industries.
                 </p>
-                <Link href="/industry" className="btn-arrow-transparent" prefetch={false}>
+                <Link href="/industry" className="btn-arrow-transparent">
                   Industries We Serve{" "}
                   <span>
                     <LuMoveRight />
@@ -620,6 +654,9 @@ const HomePage = () => {
                       <span>Logistics & Transport</span>
                     </Marquee>
                   </div>
+                  <span style={{ position: 'absolute', width: 1, height: 1, padding: 0, margin: -1, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: 0 }} aria-hidden="true">
+                    Industries we serve: Retail & ECommerce, Real Estate, Healthcare and Fitness, E-learning & Education, Food & Restaurant, Sports & Games, Travel & Hospitality, Fintech, Social Networking, Media and Entertainment, Meetings and Events, Logistics & Transport.
+                  </span>
                 </div>
               </div>
             </Col>
@@ -657,11 +694,15 @@ const HomePage = () => {
         </Container>
       </section>
       <LazyWhenVisible minHeight={380}>
-        <ClientReviewComponent isCacehLoad={postData} />
+        <ClientReviewComponent
+          initialReviews={initialReviews}
+          cmsTestimonials={testimonials?.list}
+          sectionTitle={testimonials?.title}
+        />
       </LazyWhenVisible>
       {/* <ClutchScript /> */}
       <LazyWhenVisible minHeight={340}>
-        <AwardDevComponent />
+        <AwardDevComponent awards={awards} />
       </LazyWhenVisible>
       <section className="sd-process">
         <Container>
@@ -719,12 +760,16 @@ const HomePage = () => {
       <LazyWhenVisible minHeight={280}>
         <TechStackComponent />
       </LazyWhenVisible>
-      <HomeContent />
+      <HomeContent about={about} homeContent={hero} />
       <LazyWhenVisible minHeight={200}>
-        <NewsComponent isCacehLoad={postData} />
+        <NewsComponent
+          initialPresses={initialPresses}
+          pressItems={pressCarousel?.list}
+          sectionTitle={pressCarousel?.title}
+        />
       </LazyWhenVisible>
       <LazyWhenVisible minHeight={360}>
-        <BlogPosts />
+        <BlogPosts initialBlogs={initialBlogs} />
       </LazyWhenVisible>
       <LazyWhenVisible minHeight={280}>
         <Faqs />
@@ -738,10 +783,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
-export async function getStaticProps() {
-  return {
-    props: {},
-    revalidate: 300,
-  };
-}

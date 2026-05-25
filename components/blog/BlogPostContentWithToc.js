@@ -11,7 +11,7 @@ import {
 import { rewriteLegacyWpContentUploadsToRelative } from '../../lib/rewriteLegacyWpMedia';
 import { sanitizeBlogBodyHtml } from '../../lib/sanitizeBlogBodyHtml';
 
-const ReactMarkdown = dynamic(() => import('react-markdown'), { ssr: false });
+const ReactMarkdown = dynamic(() => import('react-markdown'));
 
 const SCROLL_OFFSET = 96;
 
@@ -38,6 +38,18 @@ function buildTocTree(headings) {
     return root.children;
 }
 
+// SEO: TOC links must be real <a href="#id"> anchors, not <button>s. Google uses
+// in-page anchor links to generate Sitelinks / "Jump to section" rows in SERPs,
+// and users expect right-click → Copy Link Address and Cmd/Ctrl+click → new tab
+// to work for navigation. We still hijack the plain left-click for smooth scroll
+// (and for parents, to expand children) — but only when no modifier keys are
+// held, so all native browser semantics still work.
+function handleTocAnchorClick(e, onActivate) {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    onActivate();
+}
+
 function TocItems({ nodes, expandedIds, onToggleExpand, onParentTitleClick }) {
     if (!nodes?.length) return null;
     return (
@@ -45,25 +57,28 @@ function TocItems({ nodes, expandedIds, onToggleExpand, onParentTitleClick }) {
             {nodes.map((node) => {
                 const hasKids = node.children?.length > 0;
                 const expanded = hasKids && expandedIds.has(node.id);
+                const href = `#${node.id}`;
                 return (
                     <li
                         key={node.id}
                         className={`blog-toc-item blog-toc-level-${node.level}`}
                     >
                         <div className="blog-toc-row">
-                            <button
-                                type="button"
+                            <a
+                                href={href}
                                 className="blog-toc-link"
-                                onClick={() => {
-                                    if (hasKids) {
-                                        onParentTitleClick(node.id);
-                                    } else {
-                                        scrollToId(node.id);
-                                    }
-                                }}
+                                onClick={(e) =>
+                                    handleTocAnchorClick(e, () => {
+                                        if (hasKids) {
+                                            onParentTitleClick(node.id);
+                                        } else {
+                                            scrollToId(node.id);
+                                        }
+                                    })
+                                }
                             >
                                 {decodeHtmlEntities(node.text)}
-                            </button>
+                            </a>
                             {hasKids ? (
                                 <button
                                     type="button"

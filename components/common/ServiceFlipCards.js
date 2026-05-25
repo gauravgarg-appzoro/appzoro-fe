@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Image from 'next/image';
 import { STRAPI_IMAGE_BASE_URL } from '../../lib/constants';
+import RichText from './RichText';
 
 /**
  * ServiceFlipCards — Renders flip cards with front (image+icon+title) and back (title+desc).
@@ -77,7 +78,7 @@ const ServiceFlipCards = ({ sectionTitle, cards }) => {
                                         </div>
                                         <div className="ai-model-flip-card-back">
                                             <h3>{card.title}</h3>
-                                            <p>{card.description}</p>
+                                            <RichText>{card.description}</RichText>
                                         </div>
                                     </div>
                                 </div>

@@ -1,4 +1,6 @@
 import React from "react";
+import { DEFAULT_OG_IMAGE } from '../../lib/defaultOgImage';
+import { setEdgeCache } from '../../lib/edgeCache';
 import { Col, Container, Row, Form } from "react-bootstrap";
 import Footer from "../../components/Footer";
 import MainHeader from "../../components/MainHeader";
@@ -11,14 +13,13 @@ import {   LuMoveRight, GrPersonalComputer   } from '../../components/OptimizedI
 const ReactMarkdown = dynamic(import("react-markdown"));
 
 const HireDeveloper = ({ hireDev }) => {
-  console.log("hireDev", hireDev);
   return (
     <>
       <MetaData
         title="Hire Developers | Hire Mobile &amp; Web Developers"
         description="Hire developers who are experienced in ensuring the success of your project: Hire mobile and web developers."
         url={`/hire-developer`}
-        image={`${REACT_APP_API_URL}/assets/images/az-logo-large.png`}
+        image={DEFAULT_OG_IMAGE}
       />
       <MainHeader />
       <section className="page-title service-bg">
@@ -67,7 +68,8 @@ const HireDeveloper = ({ hireDev }) => {
   );
 };
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  setEdgeCache(context.res, 'short');
   const [hiredevRes] = await Promise.all([
     fetch(`${REACT_APP_API_URL}hire-developers`),
   ]);

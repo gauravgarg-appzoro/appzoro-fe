@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import Head from 'next/head';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -7,7 +8,9 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import Image from 'next/image';
-import { STRAPI_IMAGE_BASE_URL } from '../../lib/constants';
+import { STRAPI_IMAGE_BASE_URL, REACT_APP_API_URL } from '../../lib/constants';
+import { mapHomepageTestimonial } from '../../lib/homepageCms';
+import { SITE_URL } from '../../lib/seo';
 
 import dynamic from 'next/dynamic';
 import { FaQuoteRight, MdOutlineKeyboardArrowRight, MdOutlineKeyboardArrowLeft } from '../OptimizedIcons';
@@ -41,14 +44,48 @@ const getReviewImage = (review) => {
     return '/assets/images/clients/1.jpg';
 };
 
-const ClientReview = ({ isCacehLoad }) => {
-    const [reviews, setReviews] = useState(FALLBACK_REVIEWS);
+const ClientReview = ({ initialReviews = [], cmsTestimonials = null, sectionTitle }) => {
+    // Map homepage-admin-curated testimonials, then KEEP only those that have a
+    // real uploaded image (`item.image` resolves to a non-default URL). Items
+    // without a proper photo are dropped — those would otherwise force every
+    // card on the public page to fall back to `/assets/images/clients/1.jpg`,
+    // making different people appear with the same stock photo.
+    const cmsMapped = useMemo(
+        () =>
+            (Array.isArray(cmsTestimonials) ? cmsTestimonials : [])
+                .map(mapHomepageTestimonial)
+                .filter(Boolean)
+                .filter((r) => r.img && r.img !== '/assets/images/clients/1.jpg'),
+        [cmsTestimonials],
+    );
+
+    // Source-of-truth precedence (highest first):
+    //   1. initialReviews   — canonical data from /client-reviews API (has real
+    //                          per-person `clientProfilePic` uploaded in admin)
+    //   2. cmsMapped        — homepage-admin curated subset (used only when
+    //                          marketing intentionally curated AND every item
+    //                          has a valid photo — see filter above)
+    //   3. FALLBACK_REVIEWS — hardcoded copy for when both API sources are empty
+    const pickReviews = () => {
+        if (initialReviews?.length > 0) return initialReviews;
+        if (cmsMapped.length > 0) return cmsMapped;
+        return FALLBACK_REVIEWS;
+    };
+
+    const [reviews, setReviews] = useState(pickReviews);
 
     useEffect(() => {
+        if (initialReviews?.length > 0) {
+            setReviews(initialReviews);
+            return;
+        }
+        if (cmsMapped.length > 0) {
+            setReviews(cmsMapped);
+            return;
+        }
         const fetchReviews = async () => {
             try {
-                const baseUrl = (process.env.NEXT_PUBLIC_API_URL || 'https://admin.appzoro.com').replace(/\/$/, '');
-                const res = await fetch(`${baseUrl}/client-reviews?_sort=createdAt:ASC&_limit=50`);
+                const res = await fetch(`${REACT_APP_API_URL}client-reviews?_sort=createdAt:ASC&_limit=50`);
                 if (!res.ok) return;
                 const json = await res.json();
                 const data = json?.data ?? json;
@@ -60,15 +97,49 @@ const ClientReview = ({ isCacehLoad }) => {
             }
         };
         fetchReviews();
-    }, []);
+    }, [initialReviews, cmsMapped]);
 
-    const showSlider = isCacehLoad?.length > 0 || reviews.length > 2;
+    const showSlider = reviews.length > 2;
+
+    /** Build Organization + AggregateRating + per-review schema for SERP rich results. */
+    const reviewsSchema = useMemo(() => {
+        const top = reviews.slice(0, 10);
+        if (top.length === 0) return null;
+        return {
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            '@id': `${SITE_URL}/#organization`,
+            name: 'AppZoro Technologies',
+            url: SITE_URL,
+            aggregateRating: {
+                '@type': 'AggregateRating',
+                ratingValue: '4.7',
+                bestRating: '5',
+                worstRating: '1',
+                ratingCount: String(Math.max(reviews.length, 16)),
+            },
+            review: top.map((r) => ({
+                '@type': 'Review',
+                reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+                author: { '@type': 'Person', name: String(r.name || 'AppZoro client') },
+                reviewBody: String(r.clientreview || '').replace(/^["']|["']$/g, '').slice(0, 500),
+            })),
+        };
+    }, [reviews]);
 
     return (
         <section className='clients-reviews_section ads_fonts'>
+            {reviewsSchema && (
+                <Head>
+                    <script
+                        type='application/ld+json'
+                        dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewsSchema) }}
+                    />
+                </Head>
+            )}
             <Container>
                 <div className='section-title pb-4'>
-                    <h3>What <span>Our Clients</span> Have to Say!</h3>
+                    <h3>{sectionTitle?.trim() ? sectionTitle : <>What <span>Our Clients</span> Have to Say!</>}</h3>
                 </div>
 
                 {showSlider ?

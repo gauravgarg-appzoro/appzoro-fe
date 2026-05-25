@@ -2,7 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-import Header from '../../components/Header'
+import MetaData from '../../components/common/MetaData';
+import { DEFAULT_OG_IMAGE } from '../../lib/defaultOgImage';
+import MainHeader from '../../components/MainHeader'
 import Footer from '../../components/Footer'
 import { Col, Container, Row, Form } from 'react-bootstrap'
 const DotLottiePlayer = dynamic(() => import('@dotlottie/react-player').then(mod => mod.DotLottiePlayer), { ssr: false });
@@ -16,7 +18,20 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import ClutchScript from '../../components/ClutchScript';
 // const ClutchScript = dynamic(() => import("../../components/ClutchScript"));
-import ReactRotatingText from 'react-rotating-text';
+
+// First rotating item kept as static fallback so the hero shows real text
+// during SSR and before the rotator hydrates — avoids visible "Loading..."
+// leak and gives Google indexable content from the rotating block.
+const HERO_ROTATING_ITEMS = [
+  'Unlock Your Digital Potential',
+  'Innovate Your Business',
+  'Forge Your Digital Future',
+  'Partner with Top IT Experts',
+];
+const ReactRotatingText = dynamic(() => import('react-rotating-text'), {
+  ssr: false,
+  loading: () => <>{HERO_ROTATING_ITEMS[0]}</>,
+});
 const ClientReview = dynamic(() => import('../../components/common/ClientReview'));
 const TechStack = dynamic(() => import('../../components/common/TechStack'));
 import { LuMoveRight, FaCheck, MdOutlineKeyboardArrowRight, MdOutlineKeyboardArrowLeft } from '../../components/OptimizedIcons';
@@ -36,14 +51,22 @@ const HomePage = () => {
   }, [])
   return (
     <>
-      <Header />
+      <MetaData
+        title="Mobile & Software Development Services | AppZoro"
+        description="Custom mobile and software development for your business. Partner with AppZoro's Atlanta team for scalable apps, web platforms, and end-to-end delivery."
+        url="/mobile-and-software-development-services"
+        image={DEFAULT_OG_IMAGE}
+        robots="noindex, follow"
+        canonicalPath="/"
+      />
+      <MainHeader />
       <section className='home-section ads_fonts'>
         <Container>
           <Row className='align-items-center'>
             <Col md="5" xs="12" className='pe-0'>
               <div className='home-section_left'>
                 <h2>Custom Software Development For <br />Your Business Needs</h2>
-                <h3><span>Connect <br />to</span> <ReactRotatingText items={['Unlock Your Digital Potential', 'Innovate Your Business', 'Forge Your Digital Future', 'Partner with Top IT Experts']} /></h3>
+                <h3><span>Connect <br />to</span> <ReactRotatingText items={HERO_ROTATING_ITEMS} /></h3>
                 <div className='home-section_left_action mt-4'>
                   <ContactHref href="/contact-us" className='btn_theme fs-14'>CONTACT US <span><LuMoveRight /></span></ContactHref>
                   <Link href="/case-study" className='btn_theme fs-14 ms-3'>VIEW PORTFOLIO <span><LuMoveRight /></span></Link>

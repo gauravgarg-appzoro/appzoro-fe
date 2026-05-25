@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react'
+import { DEFAULT_OG_IMAGE } from '../../lib/defaultOgImage';
 import MainHeader from '../../components/MainHeader'
 import Footer from '../../components/Footer'
 import { Col, Container, Row } from 'react-bootstrap'
 import TalkExpert from '../../components/common/TalkExpert';
-import dynamic from 'next/dynamic';
 import MetaData from '../../components/common/MetaData';
-import { REACT_APP_API_URL, STRAPI_IMAGE_BASE_URL } from '../../lib/constants';
-const ReactMarkdown = dynamic(import('react-markdown'));
+import SeoJsonLd from '../../components/common/SeoJsonLd';
+import MarkdownContent from '../../components/common/MarkdownContent';
+import { REACT_APP_API_URL } from '../../lib/constants';
+import { resolveTechBannerUrl } from '../../lib/resolveTechBanner';
+import { setEdgeCache } from '../../lib/edgeCache';
+import { buildBreadcrumbSchema, buildWebPageSchema } from '../../lib/schemaBuilders';
 
 const Technology = ({ posts: initialPosts }) => {
     const [posts, setPosts] = useState(initialPosts || []);
@@ -16,13 +20,39 @@ const Technology = ({ posts: initialPosts }) => {
     }, [initialPosts]);
 
     const techData = Array.isArray(posts) && posts.length > 0 ? posts[0] : null;
+    const bannerUrl = resolveTechBannerUrl(techData);
+    const pageUrl = techData?.slug ? `/technology/${techData.slug}` : '/technology';
+    const pageTitle = techData?.seo_title || techData?.techTitle || 'Technology | AppZoro';
+    const pageDesc = techData?.seo_description || techData?.techShortDescription || 'Technologies powering AppZoro software development.';
     return (
         <>
-            <MetaData title={techData?.seo_title} description={techData?.seo_description} url={`/technology/${techData?.slug}`} image={`${REACT_APP_API_URL}/assets/images/az-logo-large.png`} />
+            <MetaData
+                title={pageTitle}
+                description={pageDesc}
+                url={pageUrl}
+                image={bannerUrl || DEFAULT_OG_IMAGE}
+            />
+            {techData && (
+              <SeoJsonLd
+                data={[
+                  buildBreadcrumbSchema([
+                    { name: 'Home', url: '/' },
+                    { name: 'Technology', url: '/technology' },
+                    { name: techData.techTitle || 'Technology', url: pageUrl },
+                  ]),
+                  buildWebPageSchema({
+                    name: pageTitle,
+                    description: pageDesc,
+                    url: pageUrl,
+                    image: bannerUrl || DEFAULT_OG_IMAGE,
+                  }),
+                ]}
+              />
+            )}
             <MainHeader />
             {techData ?
                 <>
-                    <section className='page-title service-bg' style={{ backgroundImage: `url(${STRAPI_IMAGE_BASE_URL}${techData.techBanner.url})` }}>
+                    <section className='page-title service-bg' style={bannerUrl ? { backgroundImage: `url(${bannerUrl})` } : undefined}>
                         <Container>
                             <div className='page-section-title'>
                                 <h1>{techData.techTitle}</h1>
@@ -37,7 +67,7 @@ const Technology = ({ posts: initialPosts }) => {
                         <Container>
                             <Row className='align-items-center'>
                                 <Col md="12" xs="12">
-                                    <ReactMarkdown>{techData?.techOverview}</ReactMarkdown>
+                                    <MarkdownContent content={techData?.techOverview} />
                                 </Col>
                             </Row>
                         </Container>
@@ -60,6 +90,7 @@ const Technology = ({ posts: initialPosts }) => {
 }
 
 export async function getServerSideProps(params) {
+    setEdgeCache(params.res, 'long');
     const res = await fetch(`${REACT_APP_API_URL}technologies?slug=${params.query.slug}`);
     const posts = await res.json();
     return {

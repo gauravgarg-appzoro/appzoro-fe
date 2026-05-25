@@ -1,4 +1,5 @@
 import React from 'react'
+import { DEFAULT_OG_IMAGE } from '../../lib/defaultOgImage';
 import MainHeader from '../../components/MainHeader'
 import Footer from '../../components/Footer'
 import { Container } from 'react-bootstrap'
@@ -8,7 +9,7 @@ import MetaData from '../../components/common/MetaData';
 const Privacy = () => {
     return (
         <>
-        <MetaData title="Privacy Policies for Appzoro Technologies Inc." description="Appzoro Technologies provides you with answers to frequently asked questions. You can click on the various products and services we offer and clarify your doubts" url={`/privacy`} image={`${process.env.REACT_APP_API_URL}/assets/images/az-logo-large.png`} />
+        <MetaData title="Privacy Policies for Appzoro Technologies Inc." description="Appzoro Technologies provides you with answers to frequently asked questions. You can click on the various products and services we offer and clarify your doubts" url={`/privacy`} image={DEFAULT_OG_IMAGE} />
             <MainHeader />
             <section className='page-title press-bg'>
                 <Container>

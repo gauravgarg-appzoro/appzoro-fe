@@ -9,7 +9,7 @@ const Enterprises = () => {
                 <Row className='align-items-center'>
                     <Col xs="12" md="6">
                         <div className='gs-lr-img'>
-                            <Image  src="/assets/images/ep1.png" width="575" height="490" alt="No code agile" />
+                            <Image src="/assets/images/ep1.png" width={575} height={490} alt="Enterprise discovery workshop" />
                         </div>
                     </Col>
                     <Col xs="12" md="6">
@@ -22,7 +22,7 @@ const Enterprises = () => {
                 <Row className='align-items-center'>
                     <Col xs="12" md="6">
                         <div className='gs-lr-img'>
-                            <Image  src="/assets/images/ep2.png" width="575" height="490" alt="No code agile" />
+                            <Image src="/assets/images/ep2.png" width={575} height={490} alt="Enterprise wireframes" />
                         </div>
                     </Col>
                     <Col xs="12" md="6">
@@ -35,7 +35,7 @@ const Enterprises = () => {
                 <Row className='align-items-center'>
                     <Col xs="12" md="6">
                         <div className='gs-lr-img'>
-                            <Image  src="/assets/images/ep3.png" width="575" height="490" alt="No code agile" />
+                            <Image src="/assets/images/ep3.png" width={575} height={490} alt="Enterprise user stories" />
                         </div>
                     </Col>
                     <Col xs="12" md="6">
@@ -48,20 +48,20 @@ const Enterprises = () => {
                 <Row className='align-items-center'>
                     <Col xs="12" md="6">
                         <div className='gs-lr-img'>
-                            <Image  src="/assets/images/ep4.png" width="575" height="490" alt="No code agile" />
+                            <Image src="/assets/images/ep4.png" width={575} height={490} alt="Enterprise UX UI design" />
                         </div>
                     </Col>
                     <Col xs="12" md="6">
                         <div className='gs-lr-info'>
                             <h3>UX / UI Design</h3>
-                            <p>UI/UX designs enable its complete focus on users' experience and communication with the product. When the product's functionality is finalized, the UI/UX designers implement brand components like color and typography into the wireframes. However, the primary part of the design process ensures that all products visually match the brand and offer visual directions to the users. It includes instant call to action, initiative navigation, and a constant interface. </p>
+                            <p>UI/UX designs enable its complete focus on users&apos; experience and communication with the product. When the product&apos;s functionality is finalized, the UI/UX designers implement brand components like color and typography into the wireframes. However, the primary part of the design process ensures that all products visually match the brand and offer visual directions to the users. It includes instant call to action, initiative navigation, and a constant interface. </p>
                         </div>
                     </Col>
                 </Row>
                 <Row className='align-items-center'>
                     <Col xs="12" md="6">
                         <div className='gs-lr-img'>
-                            <Image  src="/assets/images/ep5.png" width="575" height="490" alt="No code agile" />
+                            <Image src="/assets/images/ep5.png" width={575} height={490} alt="High fidelity prototype" />
                         </div>
                     </Col>
                     <Col xs="12" md="6">
@@ -74,13 +74,13 @@ const Enterprises = () => {
                 <Row className='align-items-center'>
                     <Col xs="12" md="6">
                         <div className='gs-lr-img'>
-                            <Image  src="/assets/images/ep6.png" width="575" height="490" alt="No code agile" />
+                            <Image src="/assets/images/ep6.png" width={575} height={490} alt="Product deck" />
                         </div>
                     </Col>
                     <Col xs="12" md="6">
                         <div className='gs-lr-info'>
                             <h3>Product Deck</h3>
-                            <p>The demonstration shows your new app's vision to the target customers and stakeholders, its goal, and how someone can use it. It is the best approach to obtaining interest and getting it at its pre-development stage. Also, it is a handy tool to educate the sales department. </p>
+                            <p>The demonstration shows your new app&apos;s vision to the target customers and stakeholders, its goal, and how someone can use it. It is the best approach to obtaining interest and getting it at its pre-development stage. Also, it is a handy tool to educate the sales department. </p>
                         </div>
                     </Col>
                 </Row>
