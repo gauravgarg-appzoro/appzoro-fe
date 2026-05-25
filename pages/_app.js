@@ -27,8 +27,16 @@ function MyApp({ Component, pageProps }) {
   const [loadAnalytics, setLoadAnalytics] = useState(false);
 
   useEffect(() => {
-    const startLoading = () => setLoading(true);
-    const endLoading = () => setLoading(false);
+    let loadingTimer;
+    const startLoading = (url) => {
+      if (url?.startsWith(`${router.asPath}#`)) return;
+      clearTimeout(loadingTimer);
+      loadingTimer = setTimeout(() => setLoading(true), 350);
+    };
+    const endLoading = () => {
+      clearTimeout(loadingTimer);
+      setLoading(false);
+    };
 
     // Defer analytics evaluation 7 full seconds to evade Lighthouse trace
     const timer = setTimeout(() => {
@@ -43,9 +51,10 @@ function MyApp({ Component, pageProps }) {
       Router.events.off('routeChangeStart', startLoading);
       Router.events.off('routeChangeComplete', endLoading);
       Router.events.off('routeChangeError', endLoading);
+      clearTimeout(loadingTimer);
       clearTimeout(timer);
     };
-  }, []);
+  }, [router.asPath]);
 
   return (
     <ContactModalProvider>

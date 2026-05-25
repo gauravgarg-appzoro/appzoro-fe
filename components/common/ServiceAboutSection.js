@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col';
 import Image from 'next/image';
 import ContactHref from './ContactHref';
 import { LuMoveRight } from '../OptimizedIcons';
+import { normalizeHtmlLineBreaks } from '../../lib/normalizeHtmlLineBreaks';
 
 /**
  * ServiceAboutSection — Renders about section with heading, description, and CTA.
@@ -13,6 +14,9 @@ import { LuMoveRight } from '../OptimizedIcons';
  */
 const ServiceAboutSection = ({ title, description, ctaText, ctaLink }) => {
     if (!title && !description) return null;
+    const normalizedDescription = description
+        ? normalizeHtmlLineBreaks(description)
+        : '';
     return (
         <section className="why-az-service" style={{ padding: '30px 0' }}>
             <Container>
@@ -22,8 +26,8 @@ const ServiceAboutSection = ({ title, description, ctaText, ctaLink }) => {
                             {title && (
                                 <h2>{title}</h2>
                             )}
-                            {description && (
-                                <div dangerouslySetInnerHTML={{ __html: description }} />
+                            {normalizedDescription && (
+                                <div dangerouslySetInnerHTML={{ __html: normalizedDescription }} />
                             )}
                             {ctaText && (
                                 <ContactHref href={ctaLink || '/contact-us'} className="ai-gradient-btn mt-3">

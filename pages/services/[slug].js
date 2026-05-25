@@ -26,8 +26,9 @@ import { useClientMounted } from "../../lib/useClientMounted";
 import SeoJsonLd from "../../components/common/SeoJsonLd";
 import { buildBreadcrumbSchema, buildServiceSchema, buildWebPageSchema } from "../../lib/schemaBuilders";
 import { absoluteUrl } from "../../lib/seo";
+import CaseStudy from "../../components/common/CaseStudy";
+import ServiceAwards from "../../components/common/ServiceAwards";
 // import LocationsSlide from "../../components/common/LocationsSlide";
-const CaseStudy = dynamic(() => import("../../components/common/CaseStudy"));
 const TechStack = dynamic(() => import("../../components/common/TechStack"));
 const ClientReview = dynamic(() => import("../../components/common/ClientReview"));
 const ArticlesView = dynamic(() => import("../../components/common/ArticlesView"));
@@ -48,7 +49,6 @@ const ServiceCardsGrid = dynamic(() => import("../../components/common/ServiceCa
 const ServiceCTABanner = dynamic(() => import("../../components/common/ServiceCTABanner"));
 const ServiceFlipCards = dynamic(() => import("../../components/common/ServiceFlipCards"));
 const ServiceSlideCards = dynamic(() => import("../../components/common/ServiceSlideCards"));
-const ServiceAwards = dynamic(() => import("../../components/common/ServiceAwards"));
 const ServiceProcessTimeline = dynamic(() => import("../../components/common/ServiceProcessTimeline"));
 const ServiceWhyChooseCards = dynamic(() => import("../../components/common/ServiceWhyChooseCards"));
 const ServiceIndustryMarquee = dynamic(() => import("../../components/common/ServiceIndustryMarquee"));
@@ -62,6 +62,7 @@ const ServiceClientReview = dynamic(() => import("../../components/common/Servic
 
 const ServiceDetails = ({ posts: initialPosts, services: initialServices }) => {
   const [posts, setPosts] = useState(initialPosts || []);
+  const [activeServiceTab, setActiveServiceTab] = useState(null);
 
   useEffect(() => {
     setPosts(initialPosts || []);
@@ -82,6 +83,11 @@ const ServiceDetails = ({ posts: initialPosts, services: initialServices }) => {
   const clientReady = useClientMounted();
 
   const router = useRouter();
+
+  useEffect(() => {
+    const firstTabId = postData?.serviceTab?.[0]?.id;
+    setActiveServiceTab(firstTabId || null);
+  }, [postData?.slug, postData?.serviceTab]);
 
   // Fallback client-side fetch for the current service if props are missing
   useEffect(() => {
@@ -506,13 +512,7 @@ const ServiceDetails = ({ posts: initialPosts, services: initialServices }) => {
                   <Col md="6" xs="12">
                     <div className="why-az-content">
                       <h2>{postData?.serviceInfoTitle}</h2>
-                      {clientReady ? (
-                        <ReactMarkdown>
-                          {postData?.serviceInfoDescription}
-                        </ReactMarkdown>
-                      ) : (
-                        <p>{postData?.serviceInfoDescription}</p>
-                      )}
+                      <RichText>{postData?.serviceInfoDescription}</RichText>
                     </div>
                   </Col>
                   {postData?.serviceInfoMedia?.length > 0 && (
@@ -540,19 +540,20 @@ const ServiceDetails = ({ posts: initialPosts, services: initialServices }) => {
                   <p>{postData?.serviceTabSectionSubTitle}</p>
                 </div>
 
-                <div className="services-tabs services-tab-desktop-only">
+                <div className="services-tabs services-tabs-responsive">
                   <Tab.Container
                     id="service"
-                    defaultActiveKey={postData?.serviceTab[0]?.id}
+                    activeKey={activeServiceTab || postData?.serviceTab[0]?.id}
+                    onSelect={(key) => setActiveServiceTab(key)}
                   >
                     <Nav variant="pills" className="flex-row">
-                      <Nav.Item>
-                        {Array.isArray(postData?.serviceTab) && postData.serviceTab.map((item) => (
+                      {Array.isArray(postData?.serviceTab) && postData.serviceTab.map((item) => (
+                        <Nav.Item key={item.id}>
                           <Nav.Link eventKey={item.id} key={item.id}>
                             {item.name}
                           </Nav.Link>
-                        ))}
-                      </Nav.Item>
+                        </Nav.Item>
+                      ))}
                     </Nav>
                     <Tab.Content>
                       {Array.isArray(postData?.serviceTab) && postData.serviceTab.map((item) => (
@@ -578,38 +579,6 @@ const ServiceDetails = ({ posts: initialPosts, services: initialServices }) => {
                       ))}
                     </Tab.Content>
                   </Tab.Container>
-                </div>
-
-                {/* Mobile tabs */}
-                <div className="service-tab-mobile-only services-features-mob">
-                  <Accordion defaultActiveKey="0" flush>
-                    {Array.isArray(postData?.serviceTab) && postData.serviceTab.map((item) => (
-                      <Accordion.Item eventKey={item?.id} key={item?.id}>
-                        <Accordion.Header as="div">
-                          {item?.name}
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <Row>
-                            <Col md="6" xs="12">
-                              <ReactMarkdown>{item?.content}</ReactMarkdown>
-                            </Col>
-
-                            <Col md="6" xs="12">
-                              <div className="service-tab-img">
-                                <Image
-                                  src={`${STRAPI_IMAGE_BASE_URL}${item?.mediaItem[0]?.formats?.medium?.url || item?.mediaItem[0]?.url || ''}`}
-                                  width="541"
-                                  height="360"
-                                  alt="services"
-
-                                />
-                              </div>
-                            </Col>
-                          </Row>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                    ))}
-                  </Accordion>
                 </div>
               </Container>
             </section>

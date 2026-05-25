@@ -1,4 +1,6 @@
 import dynamic from 'next/dynamic';
+import CaseStudy from '../common/CaseStudy';
+import ServiceAwards from '../common/ServiceAwards';
 
 /**
  * Global block registry — every block is available on every page.
@@ -27,7 +29,7 @@ const BLOCK_TYPES = {
     ServiceAwards: {
         label: 'Awards Strip',
         category: 'Hero & Banners',
-        Component: dynamic(() => import('../common/ServiceAwards')),
+        Component: ServiceAwards,
         defaultProps: {},
         entityHint: 'Uses awards content from the service record.',
     },
@@ -274,7 +276,7 @@ const BLOCK_TYPES = {
     CaseStudy: {
         label: 'Case Studies / Portfolio',
         category: 'Social Proof',
-        Component: dynamic(() => import('../common/CaseStudy')),
+        Component: CaseStudy,
         defaultProps: {},
         entityHint: 'Pulls featured case studies from the site API—manage case studies in Portfolios admin.',
     },
